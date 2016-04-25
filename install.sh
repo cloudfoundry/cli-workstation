@@ -148,6 +148,7 @@ if [[ -d $HOME/.vim ]]; then
   $HOME/.vim/update
 else
   git clone https://github.com/luan/vimfiles.git $HOME/.vim
+  sudo pip3 install neovim
   $HOME/.vim/install
 fi
 
