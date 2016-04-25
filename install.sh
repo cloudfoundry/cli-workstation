@@ -100,6 +100,7 @@ WORKSPACE_GIT_REPOS=(
   https://github.com/cloudfoundry-incubator/cf-routing-release
   https://github.com/cloudfoundry-incubator/diego-release
   https://github.com/cloudfoundry-incubator/cli-workstation
+  https://github.com/cloudfoundry/vcap-test-assets
 )
 
 for repo in "${WORKSPACE_GIT_REPOS[@]}"; do
