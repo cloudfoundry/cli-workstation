@@ -5,7 +5,7 @@ set -e
 brew_install_or_update() {
   if brew info $1 | grep 'Not installed'; then
     echo Brew installing $1
-    brew install $1 $2
+    brew install $@
   else
     if [[ -z $(brew outdated $1) ]]; then
       echo $1 is up to date
@@ -18,7 +18,7 @@ brew_install_or_update() {
 
 brew_tap_install_or_update() {
   brew tap $1
-  brew_install_or_update $2 $3
+  brew_install_or_update "${@:2}"
 }
 
 clone_into_workspace() {
@@ -49,7 +49,6 @@ HOMEBREW_PACKAGES=(
   go
   htop-osx
   jq
-  lastpass-cli
   node
   pstree
   python3
@@ -68,6 +67,7 @@ for package in "${HOMEBREW_PACKAGES[@]}"; do
   brew_install_or_update $package
 done
 
+brew_install_or_update lastpass-cli --with-pinentry --with-doc
 brew_tap_install_or_update neovim/neovim neovim
 brew_tap_install_or_update universal-ctags/universal-ctags universal-ctags --HEAD
 brew_tap_install_or_update git-duet/tap git-duet
