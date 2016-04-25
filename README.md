@@ -5,7 +5,7 @@ This repo is used to help setup and maintain a unified cli workstation.
 For fresh installs run the following command:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/XenoPhex/cli-workstation/master/install.sh | bash -
+curl -fsSL https://raw.githubusercontent.com/cloudfoundry-incubator/cli-workstation/master/install.sh | bash -
 ```
 
 To keep the workstation up to date:

@@ -98,7 +98,7 @@ WORKSPACE_GIT_REPOS=(
   https://github.com/cloudfoundry/cf-release
   https://github.com/cloudfoundry-incubator/cf-routing-release
   https://github.com/cloudfoundry-incubator/diego-release
-  https://github.com/XenoPhex/cli-workstation
+  https://github.com/cloudfoundry-incubator/cli-workstation
 )
 
 for repo in "${WORKSPACE_GIT_REPOS[@]}"; do
