@@ -3,16 +3,16 @@
 set -e
 
 brew_install_or_update() {
-  if [[ -z $(brew info $1 | grep 'Not installed') ]]; then
+  if brew info $1 | grep 'Not installed'; then
+    echo Brew installing $1
+    brew install $1 $2
+  else
     if [[ -z $(brew outdated $1) ]]; then
       echo $1 is up to date
     else
       echo Brew upgrading $1
       brew upgrade $1
     fi
-  else
-    echo Brew installing $1
-    brew install $1 $2
   fi
 }
 
@@ -45,13 +45,14 @@ HOMEBREW_PACKAGES=(
   direnv
   fasd
   fzf
-  go
   git
+  go
   htop-osx
   jq
-  python3
+  lastpass-cli
   node
   pstree
+  python3
   ruby
   s3cmd
   ssh-copy-id
@@ -122,7 +123,7 @@ for gopkg in "${GO_UTILS[@]}"; do
 done
 
 if [[ ! -d $HOME/go/src/github.com/cloudfoundry/cli ]]; then
-  GOPATH=$HOME/go go get -d github.com/cloudfoundry/cli
+  GOPATH=$HOME/go go get -d github.com/cloudfoundry/cli || true
 fi
 
 if [[ ! -d $HOME/.bash_it ]]; then
