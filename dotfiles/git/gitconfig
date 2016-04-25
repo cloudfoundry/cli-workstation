@@ -1,0 +1,22 @@
+[push]
+  default = simple
+[color]
+  ui = true
+[core]
+  autocrlf = input
+[http]
+  postBuffer = 524288000
+[alias]
+  st = status
+  ci = duet-commit -v
+  co = checkout
+  br = branch
+  ds = diff --staged
+  llog = log --date=local
+  lol = log --graph --oneline
+  lola = log --graph --oneline --all
+  lup = log @{u}... --left-right --graph
+  rage = !"for branch in `git branch -r | awk '{print $1}'`; do echo `git log -1 $branch --pretty=format:"%at:%%$branch%%%cr%%%cn%n"`;done | column -t -s'%' | sort -nr | cut -d ':' -f 2"
+  lage = !"for branch in `git branch | sed 's/^\\* /\\ \\ /'`; do echo `git log -1 --pretty=format:"%at:%%$branch%%%cr%%%cn%n" $branch`;done | column -t -s'%' | sort -nr | cut -d ':' -f 2"
+[url "ssh://git@github.com/"]
+  insteadOf = https://github.com/
