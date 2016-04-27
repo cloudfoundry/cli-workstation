@@ -89,6 +89,10 @@ for app in "${CASK_APPS[@]}"; do
   brew cask install --appdir=/Applications $app
 done
 
+if [[ ! -z $(brew outdated) ]]; then
+  brew upgrade
+fi
+
 brew cleanup
 brew cask cleanup
 
