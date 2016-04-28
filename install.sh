@@ -99,12 +99,15 @@ brew cask cleanup
 mkdir -p $HOME/workspace $HOME/go
 
 WORKSPACE_GIT_REPOS=(
+  https://github.com/cloudfoundry-incubator/cf-routing-release
+  https://github.com/cloudfoundry-incubator/cli-workstation
+  https://github.com/cloudfoundry-incubator/diego-release
   https://github.com/cloudfoundry/bosh-lite
+  https://github.com/cloudfoundry/cf-acceptance-tests
   https://github.com/cloudfoundry/cf-release
   https://github.com/cloudfoundry/claw
-  https://github.com/cloudfoundry-incubator/cf-routing-release
-  https://github.com/cloudfoundry-incubator/diego-release
-  https://github.com/cloudfoundry-incubator/cli-workstation
+  https://github.com/cloudfoundry/cli-acceptance-tests
+  https://github.com/cloudfoundry/homebrew-tap
   https://github.com/cloudfoundry/vcap-test-assets
 )
 
