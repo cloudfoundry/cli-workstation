@@ -97,7 +97,7 @@ CASK_APPS=(
   virtualbox
 )
 
-if [[ $SKIP_CASK == 1 ]]; then
+if [[ $SKIP_CASK != 1 ]]; then
   for app in "${CASK_APPS[@]}"; do
     brew cask install --appdir=/Applications $app
   done
