@@ -2,6 +2,10 @@
 
 set -e
 
+if [[ $1 == "--skip-cask" ]]; then
+  SKIP_CASK=1
+fi
+
 brew_install_or_update() {
   if brew info $1 | grep 'Not installed'; then
     echo Brew installing $1
@@ -25,6 +29,13 @@ clone_into_workspace() {
   DIR="${HOME}/workspace/$(echo $1 | awk -F '/' '{ print $(NF) }')"
   if [[ ! -d $DIR ]]; then
     git clone $1 $DIR
+  fi
+}
+
+clone_into_go_path() {
+  DIR="${HOME}/go/src/${1}"
+  if [[ ! -d $DIR ]]; then
+    git clone "https://${1}" $DIR
   fi
 }
 
@@ -85,9 +96,11 @@ CASK_APPS=(
   virtualbox
 )
 
-for app in "${CASK_APPS[@]}"; do
-  brew cask install --appdir=/Applications $app
-done
+if [[ $SKIP_CASK == 1 ]]; then
+  for app in "${CASK_APPS[@]}"; do
+    brew cask install --appdir=/Applications $app
+  done
+fi
 
 if [[ ! -z $(brew outdated) ]]; then
   brew upgrade
@@ -103,10 +116,8 @@ WORKSPACE_GIT_REPOS=(
   https://github.com/cloudfoundry-incubator/cli-workstation
   https://github.com/cloudfoundry-incubator/diego-release
   https://github.com/cloudfoundry/bosh-lite
-  https://github.com/cloudfoundry/cf-acceptance-tests
   https://github.com/cloudfoundry/cf-release
   https://github.com/cloudfoundry/claw
-  https://github.com/cloudfoundry/cli-acceptance-tests
   https://github.com/cloudfoundry/homebrew-tap
   https://github.com/cloudfoundry/vcap-test-assets
 )
@@ -131,9 +142,15 @@ for gopkg in "${GO_UTILS[@]}"; do
   GOPATH=$HOME/go go get -u $gopkg
 done
 
-if [[ ! -d $HOME/go/src/github.com/cloudfoundry/cli ]]; then
-  GOPATH=$HOME/go go get -d github.com/cloudfoundry/cli || true
-fi
+GO_REPOS=(
+  github.com/cloudfoundry/cli
+  github.com/cloudfoundry/cli-acceptance-tests
+  github.com/cloudfoundry/cf-acceptance-tests
+)
+
+for repo in "${GO_REPOS[@]}"; do
+  clone_into_go_path $repo
+done
 
 if [[ ! -d $HOME/.bash_it ]]; then
   git clone https://github.com/Bash-it/bash-it.git $HOME/.bash_it
