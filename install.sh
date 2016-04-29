@@ -25,17 +25,17 @@ brew_tap_install_or_update() {
   brew_install_or_update "${@:2}"
 }
 
-clone_into_workspace() {
-  DIR="${HOME}/workspace/$(echo $1 | awk -F '/' '{ print $(NF) }')"
-  if [[ ! -d $DIR ]]; then
-    git clone $1 $DIR
-  fi
-}
-
 clone_into_go_path() {
   DIR="${HOME}/go/src/${1}"
   if [[ ! -d $DIR ]]; then
     git clone "https://${1}" $DIR
+  fi
+}
+
+clone_into_workspace() {
+  DIR="${HOME}/workspace/$(echo $1 | awk -F '/' '{ print $(NF) }')"
+  if [[ ! -d $DIR ]]; then
+    git clone $1 $DIR
   fi
 }
 
@@ -45,6 +45,7 @@ which ruby 1>/dev/null && which git 1>/dev/null || xcode-select --install
 # Install homebrew if not installed
 which brew 1>/dev/null || ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
+echo "Updating Homebrew"
 brew update
 
 HOMEBREW_PACKAGES=(
@@ -109,22 +110,7 @@ fi
 brew cleanup
 brew cask cleanup
 
-mkdir -p $HOME/workspace $HOME/go
-
-WORKSPACE_GIT_REPOS=(
-  https://github.com/cloudfoundry-incubator/cf-routing-release
-  https://github.com/cloudfoundry-incubator/cli-workstation
-  https://github.com/cloudfoundry-incubator/diego-release
-  https://github.com/cloudfoundry/bosh-lite
-  https://github.com/cloudfoundry/cf-release
-  https://github.com/cloudfoundry/claw
-  https://github.com/cloudfoundry/homebrew-tap
-  https://github.com/cloudfoundry/vcap-test-assets
-)
-
-for repo in "${WORKSPACE_GIT_REPOS[@]}"; do
-  clone_into_workspace $repo
-done
+mkdir -p $HOME/go $HOME/workspace
 
 GO_UTILS=(
  github.com/onsi/ginkgo/ginkgo
@@ -150,6 +136,21 @@ GO_REPOS=(
 
 for repo in "${GO_REPOS[@]}"; do
   clone_into_go_path $repo
+done
+
+WORKSPACE_GIT_REPOS=(
+  https://github.com/cloudfoundry-incubator/cf-routing-release
+  https://github.com/cloudfoundry-incubator/cli-workstation
+  https://github.com/cloudfoundry-incubator/diego-release
+  https://github.com/cloudfoundry/bosh-lite
+  https://github.com/cloudfoundry/cf-release
+  https://github.com/cloudfoundry/claw
+  https://github.com/cloudfoundry/homebrew-tap
+  https://github.com/cloudfoundry/vcap-test-assets
+)
+
+for repo in "${WORKSPACE_GIT_REPOS[@]}"; do
+  clone_into_workspace $repo
 done
 
 if [[ ! -d $HOME/.bash_it ]]; then
