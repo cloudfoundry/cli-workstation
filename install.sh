@@ -125,6 +125,12 @@ for gopkg in "${GO_UTILS[@]}"; do
   GOPATH=$HOME/go go get -u $gopkg
 done
 
+if [[ ! -x $HOME/bin/fly ]]; then
+  mkdir -p $HOME/bin
+  curl "https://ci.concourse.ci/api/v1/cli?arch=amd64&platform=darwin" > $HOME/bin/fly
+  chmod 755 $HOME/bin/fly
+fi
+
 GO_REPOS=(
   github.com/cloudfoundry/cli
   github.com/cloudfoundry/cli-acceptance-tests
