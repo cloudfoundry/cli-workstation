@@ -83,6 +83,7 @@ brew tap caskroom/cask
 brew tap caskroom/versions
 
 CASK_APPS=(
+  dash
   google-chrome
   intellij-idea
   iterm2-nightly
