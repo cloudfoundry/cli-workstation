@@ -48,6 +48,7 @@ HOMEBREW_PACKAGES=(
   awscli
   bash-completion
   bzr
+  charles
   coreutils
   direnv
   fasd
