@@ -6,23 +6,18 @@ if [[ $1 == "--skip-cask" ]]; then
   SKIP_CASK=1
 fi
 
-brew_install_or_update() {
+brew_install() {
   if brew info $1 | grep 'Not installed'; then
     echo Brew installing $1
     brew install $@
   else
-    if [[ -z $(brew outdated $1) ]]; then
-      echo $1 is up to date
-    else
-      echo Brew upgrading $1
-      brew upgrade $1
-    fi
+    echo $1 installed
   fi
 }
 
-brew_tap_install_or_update() {
+brew_tap_install() {
   brew tap $1
-  brew_install_or_update "${@:2}"
+  brew_install "${@:2}"
 }
 
 clone_into_go_path() {
@@ -76,13 +71,13 @@ HOMEBREW_PACKAGES=(
 )
 
 for package in "${HOMEBREW_PACKAGES[@]}"; do
-  brew_install_or_update $package
+  brew_install $package
 done
 
-brew_install_or_update lastpass-cli --with-pinentry --with-doc
-brew_tap_install_or_update neovim/neovim neovim
-brew_tap_install_or_update universal-ctags/universal-ctags universal-ctags --HEAD
-brew_tap_install_or_update git-duet/tap git-duet
+brew_install lastpass-cli --with-pinentry --with-doc
+brew_tap_install neovim/neovim neovim
+brew_tap_install universal-ctags/universal-ctags universal-ctags --HEAD
+brew_tap_install git-duet/tap git-duet
 
 brew tap caskroom/cask
 brew tap caskroom/versions
