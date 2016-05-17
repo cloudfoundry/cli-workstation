@@ -89,6 +89,7 @@ CASK_APPS=(
   iterm2-nightly
   java
   shiftit
+  the-unarchiver
   vagrant
   virtualbox
 )
