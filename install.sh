@@ -48,7 +48,6 @@ HOMEBREW_PACKAGES=(
   awscli
   bash-completion
   bzr
-  charles
   coreutils
   direnv
   fasd
@@ -84,6 +83,7 @@ brew tap caskroom/cask
 brew tap caskroom/versions
 
 CASK_APPS=(
+  charles
   dash
   google-chrome
   intellij-idea
