@@ -53,6 +53,8 @@ HOMEBREW_PACKAGES=(
   fasd
   fzf
   git
+  git-hooks
+  git-secrets
   go
   htop-osx
   jq
