@@ -54,7 +54,6 @@ HOMEBREW_PACKAGES=(
   fzf
   git
   git-hooks
-  git-secrets
   go
   htop-osx
   jq
