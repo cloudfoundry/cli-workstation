@@ -1,3 +1,6 @@
+# Fix Weirdness
+export PATH=/usr/local/bin:$PATH
+
 # Go
 export GOPATH=~/go
 export PATH=$GOPATH/bin:$PATH

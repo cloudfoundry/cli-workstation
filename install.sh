@@ -187,12 +187,6 @@ else
   $HOME/.vim/install
 fi
 
-if bosh version 1>/dev/null 2>/dev/null; then
-  gem update bosh_cli
-else
-  gem install bosh_cli
-fi
-
 ln -sf $HOME/workspace/cli-workstation/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
 if [[ ! -d ~/.tmux/plugins/tpm ]]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -200,3 +194,10 @@ fi
 
 sudo ln -sf $HOME/workspace/cli-workstation/scripts/vagrant/suspend_all.sh /usr/local/bin/logout.sh
 sudo defaults write com.apple.loginwindow LogoutHook /usr/local/bin/logout.sh
+
+if bosh version 1>/dev/null 2>/dev/null; then
+  gem update bosh_cli
+else
+  gem install bosh_cli
+fi
+
