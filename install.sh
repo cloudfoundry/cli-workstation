@@ -49,6 +49,7 @@ HOMEBREW_PACKAGES=(
   bash-completion
   bzr
   coreutils
+  diff-so-fancy
   direnv
   fasd
   fzf
