@@ -12,7 +12,7 @@
   ci = duet-commit -v
   co = checkout
   br = branch
-  rf = rebase -x ~/workspace/cli-workstation/scripts/fix-committer.sh
+  fr = rebase -x ~/workspace/cli-workstation/scripts/fix-committer.sh
   ds = diff --staged
   llog = log --date=local
   lol = log --graph --oneline
