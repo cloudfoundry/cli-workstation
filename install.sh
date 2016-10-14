@@ -135,8 +135,8 @@ if [[ ! -x $HOME/bin/fly ]]; then
 fi
 
 GO_REPOS=(
-  github.com/cloudfoundry/cli
-  github.com/cloudfoundry/cli-acceptance-tests
+  code.cloudfoundry.org/cli
+  code.cloudfoundry.org/cli-acceptance-tests
   github.com/cloudfoundry/cf-acceptance-tests
 )
 
@@ -147,12 +147,12 @@ done
 WORKSPACE_GIT_REPOS=(
   https://github.com/cloudfoundry-incubator/cf-routing-release
   https://github.com/cloudfoundry-incubator/cli-workstation
+  https://github.com/cloudfoundry-incubator/diego-enabler
   https://github.com/cloudfoundry-incubator/diego-release
   https://github.com/cloudfoundry/bosh-lite
   https://github.com/cloudfoundry/cf-release
   https://github.com/cloudfoundry/claw
   https://github.com/cloudfoundry/homebrew-tap
-  https://github.com/cloudfoundry/vcap-test-assets
 )
 
 for repo in "${WORKSPACE_GIT_REPOS[@]}"; do
