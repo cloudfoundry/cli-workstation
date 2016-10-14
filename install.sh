@@ -121,6 +121,7 @@ GO_UTILS=(
  github.com/jteeuwen/go-bindata/...
  github.com/nicksnyder/go-i18n/goi18n
  github.com/krishicks/i18n4go/i18n4go
+ github.com/alecthomas/gometalinter
 )
 
 for gopkg in "${GO_UTILS[@]}"; do
