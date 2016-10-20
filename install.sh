@@ -95,6 +95,7 @@ CASK_APPS=(
   the-unarchiver
   vagrant
   virtualbox
+  time-out
 )
 
 if [[ $SKIP_CASK != 1 ]]; then
