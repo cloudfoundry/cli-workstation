@@ -13,7 +13,7 @@ pushd /tmp
   bosh upload release https://bosh.io/d/github.com/cloudfoundry-incubator/etcd-release
 
   # upload garden runc release
-  nosh upload release https://bosh.io/d/github.com/cloudfoundry/garden-runc-release
+  bosh upload release https://bosh.io/d/github.com/cloudfoundry/garden-runc-release
 
   # upload cflinuxfs2
   bosh upload release https://bosh.io/d/github.com/cloudfoundry/cflinuxfs2-rootfs-release
