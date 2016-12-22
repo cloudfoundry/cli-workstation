@@ -7,16 +7,24 @@ pushd /tmp
   bosh target 192.168.50.4
 
   # upload stemcell
-  bosh upload stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
+  bosh upload stemcell \
+    https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent \
+    --skip-if-exists
 
   # upload etcd release
-  bosh upload release https://bosh.io/d/github.com/cloudfoundry-incubator/etcd-release
+  bosh upload release \
+    https://bosh.io/d/github.com/cloudfoundry-incubator/etcd-release \
+    --skip-if-exists
 
   # upload garden runc release
-  bosh upload release https://bosh.io/d/github.com/cloudfoundry/garden-runc-release
+  bosh upload release \
+    https://bosh.io/d/github.com/cloudfoundry/garden-runc-release \
+    --skip-if-exists
 
   # upload cflinuxfs2
-  bosh upload release https://bosh.io/d/github.com/cloudfoundry/cflinuxfs2-rootfs-release
+  bosh upload release \
+    https://bosh.io/d/github.com/cloudfoundry/cflinuxfs2-rootfs-release \
+    --skip-if-exists
 
   # create, upload & deploy cf-release
   pushd $HOME/workspace/cf-release
