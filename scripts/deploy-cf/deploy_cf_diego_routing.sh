@@ -11,11 +11,6 @@ pushd /tmp
     https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent \
     --skip-if-exists
 
-  # upload etcd release
-  bosh upload release \
-    https://bosh.io/d/github.com/cloudfoundry-incubator/etcd-release \
-    --skip-if-exists
-
   # upload garden runc release
   bosh upload release \
     https://bosh.io/d/github.com/cloudfoundry/garden-runc-release \
