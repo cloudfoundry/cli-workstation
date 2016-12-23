@@ -70,8 +70,8 @@ properties:
     enabled: true
 EOF
 
-	pushd $HOME/cf-release
-		scripts/generate-bosh-lite-dev-manifest $HOME/workspace/property-overrides.yml
+	pushd $HOME/workspace/cf-release
+		scripts/generate-bosh-lite-dev-manifest /tmp/property-overrides.yml
 		bosh -n deploy
   popd
 
