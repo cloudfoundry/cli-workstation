@@ -28,11 +28,12 @@ pushd /tmp
 
   # create, upload & deploy cf-release
   pushd $HOME/workspace/cf-release
+    git checkout master
     git pull -r
-    git checkout v$(git tag | cut -d v -f 2 | sort -g | tail -n 1)
+    CF_VERSION=$(git tag | cut -d v -f 2 | sort -g | tail -n 1)
+    git checkout v$CF_VERSION
     scripts/update
-    bosh create release --force
-    bosh upload release
+    bosh upload release releases/cf/cf-$CF_VERSION.yml --skip-if-exists
 
     scripts/generate-bosh-lite-dev-manifest \
       ~/workspace/diego-release/manifest-generation/stubs-for-cf-release/enable_diego_windows_in_cc.yml
@@ -41,11 +42,12 @@ pushd /tmp
 
   # create, upload & deploy diego-release
   pushd $HOME/workspace/diego-release
+    git checkout master
     git pull -r
-    git checkout $(g tag | tail -n 1)
+    DIEGO_VERSION=$(git tag | cut -d v -f 2 | sort -g | tail -n 1)
+    git checkout v$DIEGO_VERSION
     scripts/update
-    bosh create release --force
-    bosh upload release
+    bosh upload release releases/diego/diego-$DIEGO_VERSION.yml --skip-if-exists
 
     scripts/generate-bosh-lite-manifests
     bosh deployment bosh-lite/deployments/diego.yml
@@ -54,11 +56,12 @@ pushd /tmp
 
   # create, upload & deploy routing-release
   pushd $HOME/workspace/cf-routing-release
+    git checkout master
     git pull -r
-    routing_version=$(g tag | tail -n 1)
+    routing_version=$(git tag | sort -k 2 -n -t . | tail -n 1)
     git checkout $routing_version
     scripts/update
-    bosh -n upload release releases/routing-${routing_version}.yml
+    bosh -n upload release releases/routing-${routing_version}.yml --skip-if-exists
     scripts/generate-bosh-lite-manifest
 		bosh -n deploy
   popd
@@ -80,3 +83,5 @@ EOF
   # adds the route for the bosh-lite
   $HOME/workspace/bosh-lite/bin/add-route
 popd
+
+bosh -n cleanup --all
