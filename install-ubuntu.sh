@@ -7,6 +7,7 @@ GO_VERSION="1.7.5"
 # Add any required repositories
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
 sudo add-apt-repository -y ppa:webupd8team/atom
+sudo add-apt-repository -y ppa:aacebedo/fasd
 
 
 # Update/Upgrade to the latest
@@ -14,10 +15,10 @@ sudo apt update
 sudo apt upgrade -y
 
 # Install system dependancies
-sudo apt install -y bash-completion chromium-browser curl htop openssh-server software-properties-common tree fastd
+sudo apt install -y bash-completion chromium-browser compizconfig-settings-manager curl fasd htop openssh-server software-properties-common tree
 
 # Install development dependancies
-sudo apt install -y atom awscli bzr direnv exuberant-ctags git jq lastpass-cli neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-qt
+sudo apt install -y atom awscli bzr direnv exuberant-ctags git jq lastpass-cli neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux vagrant virtualbox-qt
 
 # Cleanup cache
 sudo apt -y autoremove
@@ -26,7 +27,7 @@ sudo apt autoclean
 # Install fly
 if [[ ! -x $HOME/bin/fly ]]; then
   mkdir -p $HOME/bin
-  curl "https://ci.concourse.ci/api/v1/cli?arch=amd64&platform=darwin" > $HOME/bin/fly
+  curl "https://ci.concourse.ci/api/v1/cli?arch=amd64&platform=linux" > $HOME/bin/fly
   chmod 755 $HOME/bin/fly
 fi
 

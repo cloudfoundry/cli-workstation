@@ -1,0 +1,51 @@
+URxvt.termName: rxvt-256color
+URxvt.font: xft:Monospace:pixelsize=18
+URxvt*boldFont: xft:Monospace:pixelsize=18
+URxvt.letterSpace: -1
+URxvt.scrollstyle: plain
+
+URxvt.perl-ext-common : default,matcher
+URxvt.urlLauncher     : chromium-browser
+URxvt.matcher.button  : 1
+
+! to match gnome-terminal "Linux console" scheme
+! foreground/background
+URxvt*background: #000000
+URxvt*foreground: #ffffff
+! black
+URxvt.color0  : #000000
+URxvt.color8  : #555555
+! red
+URxvt.color1  : #AA0000
+URxvt.color9  : #FF5555
+! green
+URxvt.color2  : #00AA00
+URxvt.color10 : #55FF55
+! yellow
+URxvt.color3  : #AA5500
+URxvt.color11 : #FFFF55
+! blue
+URxvt.color4  : #0000AA
+URxvt.color12 : #5555FF
+! magenta
+URxvt.color5  : #AA00AA
+URxvt.color13 : #FF55FF
+! cyan
+URxvt.color6  : #00AAAA
+URxvt.color14 : #55FFFF
+! white
+URxvt.color7  : #AAAAAA
+URxvt.color15 : #FFFFFF
+
+!! Keycode fixes for Ctrl+direction in Vim
+URxvt.keysym.C-Up:     \033[1;5A
+URxvt.keysym.C-Down:   \033[1;5B
+URxvt.keysym.C-Right:  \033[1;5C
+URxvt.keysym.C-Left:   \033[1;5D
+URxvt.keysym.C-Prior:  \033[5;5~
+URxvt.keysym.C-Next:   \033[6;5~
+URxvt.keysym.C-Home:   \033[7;5~
+URxvt.keysym.C-End:    \033[8;5~
+
+!Disables the insanely annoying Ctrl+Shift shortcut that enters ISO14755 mode
+URxvt.iso14755:         False
