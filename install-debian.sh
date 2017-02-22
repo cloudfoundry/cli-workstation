@@ -2,11 +2,102 @@
 
 set -e
 
-#sudo add-apt-repository -y ppa:neovim-ppa/unstable
+GO_VERSION="1.7.5"
 
+# Add any required repositories
+sudo add-apt-repository -y ppa:neovim-ppa/unstable
+
+# Update/Upgrade to the latest
 sudo apt-get update
-sudo apt-get install -y git ruby tmux silversearcher-ag bash-completion tree awscli tig direnv htop openssh-server bzr jq nodejs lastpass-cli software-properties-common neovim exuberant-ctags chromium-browser
-
 sudo apt-get upgrade -y
 
+# Install system dependancies
+sudo apt-get install -y bash-completion chromium-browser curl htop openssh-server software-properties-common tree 
+
+# Install development dependancies
+sudo apt-get install -y awscli bzr direnv exuberant-ctags git jq lastpass-cli neovim nodejs ruby silversearcher-ag tig tmux virtualbox-qt
+
 sudo apt-get clean
+
+# Install fly
+if [[ ! -x $HOME/bin/fly ]]; then
+  mkdir -p $HOME/bin
+  curl "https://ci.concourse.ci/api/v1/cli?arch=amd64&platform=darwin" > $HOME/bin/fly
+  chmod 755 $HOME/bin/fly
+fi
+
+# Setup Workspace
+mkdir -p $HOME/workspace
+
+clone_into_workspace() {
+  DIR="${HOME}/workspace/$(echo $1 | awk -F '/' '{ print $(NF) }')"
+  if [[ ! -d $DIR ]]; then
+    git clone $1 $DIR
+  fi
+}
+
+WORKSPACE_GIT_REPOS=(
+  https://github.com/cloudfoundry-incubator/cf-routing-release
+  https://github.com/cloudfoundry-incubator/cli-plugin-repo
+  https://github.com/cloudfoundry-incubator/cli-workstation
+  https://github.com/cloudfoundry-incubator/diego-enabler
+  https://github.com/cloudfoundry-incubator/diego-release
+  https://github.com/cloudfoundry/bosh-lite
+  https://github.com/cloudfoundry/cf-release
+  https://github.com/cloudfoundry/claw
+  https://github.com/cloudfoundry/homebrew-tap
+)
+
+for repo in "${WORKSPACE_GIT_REPOS[@]}"; do
+  clone_into_workspace $repo
+done
+
+# Clone Go repos into the correct gopath
+clone_into_go_path() {
+  DIR="${HOME}/go/src/${1}"
+  if [[ ! -d $DIR ]]; then
+    git clone "https://${1}" $DIR
+  fi
+}
+
+GO_REPOS=(
+  code.cloudfoundry.org/cli
+  github.com/cloudfoundry/cf-acceptance-tests
+)
+
+for repo in "${GO_REPOS[@]}"; do
+  clone_into_go_path $repo
+done
+
+# Install/Upgrade BashIT
+if [[ ! -d $HOME/.bash_it ]]; then
+  git clone https://github.com/Bash-it/bash-it.git $HOME/.bash_it
+  $HOME/.bash_it/install.sh
+fi
+
+set +e
+source $HOME/.bashrc
+bash-it update
+set -e
+
+# Configure BashIT
+bash-it enable alias general git
+bash-it enable completion defaults awscli bash-it brew git ssh tmux vagrant virtualbox
+bash-it enable plugin fasd fzf git git-subrepo osx ruby ssh history
+
+# Link Dotfiles
+ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom/* $HOME/.bash_it/custom
+ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom_linux/* $HOME/.bash_it/custom
+ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/vimrc.local $HOME/.vimrc.local
+ln -sf $HOME/workspace/cli-workstation/dotfiles/git/gitconfig $HOME/.gitconfig
+ln -sf $HOME/workspace/cli-workstation/dotfiles/git/git-authors $HOME/.git-authors
+
+# Install go if it's not installed
+if [[ -z $(which go) ]]; then
+  sudo mkdir -p /opt/golang
+  curl -L "https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz" > /tmp/go.tgz
+  tar -C /tmp -xzf go.tgz
+  mv go /opt/golang/go$GO_VERSION
+  export GOROOT=/opt/golang/go$GO_VERSION
+  rm /tmp/go.tgz
+fi

@@ -138,7 +138,6 @@ fi
 
 GO_REPOS=(
   code.cloudfoundry.org/cli
-  code.cloudfoundry.org/cli-acceptance-tests
   github.com/cloudfoundry/cf-acceptance-tests
 )
 
@@ -176,6 +175,7 @@ bash-it enable completion defaults awscli bash-it brew git ssh tmux vagrant virt
 bash-it enable plugin fasd fzf git git-subrepo osx ruby ssh history
 
 ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom/* $HOME/.bash_it/custom
+ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom_osx/* $HOME/.bash_it/custom
 ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/vimrc.local $HOME/.vimrc.local
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/gitconfig $HOME/.gitconfig
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/git-authors $HOME/.git-authors
