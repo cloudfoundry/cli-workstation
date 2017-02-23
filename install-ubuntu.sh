@@ -22,7 +22,7 @@ fi
 
 # Update/Upgrade to the latest
 sudo apt update
-sudo apt upgrade -y
+sudo apt dist-upgrade -y
 
 # Install system dependancies
 # Choose 'LightDM' when propmted
