@@ -15,10 +15,10 @@ sudo apt update
 sudo apt upgrade -y
 
 # Install system dependancies
-sudo apt install -y bash-completion chromium-browser compizconfig-settings-manager curl fasd htop openssh-server software-properties-common tree
+sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-server software-properties-common tree ubuntu-gnome-desktop
 
 # Install development dependancies
-sudo apt install -y atom awscli bzr direnv exuberant-ctags git jq lastpass-cli neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux vagrant virtualbox-qt
+sudo apt install -y atom awscli bzr direnv exuberant-ctags git jq lastpass-cli neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-qt
 
 # Cleanup cache
 sudo apt -y autoremove
@@ -29,6 +29,15 @@ if [[ ! -x $HOME/bin/fly ]]; then
   mkdir -p $HOME/bin
   curl "https://ci.concourse.ci/api/v1/cli?arch=amd64&platform=linux" > $HOME/bin/fly
   chmod 755 $HOME/bin/fly
+fi
+
+# Install Vagrant since System version is Repo version is too old
+if [[ -z $(which vagrant) ]]; then
+  pushd /tmp
+  wget https://releases.hashicorp.com/vagrant/1.9.1/vagrant_1.9.1_x86_64.deb
+  sudo dpkg --install vagrant_1.9.1_x86_64.deb
+  rm vagrant_1.9.1_x86_64.deb
+  popd
 fi
 
 # Setup Workspace
