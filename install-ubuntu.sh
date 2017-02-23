@@ -5,11 +5,19 @@ set -e
 GO_VERSION="1.7.5"
 
 # Add any required repositories
-sudo add-apt-repository -y ppa:neovim-ppa/unstable
-sudo add-apt-repository -y ppa:webupd8team/atom
-sudo add-apt-repository -y ppa:aacebedo/fasd
-sudo add-apt-repository -y ppa:gnome3-team/gnome3-staging
-sudo add-apt-repository -y ppa:gnome3-team/gnome3
+if [[ -z $(which nvim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/unstable; fi
+if [[ -z $(which atom) ]]; then sudo add-apt-repository -y ppa:webupd8team/atom; fi
+if [[ -z $(which fasd) ]]; then sudo add-apt-repository -y ppa:aacebedo/fasd; fi
+
+if [[ -z $(which gnome-shell) ]]; then
+  sudo add-apt-repository -y ppa:gnome3-team/gnome3-staging
+  sudo add-apt-repository -y ppa:gnome3-team/gnome3
+fi
+
+if [[ -z $(which docker) ]]; then
+  curl -fsSL https://apt.dockerproject.org/gpg | sudo apt-key add -
+  sudo add-apt-repository "deb https://apt.dockerproject.org/repo/ ubuntu-$(lsb_release -cs) main"
+fi
 
 
 # Update/Upgrade to the latest
@@ -21,7 +29,7 @@ sudo apt upgrade -y
 sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-server software-properties-common tree gnome gnome-shell ubuntu-gnome-desktop
 
 # Install development dependancies
-sudo apt install -y atom awscli bzr direnv exuberant-ctags git jq lastpass-cli neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-qt
+sudo apt install -y atom awscli bzr direnv docker-engine exuberant-ctags git jq lastpass-cli neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-qt
 
 # Cleanup cache
 sudo apt -y autoremove
