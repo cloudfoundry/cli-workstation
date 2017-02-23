@@ -51,6 +51,19 @@ if [[ -z $(which vagrant) ]]; then
   popd
 fi
 
+# Setup docker to run without sudo
+if [[ -z $(groups | grep docker) ]]; then
+  sudo gpasswd -a ${USER} docker
+  sudo service docker restart
+fi
+
+# Install diff-so-fancy for better diffing
+if [[ -z $(which diff-so-fancy) ]]; then
+  sudo npm install -g diff-so-fancy
+else
+  sudo npm upgrade -g diff-so-fancy
+fi
+
 # Setup Workspace
 mkdir -p $HOME/workspace
 
@@ -102,9 +115,6 @@ ln -sf $HOME/workspace/cli-workstation/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
 if [[ ! -d ~/.tmux/plugins/tpm ]]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
-
-# Install diff-so-fancy for better diffing
-sudo npm install -g diff-so-fancy
 
 # Install go if it's not installed
 if [[ -z $(which go) ]]; then
