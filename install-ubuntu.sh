@@ -8,6 +8,8 @@ GO_VERSION="1.7.5"
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
 sudo add-apt-repository -y ppa:webupd8team/atom
 sudo add-apt-repository -y ppa:aacebedo/fasd
+sudo add-apt-repository -y ppa:gnome3-team/gnome3-staging
+sudo add-apt-repository -y ppa:gnome3-team/gnome3
 
 
 # Update/Upgrade to the latest
@@ -15,7 +17,8 @@ sudo apt update
 sudo apt upgrade -y
 
 # Install system dependancies
-sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-server software-properties-common tree ubuntu-gnome-desktop
+# Choose 'LightDM' when propmted
+sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-server software-properties-common tree gnome gnome-shell
 
 # Install development dependancies
 sudo apt install -y atom awscli bzr direnv exuberant-ctags git jq lastpass-cli neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-qt
