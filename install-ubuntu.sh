@@ -105,6 +105,7 @@ if [[ -z $(which go) ]]; then
   mv /usr/local/golang/go /usr/local/golang/go$GO_VERSION
   export GOROOT=/usr/local/golang/go$GO_VERSION
   export GOPATH=$HOME/go
+  export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
   rm /tmp/go.tgz
 fi
 
