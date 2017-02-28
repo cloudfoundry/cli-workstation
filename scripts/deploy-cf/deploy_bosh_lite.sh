@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -31,4 +31,6 @@ bosh2 upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-tr
 
 bosh2 update-cloud-config ~/workspace/cf-deployment/bosh-lite/cloud-config.yml
 
-bosh2 -d cf deploy cf-deployment.yml -o operations/bosh-lite.yml --vars-store deployment-vars.yml -v system_domain=bosh-lite.com
+cd ~/workspace/cf-deployment/
+
+bosh2 -d cf deploy cf-deployment.yml -o operations/bosh-lite.yml -o operations/tcp-routing-bosh-lite.yml --vars-store deployment-vars.yml -v system_domain=bosh-lite.com
