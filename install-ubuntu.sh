@@ -27,7 +27,7 @@ sudo apt dist-upgrade -y
 # Install system dependancies
 # Choose 'LightDM' when propmted
 sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-server software-properties-common tree
-sudo apt install -y gnome gnome-shell gnome-shell-extensions-gpaste ubuntu-gnome-desktop
+sudo apt install -y gnome gnome-shell gnome-shell-extensions-gpaste gnome-shell-pomodoro ubuntu-gnome-desktop
 
 # Install development dependancies
 sudo apt install -y atom awscli bzr direnv docker-engine exuberant-ctags git jq lastpass-cli neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-qt
