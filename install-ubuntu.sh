@@ -177,17 +177,25 @@ for gopkg in "${GO_UTILS[@]}"; do
   GOPATH=$HOME/go go get -u $gopkg
 done
 
+# install spiff
+if [[ -z $(which spiff) ]]; then
+  pushd /tmp
+  wget https://github.com/cloudfoundry-incubator/spiff/releases/download/v1.0.8/spiff_linux_amd64.zip
+  unzip spiff_linux_amd64.zip
+  install -Dp -m0755 spiff $HOME/bin
+fi
+
 # install bosh
 if [[ -z $(which bosh) ]]; then
-  sudo gem install --no-document bosh_cli
+  gem install --no-document bosh_cli
 fi
 
 # install bundler
 if [[ -z $(which bundler) ]]; then
-  sudo gem install --no-document bundler
+  gem install --no-document bundler
 fi
 
-sudo gem update --no-document bosh_cli bundler
+gem update --no-document bosh_cli bundler
 
 # Install Luan's Vim config
 if [[ -d $HOME/.vim ]]; then

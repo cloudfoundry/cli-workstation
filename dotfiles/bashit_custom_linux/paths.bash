@@ -1,6 +1,10 @@
 # add bin from homedir to path
 export PATH=$HOME/bin:$PATH
 
+# Ruby
+export GEM_HOME=$HOME/.gem
+export PATH=$GEM_HOME/bin:$PATH
+
 # Go
 export GOROOT=/usr/local/golang/go1.7.5
 export GOPATH=~/go
