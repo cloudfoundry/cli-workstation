@@ -23,14 +23,41 @@ bosh2 create-env ~/workspace/bosh-deployment/bosh.yml \
   -v internal_cidr=192.168.50.0/24 \
   -v outbound_network_name=NatNetwork
 
-bosh2 --ca-cert <(bosh2 int ~/deployments/vbox/creds.yml --path /director_ssl/ca) alias-env vbox
+bosh2 \
+  --ca-cert <(bosh2 int ~/deployments/vbox/creds.yml --path /director_ssl/ca) \
+  alias-env vbox
 
 export BOSH_CLIENT_SECRET=`bosh2 int ~/deployments/vbox/creds.yml --path /admin_password`
 
 bosh2 upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
 
-bosh2 update-cloud-config ~/workspace/cf-deployment/bosh-lite/cloud-config.yml
-
 cd ~/workspace/cf-deployment/
 
-bosh2 -d cf deploy cf-deployment.yml -o operations/bosh-lite.yml -o operations/tcp-routing-bosh-lite.yml --vars-store deployment-vars.yml -v system_domain=bosh-lite.com
+cat << EOF > operations/bosh-lite-internet-required.yml
+- type: replace
+  path: /vm_extensions/-
+  value:
+    name:
+      internet-required
+EOF
+
+bosh2 \
+  -n \
+  update-cloud-config bosh-lite/cloud-config.yml \
+  -o operations/bosh-lite-internet-required.yml
+
+cat << EOF > operations/tcp-routing-bosh-lite.yml
+- type: replace
+  path: /instance_groups/name=api/jobs/name=routing-api/properties/routing_api/sqldb/host
+  value: 10.244.0.10
+EOF
+
+bosh2 \
+  -n \
+  -d cf deploy cf-deployment.yml \
+  -o operations/bosh-lite.yml \
+  -o operations/tcp-routing-gcp.yml \
+  -o operations/tcp-routing-bosh-lite.yml \
+  --vars-store deployment-vars.yml \
+  -v system_domain=bosh-lite.com \
+  -v uaa_scim_users_admin_password=admin
