@@ -5,7 +5,7 @@ set -e
 GO_VERSION="1.7.5"
 
 # Add any required repositories
-if [[ -z $(which nvim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/unstable; fi
+if [[ -z $(which nvim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
 if [[ -z $(which atom) ]]; then sudo add-apt-repository -y ppa:webupd8team/atom; fi
 if [[ -z $(which fasd) ]]; then sudo add-apt-repository -y ppa:aacebedo/fasd; fi
 if [[ -z $(which git) ]]; then sudo add-apt-repository -y ppa:git-core/ppa; fi
