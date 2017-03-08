@@ -61,3 +61,5 @@ bosh2 \
   --vars-store deployment-vars.yml \
   -v system_domain=bosh-lite.com \
   -v uaa_scim_users_admin_password=admin
+
+sudo route add -net 10.244.0.0/16 gw 192.168.50.6
