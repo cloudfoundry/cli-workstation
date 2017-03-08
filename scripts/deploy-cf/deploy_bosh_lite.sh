@@ -5,6 +5,22 @@ set -e
 export BOSH_CLIENT=admin
 export BOSH_ENVIRONMENT=192.168.50.6
 
+pushd ~/workspace
+  if [ ! -d bosh-deployment ]; then
+    git clone https://github.com/cloudfoundry/bosh-deployment.git
+  fi
+  pushd bosh-deployment
+    git pull
+  popd
+
+  if [ ! -d cf-deployment ]; then
+    git clone https://github.com/cloudfoundry/cf-deployment.git
+  fi
+  pushd cf-deployment
+    git pull
+  popd
+popd
+
 mkdir -p ~/deployments/vbox
 
 cd ~/deployments/vbox
