@@ -68,12 +68,19 @@ cat << EOF > operations/tcp-routing-bosh-lite.yml
   value: 10.244.0.10
 EOF
 
+cat << EOF > operations/app-memory-override.yml
+- type: replace
+  path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/cc/default_app_memory?
+  value: 256
+EOF
+
 bosh2 \
   -n \
   -d cf deploy cf-deployment.yml \
   -o operations/bosh-lite.yml \
   -o operations/tcp-routing-gcp.yml \
   -o operations/tcp-routing-bosh-lite.yml \
+  -o operations/app-memory-override.yml \
   --vars-store deployment-vars.yml \
   -v system_domain=bosh-lite.com \
   -v uaa_scim_users_admin_password=admin
