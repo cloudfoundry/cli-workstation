@@ -74,6 +74,10 @@ cat << EOF > operations/app-memory-override.yml
 - type: replace
   path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/cc/default_app_memory?
   value: 256
+
+- type: replace
+  path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/cc/quota_definitions/default/total_reserved_route_ports?
+  value: -1
 EOF
 
 bosh2 \
