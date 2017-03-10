@@ -28,6 +28,16 @@ mkdir -p ~/deployments/vbox
 
 cd ~/deployments/vbox
 
+cat << EOF > ~/workspace/bosh-deployment/bosh-lite-more-power.yml
+- type: replace
+  path: /resource_pools/name=vms/cloud_properties/cpus
+  value: 8
+
+- type: replace
+  path: /resource_pools/name=vms/cloud_properties/memory
+  value: 8192
+EOF
+
 bosh2 create-env ~/workspace/bosh-deployment/bosh.yml \
   --state ./state.json \
   -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
@@ -35,6 +45,7 @@ bosh2 create-env ~/workspace/bosh-deployment/bosh.yml \
   -o ~/workspace/bosh-deployment/bosh-lite.yml \
   -o ~/workspace/bosh-deployment/bosh-lite-runc.yml \
   -o ~/workspace/bosh-deployment/jumpbox-user.yml \
+  -o ~/workspace/bosh-deployment/bosh-lite-more-power.yml \
   --vars-store ./creds.yml \
   -v director_name="Bosh Lite Director" \
   -v internal_ip=$BOSH_ENVIRONMENT \
