@@ -20,6 +20,12 @@ if [[ -z $(which docker) ]]; then
   sudo add-apt-repository "deb https://apt.dockerproject.org/repo/ ubuntu-$(lsb_release -cs) main"
 fi
 
+if [[ -z $(which virtualbox) ]]; then
+  wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+  wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+  sudo add-apt-repository "deb https://apt.dockerproject.org/repo/ ubuntu-$(lsb_release -cs) main"
+fi
+
 
 # Update/Upgrade to the latest
 sudo apt update
@@ -31,7 +37,7 @@ sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-serv
 sudo apt install -y gnome gnome-shell gnome-shell-extensions-gpaste gnome-shell-pomodoro ubuntu-gnome-desktop
 
 # Install development dependancies
-sudo apt install -y atom awscli bzr direnv docker-engine exuberant-ctags git jq lastpass-cli neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-qt
+sudo apt install -y atom awscli bzr direnv docker-engine exuberant-ctags git jq lastpass-cli neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-5.1
 
 # Cleanup cache
 sudo apt -y autoremove
