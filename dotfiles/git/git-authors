@@ -2,10 +2,11 @@ authors:
   ag: Anand Gaitonde; agaitonde
   am: Alex Melnik; alex
   mb: Matthew Boedicker; mboedicker
+  mmb: Matthew Boedicker; mboedicker
   nw: Nick Wei; nwei
   rc: Renee Chu; rchu
   sp: Stu Pollock; spollock
 email:
   domain: pivotal.io
 email_addresses:
-  am: aleksandr.s.melnik@hpe.com
+  am: aleksandr.melnik@suse.com
