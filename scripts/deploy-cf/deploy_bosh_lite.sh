@@ -19,8 +19,6 @@ pushd ~/workspace
   pushd cf-deployment
     git checkout master
     git pull
-    # the commit before bosh-lite switched to postgres
-    git checkout 72aa50961b80f2f5202389d70a2a78977cef9644~1
   popd
 popd
 
@@ -60,8 +58,8 @@ bosh2 \
 export BOSH_CLIENT_SECRET=`bosh2 int ~/deployments/vbox/creds.yml --path /admin_password`
 
 # if cf-deployment is not using the latest
-bosh2 upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3363.9
-# bosh2 upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
+# bosh2 upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3363.9
+bosh2 upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
 
 cd ~/workspace/cf-deployment/
 
@@ -78,12 +76,6 @@ bosh2 \
   update-cloud-config bosh-lite/cloud-config.yml \
   -o operations/bosh-lite-internet-required.yml
 
-cat << EOF > operations/tcp-routing-bosh-lite.yml
-- type: replace
-  path: /instance_groups/name=api/jobs/name=routing-api/properties/routing_api/sqldb/host
-  value: 10.244.0.10
-EOF
-
 cat << EOF > operations/app-memory-override.yml
 - type: replace
   path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/cc/default_app_memory?
@@ -97,9 +89,9 @@ EOF
 bosh2 \
   -n \
   -d cf deploy cf-deployment.yml \
-  -o operations/bosh-lite.yml \
   -o operations/tcp-routing-gcp.yml \
-  -o operations/tcp-routing-bosh-lite.yml \
+  -o operations/bosh-lite.yml \
+  -o operations/use-postgres-tcp-routing.yml \
   -o operations/app-memory-override.yml \
   --vars-store deployment-vars.yml \
   -v system_domain=bosh-lite.com \
