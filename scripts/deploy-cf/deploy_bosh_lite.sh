@@ -93,6 +93,7 @@ bosh2 \
   -o operations/bosh-lite.yml \
   -o operations/use-postgres-tcp-routing.yml \
   -o operations/app-memory-override.yml \
+  -o ~/go/src/code.cloudfoundry.org/cli/ci/infrastructure/operations/isolation-segments.yml \
   --vars-store deployment-vars.yml \
   -v system_domain=bosh-lite.com \
   -v uaa_scim_users_admin_password=admin
