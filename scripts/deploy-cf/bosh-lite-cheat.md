@@ -17,3 +17,12 @@ chmod 0600 private_key
 
 ssh -i private_key jumpbox@192.168.50.6
 ```
+
+## VirtualBox bosh-lite loses internet connectivity
+
+Sometimes this happens after it is running for a while due to a VirtualBox bug.
+
+```
+VBoxManage natnetwork stop --netname NatNetwork
+VBoxManage natnetwork start --netname NatNetwork
+```
