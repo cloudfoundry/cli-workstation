@@ -79,7 +79,12 @@ bosh2 \
 cat << EOF > operations/app-memory-override.yml
 - type: replace
   path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/cc/default_app_memory?
-  value: 256
+  value: 32
+- type: replace
+  path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/dea_next?
+  value:
+    staging_memory_limit_mb: 128
+    staging_disk_limit_mb: 1024
 
 - type: replace
   path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/cc/quota_definitions/default/total_reserved_route_ports?
