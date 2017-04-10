@@ -2,7 +2,7 @@
 
 set -e
 
-GO_VERSION="1.7.5"
+GO_VERSION="1.8.1"
 
 # Add any required repositories
 if [[ -z $(which nvim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
@@ -125,10 +125,11 @@ if [[ ! -d ~/.tmux/plugins/tpm ]]; then
 fi
 
 # Install go if it's not installed
-if [[ -z $(which go) ]]; then
+if [[ -z $(which go) || $(go version) != *$GO_VERSION* ]]; then
   sudo mkdir -p /usr/local/golang
   sudo chown pivotal:pivotal /usr/local/golang
   mkdir -p $HOME/go/src
+  rm -rf $HOME/go/pkg/*
   curl -L "https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz" > /tmp/go.tgz
   tar -C /usr/local/golang -xzf /tmp/go.tgz
   mv /usr/local/golang/go /usr/local/golang/go$GO_VERSION
@@ -179,6 +180,7 @@ GO_UTILS=(
   github.com/git-duet/git-duet/...
 )
 
+echo Running $(go version)
 for gopkg in "${GO_UTILS[@]}"; do
   echo Getting/Updating $gopkg
   GOPATH=$HOME/go go get -u $gopkg
