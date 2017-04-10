@@ -186,6 +186,13 @@ for gopkg in "${GO_UTILS[@]}"; do
   GOPATH=$HOME/go go get -u $gopkg
 done
 
+#install specific version of go-i18n
+pushd $HOME/go/src/github.com/nicksnyder/go-i18n
+  git checkout 5a40a66b242242b28cac9dd07177d50818512397
+  go install ./goi18n
+  git checkout master
+popd
+
 # install spiff
 if [[ -z $(which spiff) ]]; then
   pushd /tmp
