@@ -175,7 +175,7 @@ GO_UTILS=(
   github.com/tools/godep
   github.com/jteeuwen/go-bindata/...
   github.com/nicksnyder/go-i18n/goi18n
-  github.com/krishicks/i18n4go/i18n4go
+  github.com/XenoPhex/i18n4go/i18n4go
   github.com/alecthomas/gometalinter
   github.com/git-duet/git-duet/...
 )
