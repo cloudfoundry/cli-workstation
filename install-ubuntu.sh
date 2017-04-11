@@ -37,7 +37,7 @@ sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-serv
 sudo apt install -y gnome gnome-shell gnome-shell-extensions-gpaste gnome-shell-pomodoro ubuntu-gnome-desktop
 
 # Install development dependancies
-sudo apt install -y atom awscli bzr direnv docker-engine exuberant-ctags git jq lastpass-cli neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-5.1
+sudo apt install -y atom awscli bzr direnv docker-engine exuberant-ctags git jq neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-5.1
 
 # Cleanup cache
 sudo apt -y autoremove
@@ -222,3 +222,17 @@ else
   git clone https://github.com/luan/vimfiles.git $HOME/.vim
   $HOME/.vim/install
 fi
+
+# install lastpass-cli from source (the Ubuntu package is broken)
+if [[ ! -d ~/workspace/lastpass-cli ]]; then
+  pushd ~/workspace
+    git clone https://github.com/lastpass/lastpass-cli.git
+  popd
+fi
+
+pushd ~/workspace/lastpass-cli
+  git pull
+  cmake .
+  make
+  sudo make install
+popd
