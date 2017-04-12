@@ -87,10 +87,6 @@ cat << EOF > operations/cli-bosh-lite.yml
     staging_disk_limit_mb: 1024
 
 - type: replace
-  path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/cc/quota_definitions/default/total_reserved_route_ports?
-  value: -1
-
-- type: replace
   path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/cc/diego?/temporary_local_tps
   value: true
 EOF
