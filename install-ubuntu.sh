@@ -9,10 +9,11 @@ if [[ ! -z $(which nvim) ]]; then
 fi
 
 # Add any required repositories
-if [[ -z $(which vim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
+if [[ -z $(which vim) ]]; then sudo add-apt-repository -y ppa:jonathonf/stable; fi
 if [[ -z $(which atom) ]]; then sudo add-apt-repository -y ppa:webupd8team/atom; fi
 if [[ -z $(which fasd) ]]; then sudo add-apt-repository -y ppa:aacebedo/fasd; fi
 if [[ -z $(which git) ]]; then sudo add-apt-repository -y ppa:git-core/ppa; fi
+if [[ -z $(which tilix) ]]; then sudo add-apt-repository -y ppa:webupd8team/terminix; fi
 
 if [[ -z $(which gnome-shell) ]]; then
   sudo add-apt-repository -y ppa:gnome3-team/gnome3-staging
@@ -37,7 +38,7 @@ sudo apt dist-upgrade -y
 
 # Install system dependancies
 # Choose 'LightDM' when propmted
-sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-server software-properties-common tree
+sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-server software-properties-common tilix tree
 sudo apt install -y gnome gnome-shell gnome-shell-extensions-gpaste gnome-shell-pomodoro ubuntu-gnome-desktop
 
 # Install development dependancies
@@ -46,6 +47,9 @@ sudo apt install -y atom awscli bzr direnv docker-engine exuberant-ctags git jq 
 # Cleanup cache
 sudo apt -y autoremove
 sudo apt autoclean
+
+# Select tilix as the default terminal
+sudo update-alternatives --config x-terminal-emulator
 
 # Install fly
 if [[ ! -x $HOME/bin/fly ]]; then
