@@ -96,7 +96,6 @@ bosh2 \
   -d cf deploy cf-deployment.yml \
   -o operations/tcp-routing-gcp.yml \
   -o operations/bosh-lite.yml \
-  -o operations/use-postgres-tcp-routing.yml \
   -o operations/test/add-persistent-isolation-segment-diego-cell.yml \
   -o operations/cli-bosh-lite.yml \
   --vars-store deployment-vars.yml \
