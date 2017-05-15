@@ -26,3 +26,19 @@ Sometimes this happens after it is running for a while due to a VirtualBox bug.
 VBoxManage natnetwork stop --netname NatNetwork
 VBoxManage natnetwork start --netname NatNetwork
 ```
+
+## Bringing back a dead bosh-lite
+
+Upgrade VirtualBox to the latest version because it is more stable.
+
+Make sure the bosh-lite VM is running in VirtualBox.
+
+Edit `~/deployments/vbox/state.json` and remove the `current_manifest_sha` key.
+
+Run `~/workspace/cli-workstation/scripts/deploy-cf/deploy_bosh_lite.sh`. This
+will recreate the bosh-lite but not the containers.
+
+`bosh2 delete-deployment -d cf`
+
+Run `~/workspace/cli-workstation/scripts/deploy-cf/deploy_bosh_lite.sh` again
+to recreate the cf deployment.
