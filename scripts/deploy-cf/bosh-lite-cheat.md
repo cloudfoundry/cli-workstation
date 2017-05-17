@@ -38,7 +38,7 @@ Edit `~/deployments/vbox/state.json` and remove the `current_manifest_sha` key.
 Run `~/workspace/cli-workstation/scripts/deploy-cf/deploy_bosh_lite.sh`. This
 will recreate the bosh-lite but not the containers.
 
-`bosh2 delete-deployment -d cf`
+`bosh2 delete-deployment -d cf --force -n`
 
 Run `~/workspace/cli-workstation/scripts/deploy-cf/deploy_bosh_lite.sh` again
 to recreate the cf deployment.
