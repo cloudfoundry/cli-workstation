@@ -40,5 +40,12 @@ will recreate the bosh-lite but not the containers.
 
 `bosh2 delete-deployment -d cf --force -n`
 
+If the deployment is locked from the resurrector:
+
+```
+bosh2 tasks --all
+bosh2 cancel-task <task number from task list>
+```
+
 Run `~/workspace/cli-workstation/scripts/deploy-cf/deploy_bosh_lite.sh` again
 to recreate the cf deployment.
