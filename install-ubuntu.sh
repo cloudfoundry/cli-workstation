@@ -2,7 +2,7 @@
 
 set -e
 
-GO_VERSION="1.8.1"
+GO_VERSION="1.8.3"
 
 # Add any required repositories
 if [[ -z $(which vim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
@@ -44,8 +44,8 @@ sudo apt install -y atom awscli bzr direnv docker-engine exuberant-ctags git jq 
 sudo apt -y autoremove
 sudo apt autoclean
 
-# Select tilix as the default terminal
-sudo update-alternatives --config x-terminal-emulator
+# Sets tilix as the default terminal
+sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix
 
 # Install fly
 if [[ ! -x $HOME/bin/fly ]]; then
@@ -196,14 +196,6 @@ pushd $HOME/go/src/github.com/nicksnyder/go-i18n
   go install ./goi18n
   git checkout master
 popd
-
-# install spiff
-if [[ -z $(which spiff) ]]; then
-  pushd /tmp
-  wget https://github.com/cloudfoundry-incubator/spiff/releases/download/v1.0.8/spiff_linux_amd64.zip
-  unzip spiff_linux_amd64.zip
-  install -Dp -m0755 spiff $HOME/bin
-fi
 
 # install bosh
 if [[ -z $(which bosh) ]]; then
