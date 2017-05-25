@@ -54,15 +54,6 @@ if [[ ! -x $HOME/bin/fly ]]; then
   chmod 755 $HOME/bin/fly
 fi
 
-# Install Vagrant since System version is Repo version is too old
-if [[ -z $(which vagrant) ]]; then
-  pushd /tmp
-  wget https://releases.hashicorp.com/vagrant/1.9.1/vagrant_1.9.1_x86_64.deb
-  sudo dpkg --install vagrant_1.9.1_x86_64.deb
-  rm vagrant_1.9.1_x86_64.deb
-  popd
-fi
-
 # Setup docker to run without sudo
 if [[ -z $(groups | grep docker) ]]; then
   sudo gpasswd -a ${USER} docker
@@ -113,7 +104,7 @@ set -e
 
 # Configure BashIT
 bash-it enable alias general git
-bash-it enable completion defaults awscli bash-it brew git ssh tmux vagrant virtualbox
+bash-it enable completion defaults awscli bash-it brew git ssh tmux virtualbox
 bash-it enable plugin fasd fzf git git-subrepo osx ruby ssh history
 
 # Link Dotfiles
