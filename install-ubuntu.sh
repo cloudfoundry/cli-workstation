@@ -2,7 +2,7 @@
 
 set -e
 
-GO_VERSION="1.8.3"
+GO_VERSION="1.8.3" # Don't forget to date dotfiles/bashit_custom_linux/paths.bash
 
 # Add any required repositories
 if [[ -z $(which vim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
@@ -111,8 +111,13 @@ bash-it enable plugin fasd fzf git git-subrepo osx ruby ssh history
 ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom/* $HOME/.bash_it/custom
 ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom_linux/* $HOME/.bash_it/custom
 ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/vimrc.local $HOME/.vimrc.local
-ln -sf $HOME/workspace/cli-workstation/dotfiles/git/gitconfig $HOME/.gitconfig
+ln -sf $HOME/workspace/cli-workstation/dotfiles/git/gitconfig $HOME/.gitconfig_include
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/git-authors $HOME/.git-authors
+
+if [[ -L $HOME/.gitconfig ]]; then
+  rm $HOME/.gitconfig
+  printf "[include]\n\tpath = $HOME/.gitconfig_include" > $HOME/.gitconfig
+fi
 
 ln -sf $HOME/workspace/cli-workstation/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
 if [[ ! -d ~/.tmux/plugins/tpm ]]; then

@@ -177,8 +177,13 @@ bash-it enable plugin fasd fzf git git-subrepo osx ruby ssh history
 ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom/* $HOME/.bash_it/custom
 ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom_osx/* $HOME/.bash_it/custom
 ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/vimrc.local $HOME/.vimrc.local
-ln -sf $HOME/workspace/cli-workstation/dotfiles/git/gitconfig $HOME/.gitconfig
+ln -sf $HOME/workspace/cli-workstation/dotfiles/git/gitconfig $HOME/.gitconfig_include
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/git-authors $HOME/.git-authors
+
+if [[ -L $HOME/.gitconfig ]]; then
+  rm $HOME/.gitconfig
+  printf "[include]\n\tpath = $HOME/.gitconfig_include" > $HOME/.gitconfig
+fi
 
 alias vim=nvim
 if [[ -d $HOME/.vim ]]; then

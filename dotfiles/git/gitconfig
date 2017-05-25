@@ -4,7 +4,7 @@
   ui = true
 [core]
   autocrlf = input
-	pager = diff-so-fancy | less --tabs=4 -RFX
+  pager = diff-so-fancy | less --tabs=4 -RFX
 [http]
   postBuffer = 524288000
 [alias]
@@ -24,7 +24,7 @@
   pushInsteadOf = https://github.com/
   pushInsteadOf = git://github.com/
 [color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
+  oldNormal = red bold
+  oldHighlight = red bold 52
+  newNormal = green bold
+  newHighlight = green bold 22
