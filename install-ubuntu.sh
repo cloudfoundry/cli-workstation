@@ -191,7 +191,7 @@ pushd $HOME/go/src/github.com/nicksnyder/go-i18n
   git checkout 5a40a66b242242b28cac9dd07177d50818512397
   go install ./goi18n
   sudo rm -rf goi18n/testdata
-  git co .
+  git checkout .
   git checkout master
 popd
 
