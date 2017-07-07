@@ -2,37 +2,12 @@
 
 set -e
 
+GO_VERSION="1.8.3"
+
 if [[ $1 == "--skip-cask" ]]; then
   SKIP_CASK=1
 fi
 
-brew_install() {
-  if brew info $1 | grep 'Not installed'; then
-    echo Brew installing $1
-    brew install $@
-  else
-    echo $1 installed
-  fi
-}
-
-brew_tap_install() {
-  brew tap $1
-  brew_install "${@:2}"
-}
-
-clone_into_go_path() {
-  DIR="${HOME}/go/src/${1}"
-  if [[ ! -d $DIR ]]; then
-    git clone "https://${1}" $DIR
-  fi
-}
-
-clone_into_workspace() {
-  DIR="${HOME}/workspace/$(echo $1 | awk -F '/' '{ print $(NF) }')"
-  if [[ ! -d $DIR ]]; then
-    git clone $1 $DIR
-  fi
-}
 
 # Install Basic XCode tools if not installed
 which ruby 1>/dev/null && which git 1>/dev/null || xcode-select --install
@@ -72,11 +47,26 @@ HOMEBREW_PACKAGES=(
   wget
 )
 
+brew_install() {
+  if brew info $1 | grep 'Not installed'; then
+    echo Brew installing $1
+    brew install $@
+  else
+    echo $1 installed
+  fi
+}
+
 for package in "${HOMEBREW_PACKAGES[@]}"; do
   brew_install $package
 done
 
 brew_install lastpass-cli --with-pinentry --with-doc
+
+brew_tap_install() {
+  brew tap $1
+  brew_install "${@:2}"
+}
+
 brew_tap_install neovim/neovim neovim
 brew_tap_install universal-ctags/universal-ctags universal-ctags --HEAD
 brew_tap_install git-duet/tap git-duet
@@ -100,7 +90,13 @@ CASK_APPS=(
 
 if [[ $SKIP_CASK != 1 ]]; then
   for app in "${CASK_APPS[@]}"; do
-    brew cask install --appdir=/Applications $app
+    artifact=`brew cask info $app | egrep -o '^.+?\\.app' || true`
+    filename="/Applications/$artifact"
+    if [[ -e $filename  && ! -z "$artifact" ]]; then
+      echo "$app" installed
+    else
+      brew cask install --appdir=/Applications $app
+    fi
   done
 fi
 
@@ -111,6 +107,7 @@ fi
 brew cleanup
 brew cask cleanup
 
+# Setup Workspace
 mkdir -p $HOME/go $HOME/workspace
 
 GO_UTILS=(
@@ -130,25 +127,45 @@ for gopkg in "${GO_UTILS[@]}"; do
   GOPATH=$HOME/go go get -u $gopkg
 done
 
-if [[ ! -x $HOME/bin/fly ]]; then
-  mkdir -p $HOME/bin
-  curl "https://ci.concourse.ci/api/v1/cli?arch=amd64&platform=darwin" > $HOME/bin/fly
-  chmod 755 $HOME/bin/fly
-fi
+#install specific version of go-i18n
+pushd $HOME/go/src/github.com/nicksnyder/go-i18n
+  git checkout 5a40a66b242242b28cac9dd07177d50818512397
+  go install ./goi18n
+  sudo rm -rf goi18n/testdata
+  git checkout .
+  git checkout master
+popd
 
 GO_REPOS=(
-  code.cloudfoundry.org/cli
   github.com/cloudfoundry/cf-acceptance-tests
+  github.com/cloudfoundry-incubator/cli-plugin-repo
+  github.com/cloudfoundry-incubator/diego-enabler
 )
+
+clone_into_go_path() {
+  DIR="${HOME}/go/src/${1}"
+  if [[ ! -d $DIR ]]; then
+    mkdir -p $(dirname $DIR)
+    git clone "https://${1}" $DIR
+    ln -s $DIR $HOME/workspace/$(basename $DIR)
+  fi
+}
 
 for repo in "${GO_REPOS[@]}"; do
   clone_into_go_path $repo
 done
 
+# Clone CLI Repo
+
+if [[ ! -d "${GOPATH}/src/code.cloudfoundry.org/cli" ]]; then
+  mkdir -p "${GOPATh}/src/code.cloudfoundry.org"
+  cd "${GOPATH}/src/code.cloudfoundry.org"
+  git clone https://github.com/cloudfoundry/cli
+fi
+
 WORKSPACE_GIT_REPOS=(
   https://github.com/cloudfoundry-incubator/cf-routing-release
   https://github.com/cloudfoundry-incubator/cli-workstation
-  https://github.com/cloudfoundry-incubator/diego-enabler
   https://github.com/cloudfoundry-incubator/diego-release
   https://github.com/cloudfoundry/bosh-lite
   https://github.com/cloudfoundry/cf-release
@@ -156,9 +173,22 @@ WORKSPACE_GIT_REPOS=(
   https://github.com/cloudfoundry/homebrew-tap
 )
 
+clone_into_workspace() {
+  DIR="${HOME}/workspace/$(echo $1 | awk -F '/' '{ print $(NF) }')"
+  if [[ ! -d $DIR ]]; then
+    git clone $1 $DIR
+  fi
+}
+
 for repo in "${WORKSPACE_GIT_REPOS[@]}"; do
   clone_into_workspace $repo
 done
+
+if [[ ! -x $HOME/bin/fly ]]; then
+  mkdir -p $HOME/bin
+  curl "https://ci.concourse.ci/api/v1/cli?arch=amd64&platform=darwin" > $HOME/bin/fly
+  chmod 755 $HOME/bin/fly
+fi
 
 if [[ ! -d $HOME/.bash_it ]]; then
   git clone https://github.com/Bash-it/bash-it.git $HOME/.bash_it
@@ -179,24 +209,26 @@ ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom_osx/* $HOME/.bash_
 ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/vimrc.local $HOME/.vimrc.local
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/gitconfig $HOME/.gitconfig_include
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/git-authors $HOME/.git-authors
+ln -sf $HOME/workspace/cli-workstation/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
 
 if [[ -L $HOME/.gitconfig ]]; then
   rm $HOME/.gitconfig
   printf "[include]\n\tpath = $HOME/.gitconfig_include" > $HOME/.gitconfig
 fi
 
-alias vim=nvim
-if [[ -d $HOME/.vim ]]; then
-  $HOME/.vim/update
-else
-  git clone https://github.com/luan/vimfiles.git $HOME/.vim
-  sudo pip3 install neovim
-  $HOME/.vim/install
-fi
-
-ln -sf $HOME/workspace/cli-workstation/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
 if [[ ! -d ~/.tmux/plugins/tpm ]]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+if [[ -d $HOME/.vim ]]; then
+  pip3 install --upgrade neovim
+  $HOME/.vim/update
+else
+  pip3 install neovim
+  git clone https://github.com/luan/vimfiles.git $HOME/.vim
+  $HOME/.vim/install
+  #remove deprecated plugin on osx
+  grep -v "matchit.zip" $HOME/.vim/Plug.vim > /tmp/Plug.vim; mv /tmp/Plug.vim $HOME/.vim/Plug.vim
 fi
 
 sudo ln -sf $HOME/workspace/cli-workstation/scripts/vagrant/suspend_all.sh /usr/local/bin/logout.sh
