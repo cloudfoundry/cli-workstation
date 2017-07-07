@@ -5,13 +5,13 @@
 ```sh
 export BOSH_ENVIRONMENT=vbox
 export BOSH_CLIENT=admin
-export BOSH_CLIENT_SECRET=$(bosh2 int ~/deployments/vbox/creds.yml --path /admin_password)
+export BOSH_CLIENT_SECRET=$(bosh int ~/deployments/vbox/creds.yml --path /admin_password)
 ```
 
 ## ssh to bosh
 
 ```sh
-bosh2 int ~/deployments/vbox/creds.yml --path /jumpbox_ssh/private_key > private_key
+bosh int ~/deployments/vbox/creds.yml --path /jumpbox_ssh/private_key > private_key
 
 chmod 0600 private_key
 
@@ -38,13 +38,13 @@ Edit `~/deployments/vbox/state.json` and remove the `current_manifest_sha` key.
 Run `~/workspace/cli-workstation/scripts/deploy-cf/deploy_bosh_lite.sh`. This
 will recreate the bosh-lite but not the containers.
 
-`bosh2 delete-deployment -d cf --force -n`
+`bosh delete-deployment -d cf --force -n`
 
 If the deployment is locked from the resurrector:
 
 ```
-bosh2 tasks --all
-bosh2 cancel-task <task number from task list>
+bosh tasks --all
+bosh cancel-task <task number from task list>
 ```
 
 Run `~/workspace/cli-workstation/scripts/deploy-cf/deploy_bosh_lite.sh` again

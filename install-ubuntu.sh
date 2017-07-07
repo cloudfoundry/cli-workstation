@@ -196,16 +196,11 @@ pushd $HOME/go/src/github.com/nicksnyder/go-i18n
 popd
 
 # install bosh
-if [[ -z $(which bosh) ]]; then
-  gem install --no-document bosh_cli
-fi
-
-# install bundler
-if [[ -z $(which bundler) ]]; then
-  gem install --no-document bundler
-fi
-
-gem update --no-document bosh_cli bundler
+gem uninstall bosh_cli
+sudo rm -f /usr/local/bin/bosh-cli
+sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.26-linux-amd64 -o /usr/local/bin/bosh-cli
+sudo chmod 0755 /usr/local/bin/bosh-cli
+sudo ln -s /usr/local/bin/bosh-cli /usr/local/bin/bosh
 
 # Install Luan's Vim config
 if [[ -d $HOME/.vim ]]; then

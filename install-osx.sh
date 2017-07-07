@@ -202,9 +202,9 @@ fi
 sudo ln -sf $HOME/workspace/cli-workstation/scripts/vagrant/suspend_all.sh /usr/local/bin/logout.sh
 sudo defaults write com.apple.loginwindow LogoutHook /usr/local/bin/logout.sh
 
-if bosh version 1>/dev/null 2>/dev/null; then
-  gem update bosh_cli
-else
-  gem install bosh_cli
-fi
-
+# install bosh
+gem uninstall bosh_cli
+sudo rm -f /usr/local/bin/bosh-cli
+sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.26-darwin-amd64 -o /usr/local/bin/bosh-cli
+sudo chmod 0755 /usr/local/bin/bosh-cli
+sudo ln -s /usr/local/bin/bosh-cli /usr/local/bin/bosh

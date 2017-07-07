@@ -36,7 +36,7 @@ cat << EOF > ~/workspace/bosh-deployment/bosh-lite-more-power.yml
   value: 8192
 EOF
 
-bosh2 create-env ~/workspace/bosh-deployment/bosh.yml \
+bosh create-env ~/workspace/bosh-deployment/bosh.yml \
   --state ./state.json \
   -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
   -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
@@ -51,15 +51,16 @@ bosh2 create-env ~/workspace/bosh-deployment/bosh.yml \
   -v internal_cidr=192.168.50.0/24 \
   -v outbound_network_name=NatNetwork
 
-bosh2 \
-  --ca-cert <(bosh2 int ~/deployments/vbox/creds.yml --path /director_ssl/ca) \
+bosh \
+  --ca-cert <(bosh int ~/deployments/vbox/creds.yml --path /director_ssl/ca) \
   alias-env vbox
 
-export BOSH_CLIENT_SECRET=`bosh2 int ~/deployments/vbox/creds.yml --path /admin_password`
+export BOSH_CLIENT_SECRET=`bosh int ~/deployments/vbox/creds.yml --path /admin_password`
 
 # if cf-deployment is not using the latest
-# bosh2 upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3363.9
-bosh2 upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
+# bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3363.9
+# bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3421.9
+bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
 
 cd ~/workspace/cf-deployment/
 
@@ -71,7 +72,7 @@ cat << EOF > operations/bosh-lite-internet-required.yml
       internet-required
 EOF
 
-bosh2 \
+bosh \
   -n \
   update-cloud-config bosh-lite/cloud-config.yml \
   -o operations/bosh-lite-internet-required.yml
@@ -91,7 +92,7 @@ cat << EOF > operations/cli-bosh-lite.yml
   value: true
 EOF
 
-bosh2 \
+bosh \
   -n \
   -d cf deploy cf-deployment.yml \
   -o operations/tcp-routing-gcp.yml \
