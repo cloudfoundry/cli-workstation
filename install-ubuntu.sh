@@ -169,6 +169,8 @@ if [[ ! -d "${GOPATH}/src/code.cloudfoundry.org/cli" ]]; then
   git clone "https://github.com/cloudfoundry/cli"
 fi
 
+sudo ln -fs ${GOPATH}/src/code.cloudfoundry.org/cli/ci/installers/completion/cf /usr/share/bash-completion/completions
+
 # Install common utilities
 GO_UTILS=(
   github.com/onsi/ginkgo/ginkgo
@@ -180,6 +182,7 @@ GO_UTILS=(
   github.com/XenoPhex/i18n4go/i18n4go
   github.com/alecthomas/gometalinter
   github.com/git-duet/git-duet/...
+  github.com/cloudfoundry/bosh-cli
 )
 
 echo Running $(go version)
