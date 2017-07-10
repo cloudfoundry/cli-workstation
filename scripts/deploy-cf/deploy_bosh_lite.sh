@@ -104,3 +104,7 @@ bosh \
   -v cf_admin_password=admin
 
 sudo route add -net 10.244.0.0/16 gw 192.168.50.6
+
+cf api api.bosh-lite.com --skip-ssl-validation
+cf auth admin admin
+cf enable-feature-flag diego_docker
