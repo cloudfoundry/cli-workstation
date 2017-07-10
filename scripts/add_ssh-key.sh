@@ -9,4 +9,4 @@ if [ "$KEY_LIFETIME" -lt "1" ]; then
   KEY_LIFETIME=1h
 fi
 
-lpass show github --notes | ssh-add -t $KEY_LIFETIME -
+lpass show github --field='Private Key' | ssh-add -t $KEY_LIFETIME -
