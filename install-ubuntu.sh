@@ -217,6 +217,11 @@ sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.48-linux-amd6
 sudo chmod 0755 /usr/local/bin/bosh-cli
 sudo ln -sf /usr/local/bin/bosh-cli /usr/local/bin/bosh
 
+# create symlink for bosh-cli
+pushd $HOME/go/bin
+  ln -sf bosh-cli bosh
+popd
+
 # Install Luan's Vim config
 if [[ -d $HOME/.vim ]]; then
   pip3 install --upgrade neovim
