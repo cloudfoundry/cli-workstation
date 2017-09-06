@@ -174,7 +174,6 @@ GO_UTILS=(
   github.com/FiloSottile/gvt
   github.com/tools/godep
   github.com/jteeuwen/go-bindata/...
-  github.com/nicksnyder/go-i18n/goi18n
   github.com/XenoPhex/i18n4go/i18n4go
   github.com/alecthomas/gometalinter
   github.com/git-duet/git-duet/...
@@ -185,15 +184,6 @@ for gopkg in "${GO_UTILS[@]}"; do
   echo Getting/Updating $gopkg
   GOPATH=$HOME/go go get -u $gopkg
 done
-
-#install specific version of go-i18n
-pushd $HOME/go/src/github.com/nicksnyder/go-i18n
-  git checkout 5a40a66b242242b28cac9dd07177d50818512397
-  go install ./goi18n
-  sudo rm -rf goi18n/testdata
-  git checkout .
-  git checkout master
-popd
 
 # install bosh
 gem uninstall bosh_cli
