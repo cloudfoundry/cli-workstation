@@ -95,8 +95,10 @@ EOF
 bosh \
   -n \
   -d cf deploy cf-deployment.yml \
+  -o operations/use-compiled-releases.yml \
   -o operations/tcp-routing-gcp.yml \
   -o operations/bosh-lite.yml \
+  -o operations/use-latest-stemcell.yml \
   -o operations/test/add-persistent-isolation-segment-diego-cell.yml \
   -o operations/cli-bosh-lite.yml \
   --vars-store deployment-vars.yml \
