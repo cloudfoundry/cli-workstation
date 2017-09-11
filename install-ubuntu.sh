@@ -127,7 +127,7 @@ fi
 # Install go if it's not installed
 if [[ -z $(which go) || $(go version) != *$GO_VERSION* ]]; then
   sudo mkdir -p /usr/local/golang
-  sudo chown pivotal:pivotal /usr/local/golang
+  sudo chown -R pivotal:pivotal /usr/local/golang
   mkdir -p $HOME/go/src
   rm -rf $HOME/go/pkg/*
   curl -L "https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz" > /tmp/go.tgz
@@ -190,7 +190,7 @@ gem uninstall bosh_cli
 sudo rm -f /usr/local/bin/bosh-cli
 sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.26-linux-amd64 -o /usr/local/bin/bosh-cli
 sudo chmod 0755 /usr/local/bin/bosh-cli
-sudo ln -s /usr/local/bin/bosh-cli /usr/local/bin/bosh
+sudo ln -sf /usr/local/bin/bosh-cli /usr/local/bin/bosh
 
 # Install Luan's Vim config
 if [[ -d $HOME/.vim ]]; then
