@@ -216,6 +216,17 @@ if [[ -L $HOME/.gitconfig ]]; then
   printf "[include]\n\tpath = $HOME/.gitconfig_include" > $HOME/.gitconfig
 fi
 
+CLI_TEAM_REPOS=(
+  "${GOPATH}"/src/code.cloudfoundry.org/cli
+  "${GOPATH}"/src/github.com/cloudfoundry-incubator/cli-plugin-repo
+  "${HOME}"/workspace/claw
+  "${HOME}"/workspace/cli-workstation
+)
+
+for repo in "${CLI_TEAM_REPOS[@]}"; do
+  ln -sf "$HOME"/workspace/cli-workstation/dotfiles/git/pre-push "$repo"/.git/hooks/pre-push
+done
+
 if [[ ! -d ~/.tmux/plugins/tpm ]]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi

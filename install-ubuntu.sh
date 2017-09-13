@@ -185,6 +185,17 @@ for gopkg in "${GO_UTILS[@]}"; do
   GOPATH=$HOME/go go get -u $gopkg
 done
 
+CLI_TEAM_REPOS=(
+  "${GOPATH}"/src/code.cloudfoundry.org/cli
+  "${GOPATH}"/src/github.com/cloudfoundry-incubator/cli-plugin-repo
+  "${HOME}"/workspace/claw
+  "${HOME}"/workspace/cli-workstation
+)
+
+for repo in "${CLI_TEAM_REPOS[@]}"; do
+  ln -sf "$HOME"/workspace/cli-workstation/dotfiles/git/pre-push "$repo"/.git/hooks/pre-push
+done
+
 # install bosh
 gem uninstall bosh_cli
 sudo rm -f /usr/local/bin/bosh-cli
