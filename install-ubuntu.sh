@@ -192,8 +192,14 @@ CLI_TEAM_REPOS=(
   "${HOME}"/workspace/cli-workstation
 )
 
+# install git-hooks
+sudo curl -o /usr/local/bin/git-hooks https://raw.githubusercontent.com/icefox/git-hooks/master/git-hooks
+sudo chmod +x /usr/local/bin/git-hooks
 for repo in "${CLI_TEAM_REPOS[@]}"; do
-  ln -sf "$HOME"/workspace/cli-workstation/dotfiles/git/pre-push "$repo"/.git/hooks/pre-push
+  pushd $repo
+    git-hooks --uninstall || true
+    git-hooks --install
+  popd
 done
 
 # install bosh
