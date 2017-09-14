@@ -190,16 +190,19 @@ CLI_TEAM_REPOS=(
   "${GOPATH}"/src/github.com/cloudfoundry-incubator/cli-plugin-repo
   "${HOME}"/workspace/claw
   "${HOME}"/workspace/cli-workstation
+  "${HOME}"/workspace/cli-private
 )
 
 # install git-hooks
 sudo curl -o /usr/local/bin/git-hooks https://raw.githubusercontent.com/icefox/git-hooks/master/git-hooks
 sudo chmod +x /usr/local/bin/git-hooks
 for repo in "${CLI_TEAM_REPOS[@]}"; do
-  pushd $repo
-    git-hooks --uninstall || true
-    git-hooks --install
-  popd
+  if [ -d $repo ]; then
+    pushd $repo
+      git-hooks --uninstall || true
+      git-hooks --install
+    popd
+  fi
 done
 
 # install bosh
