@@ -62,6 +62,8 @@ done
 
 brew_install lastpass-cli --with-pinentry --with-doc
 
+brew_install findutils --with-default-names
+
 brew_tap_install() {
   brew tap $1
   brew_install "${@:2}"
