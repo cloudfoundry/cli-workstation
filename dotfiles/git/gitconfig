@@ -13,6 +13,7 @@
   co = checkout
   br = branch
   fr = rebase -x ~/workspace/cli-workstation/scripts/fix-committer.sh
+  pu = !git fr && git push
   ds = diff --staged
   llog = log --date=local
   lol = log --graph --oneline
