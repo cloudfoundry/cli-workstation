@@ -58,13 +58,12 @@ bosh \
 export BOSH_CLIENT_SECRET=`bosh int ~/deployments/vbox/creds.yml --path /admin_password`
 
 # if cf-deployment is not using the latest
-# bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3363.9
 # bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3421.9
 bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
 
-cd ~/workspace/cf-deployment/
+cd ~/workspace/cf-deployment/iaas-support/bosh-lite
 
-cat << EOF > operations/bosh-lite-internet-required.yml
+cat << EOF > bosh-lite-internet-required.yml
 - type: replace
   path: /vm_extensions/-
   value:
@@ -74,8 +73,10 @@ EOF
 
 bosh \
   -n \
-  update-cloud-config bosh-lite/cloud-config.yml \
-  -o operations/bosh-lite-internet-required.yml
+  update-cloud-config cloud-config.yml \
+  -o bosh-lite-internet-required.yml
+
+cd ~/workspace/cf-deployment
 
 cat << EOF > operations/cli-bosh-lite.yml
 - type: replace
@@ -96,7 +97,6 @@ bosh \
   -n \
   -d cf deploy cf-deployment.yml \
   -o operations/use-compiled-releases.yml \
-  -o operations/tcp-routing-gcp.yml \
   -o operations/bosh-lite.yml \
   -o operations/use-latest-stemcell.yml \
   -o operations/test/add-persistent-isolation-segment-diego-cell.yml \
