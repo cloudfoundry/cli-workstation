@@ -114,14 +114,26 @@ ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/vimrc.local $HOME/.vimr
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/gitconfig $HOME/.gitconfig_include
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/git-authors $HOME/.git-authors
 
+# Setup gitconfig
 if [[ -L $HOME/.gitconfig ]]; then
   rm $HOME/.gitconfig
   printf "[include]\n\tpath = $HOME/.gitconfig_include" > $HOME/.gitconfig
 fi
 
+# Setup tmux
 ln -sf $HOME/workspace/cli-workstation/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
 if [[ ! -d ~/.tmux/plugins/tpm ]]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+# Disable gnome keyring
+if [[ ! -f $HOME/.config/autostart/gnome-keyring-secrets.desktop ]]; then
+  mkdir -p $HOME/.config/autostart
+
+  cp /etc/xdg/autostart/gnome-keyring* $HOME/.config/autostart
+
+  find $HOME/.config/autostart -name "*gnome-keyring*" | \
+    xargs sed -i "$ a\X-GNOME-Autostart-enabled=false"
 fi
 
 # Install go if it's not installed
