@@ -212,7 +212,6 @@ for repo in "${CLI_TEAM_REPOS[@]}"; do
   if [ -d $repo ]; then
     pushd $repo
       git-hooks --uninstall || true
-      git-hooks --install
     popd
   fi
 done
