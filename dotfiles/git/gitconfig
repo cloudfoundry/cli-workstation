@@ -8,17 +8,19 @@
 [http]
   postBuffer = 524288000
 [alias]
-  st = status
+  ac = duet-commit -v --amend --reset-author
+  br = branch
   ci = duet-commit -v
   co = checkout
-  br = branch
-  fr = rebase -x ~/workspace/cli-workstation/scripts/fix-committer.sh
-  pu = !git fr && git push
   ds = diff --staged
+  fr = rebase -x ~/workspace/cli-workstation/scripts/fix-committer.sh
   llog = log --date=local
   lol = log --graph --oneline
   lola = log --graph --oneline --all
   lup = log @{u}... --left-right --graph
+  pu = !git fr && git push
+  ri = duet-revert -v
+  st = status
   rage = !"for branch in `git branch -r | awk '{print $1}'`; do echo `git log -1 $branch --pretty=format:"%at:%%$branch%%%cr%%%cn%n"`;done | column -t -s'%' | sort -nr | cut -d ':' -f 2"
   lage = !"for branch in `git branch | sed 's/^\\* /\\ \\ /'`; do echo `git log -1 --pretty=format:"%at:%%$branch%%%cr%%%cn%n" $branch`;done | column -t -s'%' | sort -nr | cut -d ':' -f 2"
 [url "git@github.com:"]
