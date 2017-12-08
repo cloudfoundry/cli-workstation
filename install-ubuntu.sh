@@ -6,7 +6,6 @@ GO_VERSION="1.9.2" # Don't forget to date dotfiles/bashit_custom_linux/paths.bas
 
 # Add any required repositories
 if [[ -z $(which vim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
-if [[ -z $(which atom) ]]; then sudo add-apt-repository -y ppa:webupd8team/atom; fi
 if [[ -z $(which fasd) ]]; then sudo add-apt-repository -y ppa:aacebedo/fasd; fi
 if [[ -z $(which git) ]]; then sudo add-apt-repository -y ppa:git-core/ppa; fi
 if [[ -z $(which tilix) ]]; then sudo add-apt-repository -y ppa:webupd8team/terminix; fi
@@ -38,7 +37,7 @@ sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-serv
 sudo apt install -y gnome gnome-shell gnome-shell-extensions-gpaste gnome-shell-pomodoro ubuntu-gnome-desktop
 
 # Install development dependancies
-sudo apt install -y atom awscli bzr direnv docker-engine exuberant-ctags git jq neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-5.1
+sudo apt install -y awscli bzr direnv docker-engine exuberant-ctags git jq neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-5.1
 
 # Cleanup cache
 sudo apt -y autoremove
