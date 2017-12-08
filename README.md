@@ -5,7 +5,7 @@ This repo is used to help setup and maintain a unified cli workstation.
 For fresh installs on Ubuntu run the following command:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/cloudfoundry-incubator/cli-workstation/master/install-ubuntu.sh | bash -
+curl -fsSL https://raw.githubusercontent.com/cloudfoundry/cli-workstation/master/install-ubuntu.sh | bash -
 ```
 
 To keep the workstation up to date:
@@ -20,7 +20,7 @@ git pull -r
 For fresh installs on macOS run the following command:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/cloudfoundry-incubator/cli-workstation/master/install-osx.sh | bash -
+curl -fsSL https://raw.githubusercontent.com/cloudfoundry/cli-workstation/master/install-osx.sh | bash -
 ```
 
 To keep the workstation up to date:

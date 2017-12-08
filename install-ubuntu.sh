@@ -73,7 +73,7 @@ clone_into_workspace() {
 
 WORKSPACE_GIT_REPOS=(
   https://github.com/cloudfoundry-incubator/cf-routing-release
-  https://github.com/cloudfoundry-incubator/cli-workstation
+  https://github.com/cloudfoundry/cli-workstation
   https://github.com/cloudfoundry-incubator/diego-release
   https://github.com/cloudfoundry/bosh-lite
   https://github.com/cloudfoundry/cf-release
