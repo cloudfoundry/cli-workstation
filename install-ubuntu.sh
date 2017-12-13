@@ -188,7 +188,6 @@ GO_UTILS=(
   github.com/XenoPhex/i18n4go/i18n4go
   github.com/alecthomas/gometalinter
   github.com/git-duet/git-duet/...
-  github.com/jstemmer/gotags
 )
 
 echo Running $(go version)
