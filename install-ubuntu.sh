@@ -218,7 +218,7 @@ done
 # install bosh
 gem uninstall bosh_cli
 sudo rm -f /usr/local/bin/bosh-cli
-sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.41-linux-amd64 -o /usr/local/bin/bosh-cli
+sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.45-linux-amd64 -o /usr/local/bin/bosh-cli
 sudo chmod 0755 /usr/local/bin/bosh-cli
 sudo ln -sf /usr/local/bin/bosh-cli /usr/local/bin/bosh
 
