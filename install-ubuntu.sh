@@ -120,12 +120,6 @@ if [[ -L $HOME/.gitconfig ]]; then
   printf "[include]\n\tpath = $HOME/.gitconfig_include" > $HOME/.gitconfig
 fi
 
-# Setup tmux
-ln -sf $HOME/workspace/cli-workstation/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
-if [[ ! -d ~/.tmux/plugins/tpm ]]; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-fi
-
 # Disable gnome keyring
 if [[ ! -f $HOME/.config/autostart/gnome-keyring-secrets.desktop ]]; then
   mkdir -p $HOME/.config/autostart
@@ -231,6 +225,12 @@ else
   pip3 install neovim
   git clone https://github.com/luan/vimfiles.git $HOME/.vim
   $HOME/.vim/install
+fi
+
+# Install Luan's Tmux config
+if [[ ! -d $HOME/.tmux ]]; then
+  git clone https://github.com/luan/tmuxfiles.git $HOME/.tmux
+  $HOME/.tmux/install
 fi
 
 # install lastpass-cli from source (the Ubuntu package is broken)
