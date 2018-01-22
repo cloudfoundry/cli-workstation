@@ -10,11 +10,6 @@ if [[ -z $(which fasd) ]]; then sudo add-apt-repository -y ppa:aacebedo/fasd; fi
 if [[ -z $(which git) ]]; then sudo add-apt-repository -y ppa:git-core/ppa; fi
 if [[ -z $(which tilix) ]]; then sudo add-apt-repository -y ppa:webupd8team/terminix; fi
 
-if [[ -z $(which docker) ]]; then
-  curl -fsSL https://apt.dockerproject.org/gpg | sudo apt-key add -
-  sudo add-apt-repository "deb https://apt.dockerproject.org/repo/ ubuntu-$(lsb_release -cs) main"
-fi
-
 if [[ -z $(which virtualbox) ]]; then
   wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
   wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
@@ -27,12 +22,10 @@ sudo apt update
 sudo apt dist-upgrade -y
 
 # Install system dependancies
-# Choose 'LightDM' when propmted
 sudo apt install -y bash-completion chromium-browser curl htop openssh-server software-properties-common tilix tree
-sudo apt install -y gnome-shell gnome-shell-pomodoro gnome-tweak-tool
 
 # Install development dependancies
-sudo apt install -y awscli bzr direnv docker-engine exuberant-ctags git jq neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-5.1
+sudo apt install -y awscli bzr direnv exuberant-ctags git jq neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-5.1
 
 # Cleanup cache
 sudo apt -y autoremove
