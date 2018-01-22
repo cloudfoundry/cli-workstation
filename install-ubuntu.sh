@@ -110,6 +110,7 @@ bash-it enable plugin fasd fzf git git-subrepo osx ruby ssh history
 ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom/* $HOME/.bash_it/custom
 ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom_linux/* $HOME/.bash_it/custom
 ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/vimrc.local $HOME/.vimrc.local
+ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/vimrc.local.plugins $HOME/.vimrc.local.plugins
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/gitconfig $HOME/.gitconfig_include
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/git-authors $HOME/.git-authors
 
@@ -218,7 +219,7 @@ done
 # install bosh
 gem uninstall bosh_cli
 sudo rm -f /usr/local/bin/bosh-cli
-sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.45-linux-amd64 -o /usr/local/bin/bosh-cli
+sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.48-linux-amd64 -o /usr/local/bin/bosh-cli
 sudo chmod 0755 /usr/local/bin/bosh-cli
 sudo ln -sf /usr/local/bin/bosh-cli /usr/local/bin/bosh
 

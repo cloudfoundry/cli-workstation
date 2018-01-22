@@ -9,6 +9,8 @@ export EDITOR=vim
 HOMEBREW_CASK_OPTS='--appdir=/Applications'
 
 # target local bosh lite by default
-export BOSH_ENVIRONMENT=vbox
-export BOSH_CLIENT=admin
-export BOSH_CLIENT_SECRET=$(bosh int ~/deployments/vbox/creds.yml --path /admin_password)
+if [[ -f $HOME/deployments/vbox/creds.yml ]]; then
+  export BOSH_ENVIRONMENT=vbox
+  export BOSH_CLIENT=admin
+  export BOSH_CLIENT_SECRET=$(bosh int ~/deployments/vbox/creds.yml --path /admin_password)
+fi
