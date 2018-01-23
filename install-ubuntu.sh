@@ -41,12 +41,6 @@ if [[ ! -x $HOME/bin/fly ]]; then
   chmod 755 $HOME/bin/fly
 fi
 
-# Setup docker to run without sudo
-if [[ -z $(groups | grep docker) ]]; then
-  sudo gpasswd -a ${USER} docker
-  sudo service docker restart
-fi
-
 # Install diff-so-fancy for better diffing
 if [[ -z $(which diff-so-fancy) ]]; then
   sudo npm install -g diff-so-fancy
