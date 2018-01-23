@@ -1,7 +1,7 @@
 # CLI Workstation
 This repo is used to help setup and maintain a unified cli workstation.
 
-## How to use on Ubuntu
+## How to use on Ubuntu (17.10)
 For fresh installs on Ubuntu run the following command:
 
 ```
