@@ -22,7 +22,7 @@ sudo apt update
 sudo apt dist-upgrade -y
 
 # Install system dependancies
-sudo apt install -y bash-completion chromium-browser curl htop openssh-server software-properties-common tilix tree
+sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-server software-properties-common tilix tree
 
 # Install development dependancies
 sudo apt install -y awscli bzr direnv exuberant-ctags git jq neovim nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-5.1
@@ -236,19 +236,6 @@ pushd ~/workspace/lastpass-cli
   sudo apt install -y openssl libcurl4-openssl-dev libxml2 libssl-dev libxml2-dev pinentry-curses xclip cmake build-essential pkg-config
   git pull
   cmake .
-  make
-  sudo make install
-popd
-
-# install fasd from source (does not exist in ubuntu ppa)
-if [[ ! -d ~/workspace/fasd ]]; then
-  pushd ~/workspace
-    git clone https://github.com/clvv/fasd
-  popd
-fi
-
-pushd ~/workspace/fasd
-  git pull
   make
   sudo make install
 popd
