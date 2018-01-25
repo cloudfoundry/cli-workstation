@@ -239,3 +239,6 @@ pushd ~/workspace/lastpass-cli
   make
   sudo make install
 popd
+
+curl -L "https://github.com/golang/dep/releases/download/v0.4.1/dep-linux-amd64" > $HOME/bin/dep
+chmod 755 $HOME/bin/dep
