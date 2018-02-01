@@ -6,7 +6,6 @@ GO_VERSION="1.9.3" # Don't forget to date dotfiles/bashit_custom_linux/paths.bas
 
 # Add any required repositories
 if [[ -z $(which vim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
-if [[ -z $(which fasd) ]]; then sudo add-apt-repository -y ppa:aacebedo/fasd; fi
 if [[ -z $(which git) ]]; then sudo add-apt-repository -y ppa:git-core/ppa; fi
 if [[ -z $(which tilix) ]]; then sudo add-apt-repository -y ppa:webupd8team/terminix; fi
 
@@ -86,7 +85,7 @@ set -e
 # Configure BashIT
 bash-it enable alias general git
 bash-it enable completion defaults awscli bash-it brew git ssh tmux virtualbox
-bash-it enable plugin fasd fzf git git-subrepo osx ruby ssh history
+bash-it enable plugin fasd fzf git git-subrepo ssh history
 
 # Link Dotfiles
 ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom/* $HOME/.bash_it/custom
