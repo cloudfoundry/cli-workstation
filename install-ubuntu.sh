@@ -25,7 +25,7 @@ sudo apt dist-upgrade -y
 sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-server software-properties-common tilix tree
 
 # Install development dependancies
-sudo apt install -y awscli bzr direnv exuberant-ctags git jq neovim net-tools nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-5.1
+sudo apt install -y awscli bzr direnv exuberant-ctags git jq neovim net-tools nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-5.2
 
 # Cleanup cache
 sudo apt -y autoremove
