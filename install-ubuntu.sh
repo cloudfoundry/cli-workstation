@@ -8,6 +8,7 @@ GO_VERSION="1.10" # Don't forget to date dotfiles/bashit_custom_linux/paths.bash
 if [[ -z $(which vim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
 if [[ -z $(which git) ]]; then sudo add-apt-repository -y ppa:git-core/ppa; fi
 if [[ -z $(which tilix) ]]; then sudo add-apt-repository -y ppa:webupd8team/terminix; fi
+if [[ -z $(which ruby) ]]; then sudo add-apt-repository -y ppa:brightbox/ruby-ng; fi
 
 if [[ -z $(which virtualbox) ]]; then
   wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
@@ -24,7 +25,7 @@ sudo apt dist-upgrade -y
 sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-server software-properties-common tilix tree
 
 # Install development dependancies
-sudo apt install -y awscli bzr direnv exuberant-ctags git jq neovim net-tools nodejs npm python3-pip ruby silversearcher-ag tig tmux virtualbox-5.2
+sudo apt install -y awscli bzr direnv exuberant-ctags git jq neovim net-tools nodejs npm python3-pip ruby2.5 silversearcher-ag tig tmux virtualbox-5.2
 
 # Cleanup cache
 sudo apt -y autoremove
