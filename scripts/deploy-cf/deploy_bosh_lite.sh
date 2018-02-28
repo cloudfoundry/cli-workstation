@@ -93,6 +93,19 @@ cat << EOF > operations/cli-bosh-lite.yml
   value: true
 EOF
 
+cat << EOF > operations/cli-bosh-lite-uaa-client-credentials.yml
+---
+- type: replace
+  path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/clients/potato-face?
+  value:
+    access-token-validity: 60
+    authorized-grant-types: client_credentials
+    override: true
+    secret: acute
+    scope: openid,routing.router_groups.write,scim.read,cloud_controller.admin,uaa.user,routing.router_groups.read,cloud_controller.read,password.write,cloud_controller.write,network.admin,doppler.firehose,scim.write
+    authorities: openid,routing.router_groups.write,scim.read,cloud_controller.admin,uaa.user,routing.router_groups.read,cloud_controller.read,password.write,cloud_controller.write,network.admin,doppler.firehose,scim.write
+EOF
+
 bosh \
   -n \
   -d cf deploy cf-deployment.yml \
@@ -101,6 +114,7 @@ bosh \
   -o operations/use-latest-stemcell.yml \
   -o operations/test/add-persistent-isolation-segment-diego-cell.yml \
   -o operations/cli-bosh-lite.yml \
+  -o operations/cli-bosh-lite-uaa-client-credentials.yml \
   --vars-store deployment-vars.yml \
   -v system_domain=bosh-lite.com \
   -v cf_admin_password=admin
