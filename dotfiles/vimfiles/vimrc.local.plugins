@@ -1,2 +1,3 @@
 Plug 'godoctor/godoctor.vim', { 'do': 'go get -u github.com/godoctor/godoctor' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'reewr/vim-monokai-phoenix'

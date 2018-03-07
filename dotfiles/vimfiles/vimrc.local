@@ -3,4 +3,4 @@ set wrap
 set linebreak
 set nolist  " list disables linebreak
 
-colorscheme base16-solarized-light
+colorscheme monokai-phoenix
