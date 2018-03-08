@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ $1 == "clean" ]]; then
+  rm -rf $HOME/deployments/vbox
+  vboxmanage list vms | awk '{print $1}' | tr -d '"'| grep -e ^sc- -e ^vm- | xargs -r -n 1 vboxmanage unregistervm --delete
+fi # deletion can be a bit flaky, error handle after
+
 set -e
 
 export BOSH_CLIENT=admin
