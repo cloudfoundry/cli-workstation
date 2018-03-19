@@ -1,19 +1,14 @@
 authors:
   ag: Anand Gaitonde; agaitonde
-  am: Alex Melnik; alex
+  an: Annie Sing; asing
+  ay: An Yu; anyu
+  es: Elena Sharma; esharma
+  gc: Greg Cobb; gcobb
+  max: Michael Maximilien; maximilien
   nw: Nick Wei; nwei
   sv: Sebastian Vidrio; svidrio
-  sp: Stu Pollock; spollock
-  an: Annie Sing; asing
-  gc: Greg Cobb; gcobb
-  es: Elena Sharma; esharma
-  lf: Lyle Franklin; lfranklin
-  max: Michael Maximilien; maximilien
-  ay: An Yu; anyu
-  ac: Adam Cobb; acobb
+  tv: Tom Viehman; tviehman
 email:
   domain: pivotal.io
 email_addresses:
-  am: aleksandr.melnik@suse.com
   max: maxim@us.ibm.com
-  ac: adamos486@gmail.com
