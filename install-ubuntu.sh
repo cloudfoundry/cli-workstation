@@ -37,7 +37,7 @@ sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix
 # Install fly
 if [[ ! -x $HOME/bin/fly ]]; then
   mkdir -p $HOME/bin
-  curl "https://ci.concourse.ci/api/v1/cli?arch=amd64&platform=linux" > $HOME/bin/fly
+  curl "https://wings.pivotal.io/api/v1/cli?arch=amd64&platform=linux" > $HOME/bin/fly
   chmod 755 $HOME/bin/fly
 fi
 
