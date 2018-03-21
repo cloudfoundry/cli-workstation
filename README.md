@@ -15,18 +15,3 @@ cd ~/workspace/cli-workstation
 git pull -r
 ./install-ubuntu.sh
 ```
-
-## How to use on macOS (no longer maintained)
-For fresh installs on macOS run the following command:
-
-```
-curl -fsSL https://raw.githubusercontent.com/cloudfoundry/cli-workstation/master/install-osx.sh | bash -
-```
-
-To keep the workstation up to date:
-
-```
-cd ~/workspace/cli-workstation
-git pull -r
-./install-osx.sh
-```
