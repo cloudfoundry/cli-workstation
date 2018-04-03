@@ -198,9 +198,10 @@ for repo in "${CLI_TEAM_REPOS[@]}"; do
 done
 
 # install bosh
+echo "installing latest bosh"
 gem uninstall bosh_cli
 sudo rm -f /usr/local/bin/bosh-cli
-sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.48-linux-amd64 -o /usr/local/bin/bosh-cli
+sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-linux-amd64 -o /usr/local/bin/bosh-cli
 sudo chmod 0755 /usr/local/bin/bosh-cli
 sudo ln -sf /usr/local/bin/bosh-cli /usr/local/bin/bosh
 
