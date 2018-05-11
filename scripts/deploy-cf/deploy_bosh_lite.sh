@@ -63,9 +63,8 @@ bosh \
 
 export BOSH_CLIENT_SECRET=`bosh int ~/deployments/vbox/creds.yml --path /admin_password`
 
-# if cf-deployment is not using the latest
-# bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3421.9
-bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
+CFD_STEMCELL_VERSION="$(bosh int ~/workspace/cf-deployment/cf-deployment.yml --path /stemcells/alias=default/version)"
+bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=$CFD_STEMCELL_VERSION
 
 cd ~/workspace/cf-deployment/iaas-support/bosh-lite
 
@@ -112,12 +111,26 @@ cat << EOF > operations/cli-bosh-lite-uaa-client-credentials.yml
     authorities: openid,routing.router_groups.write,scim.read,cloud_controller.admin,uaa.user,routing.router_groups.read,cloud_controller.read,password.write,cloud_controller.write,network.admin,doppler.firehose,scim.write
 EOF
 
+cat << EOF > operations/enable-MFA.yml
+---
+- type: replace
+  path: /instance_groups/name=uaa/jobs/name=uaa/properties/login/mfa?
+  value:
+    enabled: true
+    providerName: potato
+    providers:
+      potato:
+	type: google-authenticator
+	config:
+	  providerDescription: test google authenticator
+	  issuer: google
+EOF
+
 bosh \
   -n \
   -d cf deploy cf-deployment.yml \
   -o operations/use-compiled-releases.yml \
   -o operations/bosh-lite.yml \
-  -o operations/use-latest-stemcell.yml \
   -o operations/test/add-persistent-isolation-segment-diego-cell.yml \
   -o operations/cli-bosh-lite.yml \
   -o operations/cli-bosh-lite-uaa-client-credentials.yml \
