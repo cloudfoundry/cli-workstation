@@ -91,8 +91,6 @@ bash-it enable plugin fasd fzf git git-subrepo ssh history
 # Link Dotfiles
 ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom/* $HOME/.bash_it/custom
 ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom_linux/* $HOME/.bash_it/custom
-ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/vimrc.local $HOME/.vimrc.local
-ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/vimrc.local.plugins $HOME/.vimrc.local.plugins
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/gitconfig $HOME/.gitconfig_include
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/git-authors $HOME/.git-authors
 
@@ -210,14 +208,20 @@ pushd $HOME/go/bin
   ln -sf bosh-cli bosh
 popd
 
-# Install Luan's Vim config
-if [[ -d $HOME/.vim ]]; then
-  pip3 install --upgrade neovim
-  $HOME/.vim/update
-else
+# Install Luan's NeoVim config
+if [[ ! -d $HOME/.config/nvim ]]; then
   pip3 install neovim
-  git clone https://github.com/luan/vimfiles.git $HOME/.vim
-  $HOME/.vim/install
+  git clone https://github.com/luan/nvim ~/.config/nvim
+  ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/after.vim $HOME/.config/nvim/user/after.vim
+  ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/before.vim $HOME/.config/nvim/user/before.vim
+  ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/plug.vim $HOME/.config/nvim/user/plug.vim
+
+  git clone https://github.com/ryanoasis/nerd-fonts $HOME/.config/nerd-fonts
+  pushd $HOME/.config/nerd-fonts
+    ./install DejaVuSansMono
+  popd
+else
+  pip3 install --upgrade neovim
 fi
 
 # Install Luan's Tmux config
