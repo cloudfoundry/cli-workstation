@@ -217,7 +217,7 @@ if [[ ! -d $HOME/.config/nvim ]]; then
   pip3 install neovim
   git clone https://github.com/luan/nvim $HOME/.config/nvim
 
-  mkdir $HOME/.config/nvim/user
+  mkdir -p $HOME/.config/nvim/user
   ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/after.vim $HOME/.config/nvim/user/after.vim
   ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/before.vim $HOME/.config/nvim/user/before.vim
   ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/plug.vim $HOME/.config/nvim/user/plug.vim
