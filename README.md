@@ -15,3 +15,8 @@ cd ~/workspace/cli-workstation
 git pull -r
 ./install-ubuntu.sh
 ```
+
+### Note:
+The nvim setup installs a powerline font, which is optional, but recommended.
+To finalize this setup, change the terminal font to DejaVuSansMono Nerd Font
+Mono.

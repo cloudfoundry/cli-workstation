@@ -224,7 +224,7 @@ if [[ ! -d $HOME/.config/nvim ]]; then
 
   git clone https://github.com/ryanoasis/nerd-fonts $HOME/.config/nerd-fonts
   pushd $HOME/.config/nerd-fonts
-    ./install DejaVuSansMono
+    ./install.sh DejaVuSansMono
   popd
 else
   pip3 install --upgrade neovim
