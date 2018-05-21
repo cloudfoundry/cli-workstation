@@ -4,7 +4,6 @@
 " ...
 
 Plug 'majutsushi/tagbar'
-
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
 " Golang tagbar types

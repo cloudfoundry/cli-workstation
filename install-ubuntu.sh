@@ -210,6 +210,10 @@ popd
 
 # Install Luan's NeoVim config
 if [[ ! -d $HOME/.config/nvim ]]; then
+  if [[ -L $HOME/.config/nvim ]]; then
+    rm $HOME/.config/nvim
+  fi
+
   pip3 install neovim
   git clone https://github.com/luan/nvim ~/.config/nvim
   ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/after.vim $HOME/.config/nvim/user/after.vim

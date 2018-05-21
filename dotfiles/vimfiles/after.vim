@@ -14,8 +14,6 @@ set wrap
 set linebreak
 set nolist  " list disables linebreak
 
-colorscheme monokai-phoenix
-
 " Set up GoGuru to root of CLI
 autocmd BufRead ~/go/src/code.cloudfoundry.org/cli/**/*.go
       \ silent
