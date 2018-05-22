@@ -228,6 +228,20 @@ if [[ ! -d $HOME/.config/nvim ]]; then
   popd
 else
   pip3 install --upgrade neovim
+
+  pushd /tmp
+    curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest > git_ripgrep.json
+    RG_VERSION=$(jq '.["tag_name"]' git_ripgrep.json | tr -d \")
+    cat git_ripgrep.json \
+      | grep "browser_download_url.*deb" \
+      | cut -d : -f 2,3 \
+      | tr -d \" \
+      | wget -qi -
+    sudo dpkg -i ripgrep_${RG_VERSION}_amd64.deb
+
+    rm git_ripgrep.json
+    rm ripgrep_${RG_VERSION}_amd64.deb
+  popd
 fi
 
 # Install Luan's Tmux config
