@@ -22,3 +22,7 @@ autocmd BufRead ~/go/src/code.cloudfoundry.org/cli/**/*.go
 " Bind buffer next/previous
 nnoremap <silent> <localleader>x :bn<CR>
 nnoremap <silent> <localleader>z :bp<CR>
+
+" Enable toggling for autopairs
+let g:AutoPairsShortcutToggle = '<M-t>'
+
