@@ -55,6 +55,9 @@ clone_into_workspace() {
   DIR="${HOME}/workspace/$(echo $1 | awk -F '/' '{ print $(NF) }')"
   if [[ ! -d $DIR ]]; then
     git clone $1 $DIR
+  else
+    cd $DIR
+    git init
   fi
 }
 
