@@ -167,7 +167,7 @@ GO_UTILS=(
   github.com/XenoPhex/i18n4go/i18n4go
   github.com/alecthomas/gometalinter
   github.com/git-duet/git-duet/...
-  github.com/cloudfoundry/bosh-cli
+  github.com/cloudfoundry/bosh-bootloader/bbl
 )
 
 echo Running $(go version)
@@ -198,15 +198,11 @@ done
 # install bosh
 echo "installing latest bosh"
 gem uninstall bosh_cli
-sudo rm -f /usr/local/bin/bosh-cli
-sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-3.0.1-linux-amd64 -o /usr/local/bin/bosh-cli
+sudo rm -f /usr/local/bin/bosh-cli $HOME/go/bin/bosh*
+sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-5.0.1-linux-amd64 -o /usr/local/bin/bosh-cli
 sudo chmod 0755 /usr/local/bin/bosh-cli
 sudo ln -sf /usr/local/bin/bosh-cli /usr/local/bin/bosh
 
-# create symlink for bosh-cli
-pushd $HOME/go/bin
-  ln -sf bosh-cli bosh
-popd
 
 # Install Luan's NeoVim config
 if [[ ! -d $HOME/.config/nvim ]]; then
