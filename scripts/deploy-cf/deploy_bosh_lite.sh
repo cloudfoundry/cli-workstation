@@ -28,8 +28,8 @@ pushd ~/workspace
   popd
 popd
 
-CLI_OPS_DIR="~/workspace/cli-lite-ops"
-CLI_VARS_DIR="~/workspace/cli-lite-vars"
+CLI_OPS_DIR=~/workspace/cli-lite-ops
+CLI_VARS_DIR=~/workspace/cli-lite-vars
 
 mkdir -p $CLI_OPS_DIR
 mkdir -p $CLI_VARS_DIR
@@ -132,6 +132,13 @@ cat << EOF > $CLI_OPS_DIR/enable-MFA.yml
 	  issuer: google
 EOF
 
+cat << EOF > $CLI_OPS_DIR/disable-rep-kernel-params.yml
+---
+- type: replace
+  path: /instance_groups/name=isolated-diego-cell/jobs/name=rep/properties?/set_kernel_parameters
+  value: false
+EOF
+
 bosh \
   -n \
   -d cf deploy cf-deployment.yml \
@@ -141,6 +148,7 @@ bosh \
   -o operations/experimental/fast-deploy-with-downtime-and-danger.yml \
   -o $CLI_OPS_DIR/cli-bosh-lite.yml \
   -o $CLI_OPS_DIR/cli-bosh-lite-uaa-client-credentials.yml \
+  -o $CLI_OPS_DIR/disable-rep-kernel-params.yml \
   --vars-store $CLI_VARS_DIR/deployment-vars.yml \
   -v system_domain=bosh-lite.com \
   -v cf_admin_password=admin
