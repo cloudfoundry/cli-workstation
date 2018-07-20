@@ -28,11 +28,13 @@ pushd ~/workspace
   popd
 popd
 
-mkdir -p ~/deployments/vbox
+CLI_OPS_DIR="~/workspace/cli-lite-ops"
+CLI_VARS_DIR="~/workspace/cli-lite-vars"
 
-cd ~/deployments/vbox
+mkdir -p $CLI_OPS_DIR
+mkdir -p $CLI_VARS_DIR
 
-cat << EOF > ~/workspace/bosh-deployment/bosh-lite-more-power.yml
+cat << EOF > $CLI_OPS_DIR/bosh-lite-more-power.yml
 - type: replace
   path: /resource_pools/name=vms/cloud_properties/cpus
   value: 8
@@ -42,14 +44,18 @@ cat << EOF > ~/workspace/bosh-deployment/bosh-lite-more-power.yml
   value: 8192
 EOF
 
-bosh create-env ~/workspace/bosh-deployment/bosh.yml \
+mkdir -p ~/deployments/vbox
+
+cd ~/deployments/vbox
+
+bosh -n create-env --recreate ~/workspace/bosh-deployment/bosh.yml \
   --state ./state.json \
   -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
   -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
   -o ~/workspace/bosh-deployment/bosh-lite.yml \
   -o ~/workspace/bosh-deployment/bosh-lite-runc.yml \
   -o ~/workspace/bosh-deployment/jumpbox-user.yml \
-  -o ~/workspace/bosh-deployment/bosh-lite-more-power.yml \
+  -o $CLI_OPS_DIR/bosh-lite-more-power.yml \
   --vars-store ./creds.yml \
   -v director_name="Bosh Lite Director" \
   -v internal_ip=$BOSH_ENVIRONMENT \
@@ -66,9 +72,7 @@ export BOSH_CLIENT_SECRET=`bosh int ~/deployments/vbox/creds.yml --path /admin_p
 CFD_STEMCELL_VERSION="$(bosh int ~/workspace/cf-deployment/cf-deployment.yml --path /stemcells/alias=default/version)"
 bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=$CFD_STEMCELL_VERSION
 
-cd ~/workspace/cf-deployment/iaas-support/bosh-lite
-
-cat << EOF > bosh-lite-internet-required.yml
+cat << EOF > $CLI_OPS_DIR/bosh-lite-internet-required.yml
 - type: replace
   path: /vm_extensions/-
   value:
@@ -76,14 +80,16 @@ cat << EOF > bosh-lite-internet-required.yml
       internet-required
 EOF
 
+cd ~/workspace/cf-deployment/iaas-support/bosh-lite
+
 bosh \
   -n \
   update-cloud-config cloud-config.yml \
-  -o bosh-lite-internet-required.yml
+  -o $CLI_OPS_DIR/bosh-lite-internet-required.yml
 
 cd ~/workspace/cf-deployment
 
-cat << EOF > operations/cli-bosh-lite.yml
+cat << EOF > $CLI_OPS_DIR/cli-bosh-lite.yml
 - type: replace
   path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/cc/default_app_memory?
   value: 32
@@ -98,7 +104,7 @@ cat << EOF > operations/cli-bosh-lite.yml
   value: true
 EOF
 
-cat << EOF > operations/cli-bosh-lite-uaa-client-credentials.yml
+cat << EOF > $CLI_OPS_DIR/cli-bosh-lite-uaa-client-credentials.yml
 ---
 - type: replace
   path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/clients/potato-face?
@@ -111,7 +117,7 @@ cat << EOF > operations/cli-bosh-lite-uaa-client-credentials.yml
     authorities: openid,routing.router_groups.write,scim.read,cloud_controller.admin,uaa.user,routing.router_groups.read,cloud_controller.read,password.write,cloud_controller.write,network.admin,doppler.firehose,scim.write
 EOF
 
-cat << EOF > operations/enable-MFA.yml
+cat << EOF > $CLI_OPS_DIR/enable-MFA.yml
 ---
 - type: replace
   path: /instance_groups/name=uaa/jobs/name=uaa/properties/login/mfa?
@@ -132,9 +138,10 @@ bosh \
   -o operations/use-compiled-releases.yml \
   -o operations/bosh-lite.yml \
   -o operations/test/add-persistent-isolation-segment-diego-cell.yml \
-  -o operations/cli-bosh-lite.yml \
-  -o operations/cli-bosh-lite-uaa-client-credentials.yml \
-  --vars-store deployment-vars.yml \
+  -o operations/experimental/fast-deploy-with-downtime-and-danger.yml \
+  -o $CLI_OPS_DIR/cli-bosh-lite.yml \
+  -o $CLI_OPS_DIR/cli-bosh-lite-uaa-client-credentials.yml \
+  --vars-store $CLI_VARS_DIR/deployment-vars.yml \
   -v system_domain=bosh-lite.com \
   -v cf_admin_password=admin
 
