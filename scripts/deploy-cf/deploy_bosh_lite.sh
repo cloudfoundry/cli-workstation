@@ -67,6 +67,8 @@ bosh \
   --ca-cert <(bosh int ~/deployments/vbox/creds.yml --path /director_ssl/ca) \
   alias-env vbox
 
+bosh -e vbox update-runtime-config ~/workspace/bosh-deployment/runtime-configs/dns.yml --name=dns
+
 export BOSH_CLIENT_SECRET=`bosh int ~/deployments/vbox/creds.yml --path /admin_password`
 
 CFD_STEMCELL_VERSION="$(bosh int ~/workspace/cf-deployment/cf-deployment.yml --path /stemcells/alias=default/version)"
