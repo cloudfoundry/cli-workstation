@@ -30,6 +30,9 @@ popd
 
 CLI_OPS_DIR=~/workspace/cli-lite-ops
 CLI_VARS_DIR=~/workspace/cli-lite-vars
+BOSH_DEPLOYMENT=~/workspace/bosh-deployment
+CF_DEPLOYMENT=~/workspace/cf-deployment
+BOSH_RUNTIME_DIR=~/deployments/vbox
 
 mkdir -p $CLI_OPS_DIR
 mkdir -p $CLI_VARS_DIR
@@ -44,19 +47,19 @@ cat << EOF > $CLI_OPS_DIR/bosh-lite-more-power.yml
   value: 8192
 EOF
 
-mkdir -p ~/deployments/vbox
+mkdir -p $BOSH_RUNTIME_DIR
 
-cd ~/deployments/vbox
+cd $BOSH_RUNTIME_DIR
 
-bosh -n create-env --recreate ~/workspace/bosh-deployment/bosh.yml \
+bosh -n create-env --recreate $BOSH_DEPLOYMENT/bosh.yml \
   --state ./state.json \
-  -o ~/workspace/bosh-deployment/virtualbox/cpi.yml \
-  -o ~/workspace/bosh-deployment/virtualbox/outbound-network.yml \
-  -o ~/workspace/bosh-deployment/bosh-lite.yml \
-  -o ~/workspace/bosh-deployment/bosh-lite-runc.yml \
-  -o ~/workspace/bosh-deployment/jumpbox-user.yml \
+  -o $BOSH_DEPLOYMENT/virtualbox/cpi.yml \
+  -o $BOSH_DEPLOYMENT/virtualbox/outbound-network.yml \
+  -o $BOSH_DEPLOYMENT/bosh-lite.yml \
+  -o $BOSH_DEPLOYMENT/bosh-lite-runc.yml \
+  -o $BOSH_DEPLOYMENT/jumpbox-user.yml \
   -o $CLI_OPS_DIR/bosh-lite-more-power.yml \
-  --vars-store ./creds.yml \
+  --vars-store $CLI_VARS_DIR/creds.yml \
   -v director_name="Bosh Lite Director" \
   -v internal_ip=$BOSH_ENVIRONMENT \
   -v internal_gw=192.168.50.1 \
@@ -64,14 +67,14 @@ bosh -n create-env --recreate ~/workspace/bosh-deployment/bosh.yml \
   -v outbound_network_name=NatNetwork
 
 bosh \
-  --ca-cert <(bosh int ~/deployments/vbox/creds.yml --path /director_ssl/ca) \
+  --ca-cert <(bosh int $CLI_VARS_DIR/creds.yml --path /director_ssl/ca) \
   alias-env vbox
 
-bosh -e vbox update-runtime-config ~/workspace/bosh-deployment/runtime-configs/dns.yml --name=dns
+export BOSH_CLIENT_SECRET=`bosh int $CLI_VARS_DIR/creds.yml --path /admin_password`
 
-export BOSH_CLIENT_SECRET=`bosh int ~/deployments/vbox/creds.yml --path /admin_password`
+bosh -e vbox update-runtime-config $BOSH_DEPLOYMENT/runtime-configs/dns.yml --vars-store=$CLI_VARS_DIR/runtime-config-vars.yml --name=dns
 
-CFD_STEMCELL_VERSION="$(bosh int ~/workspace/cf-deployment/cf-deployment.yml --path /stemcells/alias=default/version)"
+CFD_STEMCELL_VERSION="$(bosh int $CF_DEPLOYMENT/cf-deployment.yml --path /stemcells/alias=default/version)"
 bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=$CFD_STEMCELL_VERSION
 
 cat << EOF > $CLI_OPS_DIR/bosh-lite-internet-required.yml
@@ -82,14 +85,14 @@ cat << EOF > $CLI_OPS_DIR/bosh-lite-internet-required.yml
       internet-required
 EOF
 
-cd ~/workspace/cf-deployment/iaas-support/bosh-lite
+cd $CF_DEPLOYMENT/iaas-support/bosh-lite
 
 bosh \
   -n \
   update-cloud-config cloud-config.yml \
   -o $CLI_OPS_DIR/bosh-lite-internet-required.yml
 
-cd ~/workspace/cf-deployment
+cd $CF_DEPLOYMENT
 
 cat << EOF > $CLI_OPS_DIR/cli-bosh-lite.yml
 - type: replace
@@ -155,7 +158,13 @@ bosh \
   -v system_domain=bosh-lite.com \
   -v cf_admin_password=admin
 
-sudo route add -net 10.244.0.0/16 gw 192.168.50.6
+BOSH_LITE_NETWORK=10.244.0.0
+BOSH_LITE_NETMASK=255.255.0.0
+
+# Set up virtualbox IP as the gateway to our CF
+if ! route | egrep -q "$BOSH_LITE_NETWORK\\s+$BOSH_ENVIRONMENT\\s+$BOSH_LITE_NETMASK\\s"; then
+  sudo route add -net $BOSH_LITE_NETWORK netmask $BOSH_LITE_NETMASK gw $BOSH_ENVIRONMENT
+fi
 
 cf api api.bosh-lite.com --skip-ssl-validation
 cf auth admin admin
