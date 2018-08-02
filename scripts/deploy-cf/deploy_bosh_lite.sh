@@ -72,7 +72,7 @@ bosh \
 
 export BOSH_CLIENT_SECRET=`bosh int $CLI_VARS_DIR/creds.yml --path /admin_password`
 
-bosh -e vbox update-runtime-config $BOSH_DEPLOYMENT/runtime-configs/dns.yml --vars-store=$CLI_VARS_DIR/runtime-config-vars.yml --name=dns
+bosh -e vbox -n update-runtime-config $BOSH_DEPLOYMENT/runtime-configs/dns.yml --vars-store=$CLI_VARS_DIR/runtime-config-vars.yml --name=dns
 
 CFD_STEMCELL_VERSION="$(bosh int $CF_DEPLOYMENT/cf-deployment.yml --path /stemcells/alias=default/version)"
 bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=$CFD_STEMCELL_VERSION
