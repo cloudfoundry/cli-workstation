@@ -16,6 +16,15 @@ if [[ -z $(which virtualbox) ]]; then
   sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
 fi
 
+if [[ -z $(which goland) ]]; then
+  curl -s https://s3.eu-central-1.amazonaws.com/jetbrains-ppa/0xA6E8698A.pub.asc | sudo apt-key add -
+  echo "deb http://jetbrains-ppa.s3-website.eu-central-1.amazonaws.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/jetbrains-ppa.list
+fi
+
+if [[ -z $(which kr) ]]; then
+  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C4A05888A1C4FA02E1566F859F2A29A569653940
+  sudo add-apt-repository "deb http://kryptco.github.io/deb kryptco main"
+fi
 
 # Update/Upgrade to the latest
 sudo apt update
@@ -25,7 +34,7 @@ sudo apt dist-upgrade -y
 sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-server software-properties-common tilix tree
 
 # Install development dependancies
-sudo apt install -y awscli bzr direnv exuberant-ctags git jq neovim net-tools nodejs npm python3-pip ruby2.5 silversearcher-ag tig tmux virtualbox-5.2
+sudo apt install -y awscli bzr direnv exuberant-ctags git goland jq kr neovim net-tools nodejs npm python3-pip ruby2.5 silversearcher-ag tig tmux virtualbox-5.2
 
 # Cleanup cache
 sudo apt -y autoremove
