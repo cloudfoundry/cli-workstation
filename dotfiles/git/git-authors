@@ -1,16 +1,9 @@
 authors:
   ag: Anand Gaitonde; agaitonde
-  ay: An Yu; anyu
   az: Alex Zhao; alzhao
-  es: Elena Sharma; esharma
-  gc: Greg Cobb; gcobb
-  max: Michael Maximilien; maximilien
   ng: Nick Guerette; nguerette
-  nw: Nick Wei; nwei
   rc: Renee Chu; rchu
   sh: Spencer Hawley; shawley
   tv: Tom Viehman; tviehman
 email:
   domain: pivotal.io
-email_addresses:
-  max: maxim@us.ibm.com
