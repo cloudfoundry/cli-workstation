@@ -7,8 +7,6 @@ GO_VERSION="1.10.3" # Don't forget to date dotfiles/bashit_custom_linux/paths.ba
 # Add any required repositories
 if [[ -z $(which vim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
 if [[ -z $(which git) ]]; then sudo add-apt-repository -y ppa:git-core/ppa; fi
-if [[ -z $(which tilix) ]]; then sudo add-apt-repository -y ppa:webupd8team/terminix; fi
-if [[ -z $(which ruby) ]]; then sudo add-apt-repository -y ppa:brightbox/ruby-ng; fi
 
 if [[ -z $(which virtualbox) ]]; then
   wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
@@ -31,7 +29,7 @@ sudo apt update
 sudo apt dist-upgrade -y
 
 # Install system dependancies
-sudo apt install -y bash-completion chromium-browser curl fasd htop openssh-server software-properties-common tilix tree
+sudo apt install -y bash-completion chromium-browser curl fasd gnome-tweak-tool htop openssh-server software-properties-common tilix tree
 
 # Install development dependancies
 sudo apt install -y awscli bzr direnv exuberant-ctags git goland jq kr neovim net-tools nodejs npm python3-pip ruby2.5 silversearcher-ag tig tmux virtualbox-5.2
@@ -41,7 +39,7 @@ sudo apt -y autoremove
 sudo apt autoclean
 
 # Sets tilix as the default terminal
-sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix
+sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix.wrapper
 
 # Install fly
 if [[ ! -x $HOME/bin/fly ]]; then
@@ -84,10 +82,13 @@ for repo in "${WORKSPACE_GIT_REPOS[@]}"; do
   clone_into_workspace $repo
 done
 
+# install cli tab completion
+sudo ln -fs ${GOPATH}/src/code.cloudfoundry.org/cli/ci/installers/completion/cf /usr/share/bash-completion/completions
+
 # Install/Upgrade BashIT
 if [[ ! -d $HOME/.bash_it ]]; then
   git clone https://github.com/Bash-it/bash-it.git $HOME/.bash_it
-  $HOME/.bash_it/install.sh
+  $HOME/.bash_it/install.sh --silent
 fi
 
 set +e
@@ -139,6 +140,28 @@ if [[ -z $(which go) || $(go version) != *$GO_VERSION* ]]; then
   rm /tmp/go.tgz
 fi
 
+# Install common utilities
+GO_UTILS=(
+  github.com/onsi/ginkgo/ginkgo
+  github.com/onsi/gomega
+  github.com/maxbrunsfeld/counterfeiter
+  github.com/FiloSottile/gvt
+  github.com/tools/godep
+  github.com/jteeuwen/go-bindata/...
+  github.com/XenoPhex/i18n4go/i18n4go
+  github.com/alecthomas/gometalinter
+  github.com/git-duet/git-duet/...
+  github.com/cloudfoundry/bosh-bootloader/bbl
+)
+
+echo Running $(go version)
+for gopkg in "${GO_UTILS[@]}"; do
+  echo Getting/Updating $gopkg
+  GOPATH=$HOME/go go get -u $gopkg
+done
+
+git duet ag tv
+
 # Clone Go repos into the correct gopath
 clone_into_go_path() {
   DIR="${HOME}/go/src/${1}"
@@ -166,50 +189,10 @@ if [[ ! -d "${GOPATH}/src/code.cloudfoundry.org/cli" ]]; then
   git clone "https://github.com/cloudfoundry/cli"
 fi
 
-sudo ln -fs ${GOPATH}/src/code.cloudfoundry.org/cli/ci/installers/completion/cf /usr/share/bash-completion/completions
 
-# Install common utilities
-GO_UTILS=(
-  github.com/onsi/ginkgo/ginkgo
-  github.com/onsi/gomega
-  github.com/maxbrunsfeld/counterfeiter
-  github.com/FiloSottile/gvt
-  github.com/tools/godep
-  github.com/jteeuwen/go-bindata/...
-  github.com/XenoPhex/i18n4go/i18n4go
-  github.com/alecthomas/gometalinter
-  github.com/git-duet/git-duet/...
-  github.com/cloudfoundry/bosh-bootloader/bbl
-)
-
-echo Running $(go version)
-for gopkg in "${GO_UTILS[@]}"; do
-  echo Getting/Updating $gopkg
-  GOPATH=$HOME/go go get -u $gopkg
-done
-
-CLI_TEAM_REPOS=(
-  "${GOPATH}"/src/code.cloudfoundry.org/cli
-  "${GOPATH}"/src/github.com/cloudfoundry-incubator/cli-plugin-repo
-  "${HOME}"/workspace/claw
-  "${HOME}"/workspace/cli-workstation
-  "${HOME}"/workspace/cli-private
-)
-
-# install git-hooks
-sudo curl -o /usr/local/bin/git-hooks https://raw.githubusercontent.com/icefox/git-hooks/master/git-hooks
-sudo chmod +x /usr/local/bin/git-hooks
-for repo in "${CLI_TEAM_REPOS[@]}"; do
-  if [ -d $repo ]; then
-    pushd $repo
-      git-hooks --uninstall || true
-    popd
-  fi
-done
 
 # install bosh
 echo "installing latest bosh"
-gem uninstall bosh_cli
 sudo rm -f /usr/local/bin/bosh-cli $HOME/go/bin/bosh*
 sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-5.0.1-linux-amd64 -o /usr/local/bin/bosh-cli
 sudo chmod 0755 /usr/local/bin/bosh-cli
@@ -230,7 +213,7 @@ if [[ ! -d $HOME/.config/nvim ]]; then
   ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/before.vim $HOME/.config/nvim/user/before.vim
   ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/plug.vim $HOME/.config/nvim/user/plug.vim
 
-  git clone https://github.com/ryanoasis/nerd-fonts $HOME/.config/nerd-fonts
+  git clone --depth 1 https://github.com/ryanoasis/nerd-fonts $HOME/.config/nerd-fonts
   pushd $HOME/.config/nerd-fonts
     ./install.sh DejaVuSansMono
   popd
