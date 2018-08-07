@@ -69,12 +69,11 @@ clone_into_workspace() {
 }
 
 WORKSPACE_GIT_REPOS=(
-  https://github.com/cloudfoundry-incubator/cf-routing-release
-  https://github.com/cloudfoundry/cli-workstation
-  https://github.com/cloudfoundry-incubator/diego-release
-  https://github.com/cloudfoundry/bosh-lite
-  https://github.com/cloudfoundry/cf-release
+  https://github.com/bosh-packages/cf-cli-release
+  https://github.com/cloudfoundry/cf-deployment
   https://github.com/cloudfoundry/claw
+  https://github.com/cloudfoundry/cli-i18n
+  https://github.com/cloudfoundry/cli-workstation
   https://github.com/cloudfoundry/homebrew-tap
 )
 
@@ -175,7 +174,6 @@ clone_into_go_path() {
 GO_REPOS=(
   github.com/cloudfoundry/cf-acceptance-tests
   github.com/cloudfoundry-incubator/cli-plugin-repo
-  github.com/cloudfoundry-incubator/diego-enabler
 )
 
 for repo in "${GO_REPOS[@]}"; do
