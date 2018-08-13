@@ -154,6 +154,7 @@ bosh \
   -o $CLI_OPS_DIR/cli-bosh-lite.yml \
   -o $CLI_OPS_DIR/cli-bosh-lite-uaa-client-credentials.yml \
   -o $CLI_OPS_DIR/disable-rep-kernel-params.yml \
+  -o ~/workspace/cli-workstation/scripts/deploy-cf/add-oidc-provider.yml \
   --vars-store $CLI_VARS_DIR/deployment-vars.yml \
   -v system_domain=bosh-lite.com \
   -v cf_admin_password=admin
