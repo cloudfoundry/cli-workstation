@@ -19,12 +19,17 @@ if [[ -z $(which goland) ]]; then
   echo "deb http://jetbrains-ppa.s3-website.eu-central-1.amazonaws.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/jetbrains-ppa.list
 fi
 
+if [[ -z $(which google-chrome) ]]; then
+  curl -s https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+  echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+fi
+
 # Update/Upgrade to the latest
 sudo apt update
 sudo apt dist-upgrade -y
 
 # Install system dependancies
-sudo apt install -y bash-completion chromium-browser curl fasd gnome-tweak-tool htop openssh-server software-properties-common tilix tree
+sudo apt install -y bash-completion google-chrome-stable curl fasd gnome-tweak-tool htop openssh-server software-properties-common tilix tree
 
 # Install development dependancies
 sudo apt install -y awscli bzr direnv exuberant-ctags git goland jq neovim net-tools nodejs npm python3-pip ruby2.5 silversearcher-ag tig tmux virtualbox-5.2
