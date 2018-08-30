@@ -28,25 +28,13 @@ pushd ~/workspace
   popd
 popd
 
-CLI_OPS_DIR=~/workspace/cli-lite-ops
+CLI_OPS_DIR=~/workspace/cli-workstation/scripts/deploy-cf/operations
 CLI_VARS_DIR=~/workspace/cli-lite-vars
 BOSH_DEPLOYMENT=~/workspace/bosh-deployment
 CF_DEPLOYMENT=~/workspace/cf-deployment
 BOSH_RUNTIME_DIR=~/deployments/vbox
 
-mkdir -p $CLI_OPS_DIR
 mkdir -p $CLI_VARS_DIR
-
-cat << EOF > $CLI_OPS_DIR/bosh-lite-more-power.yml
-- type: replace
-  path: /resource_pools/name=vms/cloud_properties/cpus
-  value: 8
-
-- type: replace
-  path: /resource_pools/name=vms/cloud_properties/memory
-  value: 8192
-EOF
-
 mkdir -p $BOSH_RUNTIME_DIR
 
 cd $BOSH_RUNTIME_DIR
@@ -77,72 +65,14 @@ bosh -e vbox -n update-runtime-config $BOSH_DEPLOYMENT/runtime-configs/dns.yml -
 CFD_STEMCELL_VERSION="$(bosh int $CF_DEPLOYMENT/cf-deployment.yml --path /stemcells/alias=default/version)"
 bosh upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=$CFD_STEMCELL_VERSION
 
-cat << EOF > $CLI_OPS_DIR/bosh-lite-internet-required.yml
-- type: replace
-  path: /vm_extensions/-
-  value:
-    name:
-      internet-required
-EOF
-
 cd $CF_DEPLOYMENT/iaas-support/bosh-lite
 
 bosh \
   -n \
   update-cloud-config cloud-config.yml \
-  -o $CLI_OPS_DIR/bosh-lite-internet-required.yml
+  -o $CLI_OPS_DIR/cloud-config-internet-required.yml
 
 cd $CF_DEPLOYMENT
-
-cat << EOF > $CLI_OPS_DIR/cli-bosh-lite.yml
-- type: replace
-  path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/cc/default_app_memory?
-  value: 32
-- type: replace
-  path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/dea_next?
-  value:
-    staging_memory_limit_mb: 128
-    staging_disk_limit_mb: 1024
-
-- type: replace
-  path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/cc/diego?/temporary_local_tps
-  value: true
-EOF
-
-cat << EOF > $CLI_OPS_DIR/cli-bosh-lite-uaa-client-credentials.yml
----
-- type: replace
-  path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/clients/potato-face?
-  value:
-    access-token-validity: 60
-    authorized-grant-types: client_credentials
-    override: true
-    secret: acute
-    scope: openid,routing.router_groups.write,scim.read,cloud_controller.admin,uaa.user,routing.router_groups.read,cloud_controller.read,password.write,cloud_controller.write,network.admin,doppler.firehose,scim.write
-    authorities: openid,routing.router_groups.write,scim.read,cloud_controller.admin,uaa.user,routing.router_groups.read,cloud_controller.read,password.write,cloud_controller.write,network.admin,doppler.firehose,scim.write
-EOF
-
-cat << EOF > $CLI_OPS_DIR/enable-MFA.yml
----
-- type: replace
-  path: /instance_groups/name=uaa/jobs/name=uaa/properties/login/mfa?
-  value:
-    enabled: true
-    providerName: potato
-    providers:
-      potato:
-	type: google-authenticator
-	config:
-	  providerDescription: test google authenticator
-	  issuer: google
-EOF
-
-cat << EOF > $CLI_OPS_DIR/disable-rep-kernel-params.yml
----
-- type: replace
-  path: /instance_groups/name=isolated-diego-cell/jobs/name=rep/properties?/set_kernel_parameters
-  value: false
-EOF
 
 bosh \
   -n \
@@ -154,7 +84,7 @@ bosh \
   -o $CLI_OPS_DIR/cli-bosh-lite.yml \
   -o $CLI_OPS_DIR/cli-bosh-lite-uaa-client-credentials.yml \
   -o $CLI_OPS_DIR/disable-rep-kernel-params.yml \
-  -o ~/workspace/cli-workstation/scripts/deploy-cf/add-oidc-provider.yml \
+  -o $CLI_OPS_DIR/add-oidc-provider.yml \
   --vars-store $CLI_VARS_DIR/deployment-vars.yml \
   -v system_domain=bosh-lite.com \
   -v cf_admin_password=admin
