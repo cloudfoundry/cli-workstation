@@ -47,6 +47,11 @@ bosh tasks --all
 bosh cancel-task <task number from task list>
 ```
 
+(Optional) To ensure that the resurrector won't try and enqueue any additional tasks:
+```
+bosh update-resurrection off
+```
+
 Run `~/workspace/cli-workstation/scripts/deploy-cf/deploy_bosh_lite.sh` again
 to recreate the cf deployment. Add the `clean` argument to clean up old
 bosh-lite deployment when restarting the machine puts VirtualBox in a weird
