@@ -82,7 +82,7 @@ for repo in "${WORKSPACE_GIT_REPOS[@]}"; do
 done
 
 # install cli tab completion
-sudo ln -fs ${GOPATH}/src/code.cloudfoundry.org/cli/ci/installers/completion/cf /usr/share/bash-completion/completions
+sudo ln -sf ${GOPATH}/src/code.cloudfoundry.org/cli/ci/installers/completion/cf /usr/share/bash-completion/completions
 
 # Install/Upgrade BashIT
 if [[ ! -d $HOME/.bash_it ]]; then
