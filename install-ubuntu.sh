@@ -32,7 +32,9 @@ sudo apt dist-upgrade -y
 sudo apt install -y bash-completion google-chrome-stable curl fasd gnome-tweak-tool htop openssh-server software-properties-common tilix tree
 
 # Install development dependancies
-sudo apt install -y awscli bzr direnv exuberant-ctags git goland jq neovim net-tools nodejs npm python3-pip ruby2.5 silversearcher-ag tig tmux virtualbox-5.2
+sudo apt install -y awscli bzr direnv exuberant-ctags git goland \
+  jq neovim net-tools nodejs npm python3-pip \
+  ruby2.5 ruby-dev silversearcher-ag tig tmux virtualbox-5.2
 
 # Cleanup cache
 sudo apt -y autoremove
