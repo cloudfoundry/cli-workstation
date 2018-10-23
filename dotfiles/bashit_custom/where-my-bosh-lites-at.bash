@@ -1,11 +1,6 @@
 #!/bin/bash
 
-# : "${pool_dir:="/${HOME:-/Users/pivotal}/workspace/capi-env-pool/bosh-lites"}"
 pool_dir=$HOME/workspace/cli-pools/bosh-lites
-
-pushd $pool_dir >/dev/null
-  git pull
-popd
 
 PROJECT_ID=2105761
 
@@ -46,6 +41,10 @@ function where_my_bosh_lites_at() {
   red='\033[0;31m'
   blue='\033[0;34m'
   nc='\033[0m'
+
+  pushd $pool_dir >/dev/null
+    git pull
+  popd
 
   echo -e "${blue}Rounding up claimed environments...${nc}"
 
