@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-
 set -e
 
-GO_VERSION="1.10.3" # Don't forget to date dotfiles/bashit_custom_linux/paths.bash
+GO_VERSION="1.11.3" # Don't forget to date dotfiles/bashit_custom_linux/paths.bash
 
 # Add any required repositories
 if [[ -z $(which vim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
@@ -194,7 +193,7 @@ fi
 # install bosh
 echo "installing latest bosh"
 sudo rm -f /usr/local/bin/bosh-cli $HOME/go/bin/bosh*
-sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-5.0.1-linux-amd64 -o /usr/local/bin/bosh-cli
+sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-5.4.0-linux-amd64 -o /usr/local/bin/bosh-cli
 sudo chmod 0755 /usr/local/bin/bosh-cli
 sudo ln -sf /usr/local/bin/bosh-cli /usr/local/bin/bosh
 
