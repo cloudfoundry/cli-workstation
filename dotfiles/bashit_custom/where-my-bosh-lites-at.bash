@@ -48,6 +48,12 @@ function where_my_bosh_lites_at() {
 
   echo -e "${blue}Rounding up claimed environments...${nc}"
 
+  # If there are no claimed environments, return early
+  if [[ -z "$(ls .)" ]]; then
+    echo -e "No claimed bosh-lites"
+    return
+  fi
+
   pushd "${pool_dir}/claimed" > /dev/null
     stale_claimed_files="$(git log --reverse --name-only --pretty=format: --until="7 days ago" -- * | sort | uniq | xargs)"
     fresh_claimed_files="$(git log --reverse --name-only --pretty=format: --after="7 days ago" -- * | sort | uniq | xargs)"
