@@ -133,7 +133,7 @@ EOF
     }
 
     function commit_and_push() {
-      git ci --quiet --message "manually claim ${env} on ${HOSTNAME} [$STORY]" --no-verify
+      git commit --quiet --message "manually claim ${env} on ${HOSTNAME} [$STORY]" --no-verify
       msg "Pushing reservation to $( basename $PWD )..."
       git push --quiet
     }

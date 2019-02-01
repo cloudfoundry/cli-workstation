@@ -10,7 +10,6 @@
 [alias]
   ac = commit -v --amend --reset-author
   br = branch
-  ci = commit -v
   co = checkout
   ds = diff --staged
   fr = rebase -x ~/workspace/cli-workstation/scripts/fix-committer.sh
