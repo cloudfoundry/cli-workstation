@@ -30,6 +30,9 @@ sudo apt dist-upgrade -y
 # Install system dependancies
 sudo apt install -y bash-completion google-chrome-stable curl fasd gnome-tweak-tool htop openssh-server software-properties-common tilix tree
 
+# Install system drivers
+sudo ubuntu-drivers autoinstall
+
 # Install development dependancies
 sudo apt install -y awscli bzr direnv exuberant-ctags git goland \
   jq neovim net-tools nodejs npm python3-pip \
