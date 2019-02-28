@@ -31,5 +31,3 @@ $ ./install-ubuntu.sh
 - remmina confirguration?
 - run git-init in repos to update git-duet hook
 - zoom
-- investigate how to get new git duet-commit (per our techro decision to use the
-  new functionality)
