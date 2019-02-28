@@ -94,10 +94,17 @@ if [[ ! -d $HOME/.bash_it ]]; then
   $HOME/.bash_it/install.sh --silent
 fi
 
+# These are pulled directly from our current (2019/02/28) ~/.bashrc
+# This is because ~/.bashrc's are difficult to source from a script
+# https://askubuntu.com/a/77053
+# Also, it is currently unknown why sourcing bash_it.sh requires set +e.
 set +e
-source "$BASH_IT/bash_it.sh"
-bash-it update
+export BASH_IT="/home/pivotal/.bash_it"
+export BASH_IT_THEME='bobby'
+source "$BASH_IT"/bash_it.sh
 set -e
+
+bash-it update
 
 # Configure BashIT
 bash-it enable alias general git
