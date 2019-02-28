@@ -79,6 +79,7 @@ WORKSPACE_GIT_REPOS=(
   https://github.com/cloudfoundry/cli-i18n
   https://github.com/cloudfoundry/cli-workstation
   https://github.com/cloudfoundry/homebrew-tap
+  https://github.com/concourse/concourse-bosh-deployment
 )
 
 for repo in "${WORKSPACE_GIT_REPOS[@]}"; do
@@ -98,13 +99,14 @@ fi
 # This is because ~/.bashrc's are difficult to source from a script
 # https://askubuntu.com/a/77053
 # Also, it is currently unknown why sourcing bash_it.sh requires set +e.
-set +e
 export BASH_IT="/home/pivotal/.bash_it"
 export BASH_IT_THEME='bobby'
+
+set +e
 source "$BASH_IT"/bash_it.sh
+bash-it update
 set -e
 
-bash-it update
 
 # Configure BashIT
 bash-it enable alias general git

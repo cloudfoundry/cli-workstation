@@ -22,11 +22,12 @@ $ ./install-ubuntu.sh
 ### Other things to configure:
 - Settings > Mouse & Touchpad > Natural Scrolling : On
 - Tilix > Preferences > Profiles > Default > Color > Color Scheme : Monokai Dark
+- Tilix > Preferences > Profiles > Default > General > Custom font : DejaVuSansMono Nerd Font Mono 12
 
 ### Things missing from our workstation setup:
 - ssh-agent not starting
-- concourse-bosh-deployment repo missing
-- mouse highlighting for tmux
+- mouse highlighting for tmux: according to Luan this is due to a change in tmux
+  itself
 - remmina confirguration?
 - run git-init in repos to update git-duet hook
 - zoom
