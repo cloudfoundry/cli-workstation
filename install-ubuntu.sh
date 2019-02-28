@@ -95,7 +95,7 @@ if [[ ! -d $HOME/.bash_it ]]; then
 fi
 
 set +e
-source $HOME/.bashrc
+source "$BASH_IT/bash_it.sh"
 bash-it update
 set -e
 
@@ -200,6 +200,21 @@ sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-5.4.0-linux-amd64
 sudo chmod 0755 /usr/local/bin/bosh-cli
 sudo ln -sf /usr/local/bin/bosh-cli /usr/local/bin/bosh
 
+# Install RipGrep
+pushd /tmp
+  curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest > git_ripgrep.json
+  RG_VERSION=$(jq '.["tag_name"]' git_ripgrep.json | tr -d \")
+  cat git_ripgrep.json \
+    | grep "browser_download_url.*deb" \
+    | cut -d : -f 2,3 \
+    | tr -d \" \
+    | wget -qi -
+  sudo dpkg -i ripgrep_${RG_VERSION}_amd64.deb
+
+  rm git_ripgrep.json
+  rm ripgrep_${RG_VERSION}_amd64.deb
+popd
+
 
 # Install Luan's NeoVim config
 if [[ ! -d $HOME/.config/nvim ]]; then
@@ -221,20 +236,6 @@ if [[ ! -d $HOME/.config/nvim ]]; then
   popd
 else
   pip3 install --upgrade neovim
-
-  pushd /tmp
-    curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest > git_ripgrep.json
-    RG_VERSION=$(jq '.["tag_name"]' git_ripgrep.json | tr -d \")
-    cat git_ripgrep.json \
-      | grep "browser_download_url.*deb" \
-      | cut -d : -f 2,3 \
-      | tr -d \" \
-      | wget -qi -
-    sudo dpkg -i ripgrep_${RG_VERSION}_amd64.deb
-
-    rm git_ripgrep.json
-    rm ripgrep_${RG_VERSION}_amd64.deb
-  popd
 fi
 
 # Install Luan's Tmux config
@@ -261,3 +262,7 @@ popd
 # install dep
 curl -L "https://github.com/golang/dep/releases/download/v0.5.0/dep-linux-amd64" > $HOME/bin/dep
 chmod 755 $HOME/bin/dep
+
+# Bash auto-complete case-insensitive
+if [ ! -a ~/.inputrc ]; then echo '$include /etc/inputrc' > ~/.inputrc; fi
+echo 'set completion-ignore-case On' >> ~/.inputrc

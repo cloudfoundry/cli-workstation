@@ -5,16 +5,23 @@ This repo is used to help setup and maintain a unified cli workstation.
 For fresh installs on Ubuntu run the following command:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/cloudfoundry/cli-workstation/master/install-ubuntu.sh | bash -
+$ sudo apt install curl
+$ curl -fsSL https://raw.githubusercontent.com/cloudfoundry/cli-workstation/master/install-ubuntu.sh | bash -
+# Reboot to pick up new device drivers
+$ sudo shutdown -r now
 ```
 
 To keep the workstation up to date:
 
 ```
-cd ~/workspace/cli-workstation
-git pull -r
-./install-ubuntu.sh
+$ cd ~/workspace/cli-workstation
+$ git pull -r
+$ ./install-ubuntu.sh
 ```
+
+### Other things to configure:
+- Settings > Mouse & Touchpad > Natural Scrolling : On
+- Tilix > Preferences > Profiles > Default > Color > Color Scheme : Monokai Dark
 
 ### Note:
 The nvim setup installs a powerline font, which is optional, but recommended.
