@@ -23,7 +23,12 @@ $ ./install-ubuntu.sh
 - Settings > Mouse & Touchpad > Natural Scrolling : On
 - Tilix > Preferences > Profiles > Default > Color > Color Scheme : Monokai Dark
 
-### Note:
-The nvim setup installs a powerline font, which is optional, but recommended.
-To finalize this setup, change the terminal font to DejaVuSansMono Nerd Font
-Mono.
+### Things missing from our workstation setup:
+- ssh-agent not starting
+- concourse-bosh-deployment repo missing
+- mouse highlighting for tmux
+- remmina confirguration?
+- run git-init in repos to update git-duet hook
+- zoom
+- investigate how to get new git duet-commit (per our techro decision to use the
+  new functionality)
