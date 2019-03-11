@@ -78,6 +78,7 @@ WORKSPACE_GIT_REPOS=(
   https://github.com/cloudfoundry/claw
   https://github.com/cloudfoundry/cli-i18n
   https://github.com/cloudfoundry/cli-workstation
+  https://github.com/cloudfoundry/capi-workspace
   https://github.com/cloudfoundry/homebrew-tap
   https://github.com/concourse/concourse-bosh-deployment
 )
