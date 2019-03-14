@@ -9,6 +9,7 @@ function unclaim_bosh_lite() {
     cd ~/workspace/cli-pools
 
     working_pool="bosh-lites"
+    legacy_pool="legacy-bosh-lites"
     broken_pool="bosh-lites-to-be-deleted"
 
     if [ $# -eq 0 ]; then
@@ -20,10 +21,10 @@ function unclaim_bosh_lite() {
 
     function mark_broken {
       env=$1
-      file="$(find "${working_pool}" -name "${env}")"
+      file="$(find . -path "./${working_pool}/*${env}" -o -path "./${legacy_pool}/*${env}")"
 
       if [ "$file" == "" ]; then
-        echo "$env does not exist in ${working_pool}"
+        echo "$env does not exist in ${working_pool} or ${legacy_pool}"
         return 1
       fi
 
@@ -59,7 +60,7 @@ function unclaim_bosh_lite() {
 
 
 _unclaim_bosh_lite_completions() {
-  COMPREPLY=($(compgen -W "$(ls ~/workspace/cli-pools/bosh-lites/claimed)" "${COMP_WORDS[1]}"))
+  COMPREPLY=($(compgen -W "$(ls ~/workspace/cli-pools/bosh-lites/claimed; ls ~/workspace/cli-pools/legacy-bosh-lites/claimed)" "${COMP_WORDS[1]}"))
 }
 
 export -f unclaim_bosh_lite

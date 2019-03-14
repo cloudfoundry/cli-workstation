@@ -34,14 +34,38 @@ function build_bosh_lite_output {
   fi
 }
 
-function where_my_bosh_lites_at() {
+function process_claimed_files() {
   # Colors
   local red blue
   red='\033[0;31m'
   blue='\033[0;34m'
+
+  stale_claimed_files="$(git log --reverse --name-only --pretty=format: --until="7 days ago" -- * | sort | uniq | xargs)"
+  fresh_claimed_files="$(git log --reverse --name-only --pretty=format: --after="7 days ago" -- * | sort | uniq | xargs)"
+
+  output="${blue}\n* ENV *\t* CLAIMED BY *\t* CLAIMED ON *\t* CLAIMED SINCE *\t* STORY (STATUS) *\n"
+
+  output="${output}${red}\n"
+  for file in ${stale_claimed_files}; do
+    if [[ !$(echo $file | grep -q "${fresh_claimed_files}") ]]; then
+      build_bosh_lite_output ${file}
+    fi
+  done
+
+  output="${output}${nc}\n"
+  for file in ${fresh_claimed_files}; do
+    build_bosh_lite_output ${file}
+  done
+
+  return output
+}
+
+function where_my_bosh_lites_at() {
+  # Colors
   nc='\033[0m'
 
   pool_dir=$HOME/workspace/cli-pools/bosh-lites
+  legacy_pool_dir=$HOME/workspace/cli-pools/legacy-bosh-lites
   pushd $pool_dir >/dev/null
     git pull
   popd
@@ -55,23 +79,11 @@ function where_my_bosh_lites_at() {
   fi
 
   pushd "${pool_dir}/claimed" > /dev/null
-    stale_claimed_files="$(git log --reverse --name-only --pretty=format: --until="7 days ago" -- * | sort | uniq | xargs)"
-    fresh_claimed_files="$(git log --reverse --name-only --pretty=format: --after="7 days ago" -- * | sort | uniq | xargs)"
+    output=process_claimed_files
+  popd > /dev/null
 
-    output="${blue}\n* ENV *\t* CLAIMED BY *\t* CLAIMED ON *\t* CLAIMED SINCE *\t* STORY (STATUS) *\n"
-
-    output="${output}${red}\n"
-    for file in ${stale_claimed_files}; do
-      if [[ !$(echo $file | grep -q "${fresh_claimed_files}") ]]; then
-        build_bosh_lite_output ${file}
-      fi
-    done
-
-    output="${output}${nc}\n"
-    for file in ${fresh_claimed_files}; do
-      build_bosh_lite_output ${file}
-    done
-
+  pushd "${legacy_pool_dir}/claimed" > /dev/null
+    output+=process_claimed_files
   popd > /dev/null
   echo -e "$output" | column -t -s $'\t'
 }
