@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-GO_VERSION="1.11.4" # Don't forget to date dotfiles/bashit_custom_linux/paths.bash
+GO_VERSION="1.12.1" # Don't forget to date dotfiles/bashit_custom_linux/paths.bash
 
 # Add any required repositories
 if [[ -z $(which vim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
