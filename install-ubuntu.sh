@@ -173,8 +173,6 @@ for gopkg in "${GO_UTILS[@]}"; do
   GOPATH=$HOME/go go get -u $gopkg
 done
 
-git duet ag tv
-
 # Clone Go repos into the correct gopath
 clone_into_go_path() {
   DIR="${HOME}/go/src/${1}"
