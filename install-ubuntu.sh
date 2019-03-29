@@ -165,6 +165,7 @@ GO_UTILS=(
   github.com/alecthomas/gometalinter
   github.com/git-duet/git-duet/...
   github.com/cloudfoundry/bosh-bootloader/bbl
+  github.com/golangci/golangci-lint/cmd/golangci-lint
 )
 
 echo Running $(go version)
