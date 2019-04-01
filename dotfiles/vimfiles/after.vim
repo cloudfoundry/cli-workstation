@@ -29,3 +29,5 @@ let g:AutoPairsShortcutToggle = '<M-t>'
 " Sometimes fuzzy find will segfault if the following variable is set.
 " Unfortunately, we can't have a nice layout and never segfault :(
 unlet g:fzf_layout
+
+autocmd FileType go nnoremap gi :GoImplements<CR>
