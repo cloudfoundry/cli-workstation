@@ -38,6 +38,8 @@ sudo apt install -y awscli bzr direnv exuberant-ctags git goland \
   jq neovim net-tools nodejs python3-pip \
   ruby2.5 ruby-dev silversearcher-ag tig tmux virtualbox-5.2
 
+gem i bundler -v 1.17.3 #Cloud controller does not work with 2.x version of bundler
+
 # Cleanup cache
 sudo apt -y autoremove
 sudo apt autoclean
@@ -79,6 +81,7 @@ WORKSPACE_GIT_REPOS=(
   https://github.com/cloudfoundry/cli-i18n
   https://github.com/cloudfoundry/cli-workstation
   https://github.com/cloudfoundry/capi-workspace
+  https://github.com/cloudfoundry/cloud_controller_ng
   https://github.com/cloudfoundry/homebrew-tap
   https://github.com/concourse/concourse-bosh-deployment
 )
