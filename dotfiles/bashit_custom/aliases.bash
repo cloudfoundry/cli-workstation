@@ -8,3 +8,8 @@ alias s="git status"
 if [[ ! -z $(which bosh-cli) ]]; then
   alias bosh=bosh-cli
 fi
+
+
+if [[ ! -z $(which lpass) ]]; then
+  alias load-key='lpass show "load-key" --notes | bash'
+fi
