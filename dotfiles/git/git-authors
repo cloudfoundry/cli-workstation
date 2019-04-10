@@ -4,9 +4,13 @@ authors:
   ag: Anand Gaitonde; agaitonde
   amb: Andy Brown; anbrown
   bs: Brendan Smith; brsmith
+  ep: Eric Promislow
+  sb: Seth Boyles; sboyles
   sh: Spencer Hawley; shawley
   td: Tim Downey; tdowney
   tv: Tom Viehman; tviehman
   wm: Will Murphy; wmurphy
 email:
   domain: pivotal.io
+email_addresses:
+  ep: eric.promislow@suse.com
