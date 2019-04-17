@@ -53,3 +53,4 @@ Plug 'luochen1990/rainbow'
 let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle
 
 Plug 'a-b/pivotal-story-to-commit.vim'
+Plug 'easymotion/vim-easymotion'
