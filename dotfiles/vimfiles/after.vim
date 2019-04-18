@@ -33,7 +33,8 @@ unlet g:fzf_layout
 autocmd FileType go nnoremap gi :GoImplements<CR>
 
 function! PasteGitAuthors()
-  let l:pattern = '^# On branch'
+  norm gg
+  let l:pattern = '^#'
   let l:cursor = searchpos(l:pattern)[0]-1
 
   call append(l:cursor, '#')
