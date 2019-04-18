@@ -76,8 +76,6 @@ function where_my_bosh_lites_at() {
   echo -e "$output" | column -t -s $'\t'
 }
 
-export -f where_my_bosh_lites_at
-
 function select_bosh_lite() {
   source ~/workspace/cli-private/set_int_test_lite.sh $(where_my_bosh_lites_at | grep ago | fzf | cut -d ' ' -f1)
   env | grep -i cf_int
