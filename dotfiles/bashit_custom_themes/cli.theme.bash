@@ -28,13 +28,14 @@ get_cf_api() {
 }
 
 cli_flags() {
+  flags_out=""
   if [ "${TARGET_V7,,}" = "true" ]; then
-    output="V7 $output"
+    flags_out="V7 $flags_out"
   fi
   if [ "${CF_EXPERIMENTAL_LOGIN,,}" = "true" ]; then
-    output="EXP $output"
+    flags_out="EXP $flags_out"
   fi
-  echo "$output"
+  echo "$flags_out"
 }
 
 function prompt_command() {
