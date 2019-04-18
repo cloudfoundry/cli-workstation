@@ -39,6 +39,7 @@ function! PasteGitAuthors()
   call append(l:cursor, '#')
   call append(l:cursor, '# Author Email: ' . $GIT_AUTHOR_EMAIL)
   call append(l:cursor, '# Author Name:  ' . $GIT_AUTHOR_NAME)
+  norm gg
 endfunction
 
 autocmd FileType gitcommit call PasteGitAuthors()
