@@ -104,7 +104,7 @@ fi
 # https://askubuntu.com/a/77053
 # Also, it is currently unknown why sourcing bash_it.sh requires set +e.
 export BASH_IT="/home/pivotal/.bash_it"
-export BASH_IT_THEME='bobby'
+export BASH_IT_THEME="$HOME/workspace/cli-workstation/dotfiles/bashit_custom_themes/cli.theme.bash"
 
 set +e
 source "$BASH_IT"/bash_it.sh
@@ -119,6 +119,7 @@ bash-it enable plugin fasd fzf git git-subrepo ssh history
 
 # Link Dotfiles
 ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom/* $HOME/.bash_it/custom
+ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom_themes/* $HOME/.bash_it/custom/themes
 ln -sf $HOME/workspace/cli-workstation/dotfiles/bashit_custom_linux/* $HOME/.bash_it/custom
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/gitconfig $HOME/.gitconfig_include
 ln -sf $HOME/workspace/cli-workstation/dotfiles/git/git-authors $HOME/.git-authors
