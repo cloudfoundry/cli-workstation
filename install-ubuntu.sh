@@ -28,7 +28,18 @@ sudo apt update
 sudo apt dist-upgrade -y
 
 # Install system dependancies
-sudo apt install -y bash-completion google-chrome-stable curl fasd gnome-tweak-tool htop openssh-server software-properties-common tilix tree
+sudo apt install -y \
+  bash-completion \
+  curl \
+  fasd \
+  gnome-tweak-tool \
+  google-chrome-stable \
+  htop \
+  openssh-server \
+  shellcheck \
+  software-properties-common \
+  tilix \
+  tree
 
 # Install system drivers
 sudo ubuntu-drivers autoinstall
