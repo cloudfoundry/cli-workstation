@@ -31,3 +31,14 @@ let g:AutoPairsShortcutToggle = '<M-t>'
 unlet g:fzf_layout
 
 autocmd FileType go nnoremap gi :GoImplements<CR>
+
+function! PasteGitAuthors()
+  let l:pattern = '^# On branch'
+  let l:cursor = searchpos(l:pattern)[0]-1
+
+  call append(l:cursor, '#')
+  call append(l:cursor, '# Author Email: ' . $GIT_AUTHOR_EMAIL)
+  call append(l:cursor, '# Author Name:  ' . $GIT_AUTHOR_NAME)
+endfunction
+
+autocmd FileType gitcommit call PasteGitAuthors()
