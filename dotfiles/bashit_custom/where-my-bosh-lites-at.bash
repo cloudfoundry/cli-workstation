@@ -80,7 +80,8 @@ export -f where_my_bosh_lites_at
 
 function select_bosh_lite() {
   source ~/workspace/cli-private/set_int_test_lite.sh $(where_my_bosh_lites_at | grep ago | fzf | cut -d ' ' -f1)
-  env | grep -i cf_
+  env | grep -i cf_int
 }
 
-export -f select_bosh_lite
+alias bosh_lite_select=select_bosh_lite
+alias bosh_lite_list=where_my_bosh_lites_at
