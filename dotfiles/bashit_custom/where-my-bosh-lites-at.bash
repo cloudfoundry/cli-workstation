@@ -46,7 +46,7 @@ function where_my_bosh_lites_at() {
   nc='\033[0m'
 
   pool_dir=$HOME/workspace/cli-pools/bosh-lites
-  pushd $pool_dir >/dev/null
+  pushd "$pool_dir" >/dev/null
     git pull
   popd >/dev/null
 
@@ -66,14 +66,14 @@ function where_my_bosh_lites_at() {
 
     output="${output}${red}\n"
     for file in ${stale_claimed_files}; do
-      if [[ !$(echo $file | grep -q "${fresh_claimed_files}") ]]; then
-        build_bosh_lite_output ${file}
+      if [[ ! $(echo $file | grep -q "${fresh_claimed_files}") ]]; then
+        build_bosh_lite_output "${file}"
       fi
     done
 
     output="${output}${nc}\n"
     for file in ${fresh_claimed_files}; do
-      build_bosh_lite_output ${file}
+      build_bosh_lite_output "${file}"
     done
 
   popd > /dev/null
@@ -83,10 +83,11 @@ function where_my_bosh_lites_at() {
 export -f where_my_bosh_lites_at
 
 function select_bosh_lite() {
-  local cf_target=$(where_my_bosh_lites_at | grep ago | fzf | cut -d ' ' -f1)
+  local cf_target
+  cf_target=$(where_my_bosh_lites_at | grep ago | fzf | cut -d ' ' -f1)
 
   if [[ -n "$cf_target" ]]; then
-    source ~/workspace/cli-private/set_int_test_lite.sh $cf_target
+    source "$HOME/workspace/cli-private/set_int_test_lite.sh" "$cf_target"
   fi
 
   env | grep -i cf_int
