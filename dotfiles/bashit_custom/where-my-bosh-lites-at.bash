@@ -44,7 +44,7 @@ function where_my_bosh_lites_at() {
   pool_dir=$HOME/workspace/cli-pools/bosh-lites
   pushd $pool_dir >/dev/null
     git pull
-  popd
+  popd >/dev/null
 
   echo -e "${blue}Rounding up claimed environments...${nc}"
 
