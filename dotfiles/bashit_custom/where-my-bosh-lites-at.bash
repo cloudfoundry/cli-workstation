@@ -77,7 +77,12 @@ function where_my_bosh_lites_at() {
 }
 
 function select_bosh_lite() {
-  source ~/workspace/cli-private/set_int_test_lite.sh $(where_my_bosh_lites_at | grep ago | fzf | cut -d ' ' -f1)
+  local cf_target=$(where_my_bosh_lites_at | grep ago | fzf | cut -d ' ' -f1)
+
+  if [[ -n "$cf_target" ]]; then
+    source ~/workspace/cli-private/set_int_test_lite.sh $cf_target
+  fi
+
   env | grep -i cf_int
 }
 
