@@ -20,6 +20,7 @@
   pu = !git fr && git push
   ri = revert -v
   st = status
+  s = status
   rage = !"for branch in `git branch -r | awk '{print $1}'`; do echo `git log -1 $branch --pretty=format:"%at:%%$branch%%%cr%%%cn%n"`;done | column -t -s'%' | sort -nr | cut -d ':' -f 2"
   lage = !"for branch in `git branch | sed 's/^\\* /\\ \\ /'`; do echo `git log -1 --pretty=format:"%at:%%$branch%%%cr%%%cn%n" $branch`;done | column -t -s'%' | sort -nr | cut -d ':' -f 2"
 [url "git@github.com:"]
