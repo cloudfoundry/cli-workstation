@@ -13,15 +13,8 @@ if [[ -z $(which virtualbox) ]]; then
   sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
 fi
 
-if [[ -z $(which goland) ]]; then
-  curl -s https://s3.eu-central-1.amazonaws.com/jetbrains-ppa/0xA6E8698A.pub.asc | sudo apt-key add -
-  echo "deb http://jetbrains-ppa.s3-website.eu-central-1.amazonaws.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/jetbrains-ppa.list
-fi
-
-if [[ -z $(which google-chrome) ]]; then
-  curl -s https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-  echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-fi
+## Node dependency
+curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
 
 # Update/Upgrade to the latest
 sudo apt update
@@ -35,6 +28,7 @@ sudo apt install -y \
   gnome-tweak-tool \
   google-chrome-stable \
   htop \
+  nodejs \
   openssh-server \
   shellcheck \
   software-properties-common \
@@ -57,6 +51,16 @@ sudo apt autoclean
 
 # Sets tilix as the default terminal
 sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix.wrapper
+
+if [[ -z $(which goland) ]]; then
+  curl -s https://s3.eu-central-1.amazonaws.com/jetbrains-ppa/0xA6E8698A.pub.asc | sudo apt-key add -
+  echo "deb http://jetbrains-ppa.s3-website.eu-central-1.amazonaws.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/jetbrains-ppa.list
+fi
+
+if [[ -z $(which google-chrome) ]]; then
+  curl -s https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+  echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+fi
 
 # Install fly
 if [[ ! -x $HOME/bin/fly ]]; then
