@@ -124,6 +124,7 @@ set -e
 
 
 # Configure BashIT
+bash-it disable alias general git
 bash-it enable completion defaults awscli bash-it brew git ssh tmux virtualbox
 bash-it enable plugin fasd fzf git git-subrepo ssh history
 
