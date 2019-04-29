@@ -14,3 +14,8 @@ if [[ -f $HOME/deployments/vbox/creds.yml ]]; then
   export BOSH_CLIENT=admin
   export BOSH_CLIENT_SECRET=$(bosh int ~/deployments/vbox/creds.yml --path /admin_password)
 fi
+
+# lpass password via prompt
+
+export ALPASS_DISABLE_PINENTRY=1
+
