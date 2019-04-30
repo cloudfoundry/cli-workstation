@@ -30,7 +30,6 @@ let g:AutoPairsShortcutToggle = '<M-t>'
 " Unfortunately, we can't have a nice layout and never segfault :(
 unlet! g:fzf_layout
 
-
 augroup go
   autocmd FileType go nnoremap gi :GoImplements<CR>
   autocmd FileType go nnoremap gr :GoReferrers<CR>
@@ -39,6 +38,7 @@ augroup go
 augroup END
 
 nnoremap <LocalLeader>t :TagbarOpen fc<CR>
+nnoremap <LocalLeader>u :UndotreeToggle<CR>
 
 function! PasteGitAuthors()
   norm gg
