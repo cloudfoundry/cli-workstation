@@ -38,7 +38,7 @@ augroup go
   autocmd FileType go nnoremap <LocalLeader>r :GoReferrers<CR>
 augroup END
 
-nnoremap <LocalLeader>t :TagbarToggle<CR>
+nnoremap <LocalLeader>t :TagbarOpen fc<CR>
 
 function! PasteGitAuthors()
   norm gg
