@@ -17,5 +17,4 @@ fi
 
 # lpass password via prompt
 
-export ALPASS_DISABLE_PINENTRY=1
-
+export LPASS_DISABLE_PINENTRY=1
