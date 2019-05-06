@@ -24,7 +24,7 @@ __bobby_clock() {
 }
 
 get_cf_api() {
-  env | grep CF_INT_API | cut -d= -f2 | sed 's/.lite.cli.fun//'
+  env | grep CF_INT_API | cut -d= -f2 | sed 's/.lite.cli.fun//' | sed 's/api.//'
 }
 
 cli_flags() {
