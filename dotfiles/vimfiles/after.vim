@@ -51,4 +51,7 @@ function! PasteGitAuthors()
   norm gg
 endfunction
 
-autocmd FileType gitcommit call PasteGitAuthors()
+augroup gitcommit
+  autocmd FileType gitcommit call PasteGitAuthors()
+  autocmd FileType gitcommit set spell
+augroup END
