@@ -1,5 +1,6 @@
 authors:
   ab: Alexander Berezovsky; aberezovsky
+  abp: Alexander Berezovsky
   ac: Andrew Crump; acrump
   ag: Anand Gaitonde; agaitonde
   amb: Andy Brown; anbrown
@@ -13,3 +14,4 @@ email:
   domain: pivotal.io
 email_addresses:
   ep: eric.promislow@suse.com
+  abp: a@berez.co
