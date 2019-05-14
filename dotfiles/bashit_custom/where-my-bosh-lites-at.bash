@@ -90,7 +90,13 @@ function select_bosh_lite() {
     source "$HOME/workspace/cli-private/set_int_test_lite.sh" "$cf_target"
   fi
 
+  printf "\n"
+
   env | grep -i cf_int
+
+  printf "\n"
+
+  cf api https://api.${BOSH_LITE_DOMAIN} --skip-ssl-validation
 }
 
 alias bosh_lite_select=select_bosh_lite
