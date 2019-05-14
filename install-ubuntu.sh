@@ -294,3 +294,6 @@ chmod 755 $HOME/bin/dep
 # Bash auto-complete case-insensitive
 if [ ! -a ~/.inputrc ]; then echo '$include /etc/inputrc' > ~/.inputrc; fi
 echo 'set completion-ignore-case On' >> ~/.inputrc
+
+# increase key repeat rate
+xset r rate 250 35
