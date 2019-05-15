@@ -1,1 +1,5 @@
-bind C-Enter last-pane
+unbind-key C-Space
+unbind-key Enter
+
+bind-key C-Space run "tmux last-pane || tmux last-window || tmux display 'No last pane or window'"
+bind-key Enter run "tmux last-window || tmux last-pane || tmux display 'No last window or pane'"
