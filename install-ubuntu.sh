@@ -270,6 +270,13 @@ fi
 if [[ ! -d $HOME/.tmux ]]; then
   git clone https://github.com/luan/tmuxfiles.git $HOME/.tmux
   $HOME/.tmux/install
+
+  ln -sf $HOME/workspace/cli-workstation/dotfiles/tmux/tmux.conf.local $HOME/.tmux.conf.local
+  cat  <<EOT >> $HOME/.tmux.conf
+
+# load user config
+source-file $HOME/.tmux.conf.local
+EOT
 fi
 
 # install lastpass-cli from source (the Ubuntu package is broken)
