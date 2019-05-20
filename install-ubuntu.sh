@@ -13,6 +13,27 @@ if [[ -z $(which virtualbox) ]]; then
   sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
 fi
 
+if [[ -z $(which goland) ]]; then
+  curl -s https://s3.eu-central-1.amazonaws.com/jetbrains-ppa/0xA6E8698A.pub.asc | sudo apt-key add -
+  echo "deb http://jetbrains-ppa.s3-website.eu-central-1.amazonaws.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/jetbrains-ppa.list
+fi
+
+if [[ -z $(which google-chrome) ]]; then
+  curl -s https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+  echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+fi
+
+if [[ -z $(which yarn) ]]; then
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+fi
+
+if [[ -z $(which mysqld) ]]; then
+  wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.10-1_all.deb
+  sudo dpkg -i mysql-apt-config_0.8.10-1_all.deb
+  sudo apt-key adv --keyserver keys.gnupg.net --recv-keys 5072E1F5
+fi
+
 ## Node dependency
 curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
 
@@ -20,7 +41,7 @@ curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
 sudo apt update
 sudo apt dist-upgrade -y
 
-# Install system dependancies
+# Install system dependencies
 sudo apt install -y \
   bash-completion \
   curl \
@@ -38,12 +59,14 @@ sudo apt install -y \
 # Install system drivers
 sudo ubuntu-drivers autoinstall
 
-# Install development dependancies
+# Install development dependencies
 sudo apt install -y awscli bzr direnv exuberant-ctags git goland \
   jq neovim net-tools nodejs python3-pip \
-  ruby2.5 ruby-dev silversearcher-ag tig tmux virtualbox-5.2
+  ruby2.5 ruby-dev rubymine silversearcher-ag tig tmux \
+  virtualbox-5.2 yarn
 
-gem i bundler -v 1.17.3 #Cloud controller does not work with 2.x version of bundler
+# Install cloud_controller_ng dependencies
+sudo apt install -y mysql-client mysql-server libmysqlclient-dev postgresql libpq-dev
 
 # Cleanup cache
 sudo apt -y autoremove
@@ -51,16 +74,6 @@ sudo apt autoclean
 
 # Sets tilix as the default terminal
 sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix.wrapper
-
-if [[ -z $(which goland) ]]; then
-  curl -s https://s3.eu-central-1.amazonaws.com/jetbrains-ppa/0xA6E8698A.pub.asc | sudo apt-key add -
-  echo "deb http://jetbrains-ppa.s3-website.eu-central-1.amazonaws.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/jetbrains-ppa.list
-fi
-
-if [[ -z $(which google-chrome) ]]; then
-  curl -s https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-  echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-fi
 
 # Install fly
 if [[ ! -x $HOME/bin/fly ]]; then
@@ -82,7 +95,7 @@ mkdir -p $HOME/workspace
 clone_into_workspace() {
   DIR="${HOME}/workspace/$(echo $1 | awk -F '/' '{ print $(NF) }')"
   if [[ ! -d $DIR ]]; then
-    git clone $1 $DIR
+    git clone --recurse-submodules $1 $DIR
   else
     cd $DIR
     git init
@@ -92,6 +105,7 @@ clone_into_workspace() {
 WORKSPACE_GIT_REPOS=(
   https://github.com/bosh-packages/cf-cli-release
   https://github.com/cloudfoundry/cf-deployment
+  https://github.com/cloudfoundry/capi-release
   https://github.com/cloudfoundry/claw
   https://github.com/cloudfoundry/cli-i18n
   https://github.com/cloudfoundry/cli-workstation
@@ -219,8 +233,6 @@ if [[ ! -d "${GOPATH}/src/code.cloudfoundry.org/cli" ]]; then
   git clone "https://github.com/cloudfoundry/cli"
 fi
 
-
-
 # install bosh
 echo "installing latest bosh"
 sudo rm -f /usr/local/bin/bosh-cli $HOME/go/bin/bosh*
@@ -302,5 +314,20 @@ chmod 755 $HOME/bin/dep
 if [ ! -a ~/.inputrc ]; then echo '$include /etc/inputrc' > ~/.inputrc; fi
 echo 'set completion-ignore-case On' >> ~/.inputrc
 
+source "$HOME/.bashrc"
+
+# Cloud controller does not work with 2.x version of bundler
+gem i bundler -v 1.17.3
+
+postgres_conf="/etc/postgresql/$(ls /etc/postgresql/ | grep -E "[0-9]+(\.[0-9]+)?" | sort | tail -n 1)/main/pg_hba.conf"
+
+if ! sudo grep "local all all trust" "$postgres_conf"; then
+  echo "local all all trust" | sudo tee -a "$postgres_conf"
+  echo "host all all 127.0.0.1/32 trust" | sudo tee -a "$postgres_conf"
+fi
+
+sudo service postgresql restart
+
 # increase key repeat rate
 xset r rate 250 35
+
