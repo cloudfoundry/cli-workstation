@@ -306,6 +306,12 @@ pushd ~/workspace/lastpass-cli
   sudo make install
 popd
 
+# install credhub cli
+credhub_url="$(curl https://api.github.com/repos/cloudfoundry-incubator/credhub-cli/releases | jq '.[0].assets | map(select(.name | contains("linux"))) | .[0].browser_download_url' -r)"
+curl -Lo /tmp/credhub.tgz "$credhub_url"
+tar xzvf /tmp/credhub.tgz -C $HOME/bin
+chmod 755 $HOME/bin/credhub
+
 # install dep
 curl -L "https://github.com/golang/dep/releases/download/v0.5.0/dep-linux-amd64" > $HOME/bin/dep
 chmod 755 $HOME/bin/dep
