@@ -8,6 +8,7 @@
 [http]
   postBuffer = 524288000
 [alias]
+  ci = commit -v
   ac = commit -v --amend --reset-author
   br = branch
   co = checkout
