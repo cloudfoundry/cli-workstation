@@ -3,6 +3,7 @@ export GIT_DUET_GLOBAL=true
 export GIT_DUET_CO_AUTHORED_BY=1
 
 # set vim to be the default editor
+export GIT_EDITOR=vim
 export EDITOR=vim
 
 # set app dir to be /Applications
@@ -18,3 +19,6 @@ fi
 # lpass password via prompt
 
 export LPASS_DISABLE_PINENTRY=1
+
+export DB=postgres
+

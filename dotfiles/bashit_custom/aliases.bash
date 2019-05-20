@@ -6,12 +6,13 @@ alias cfbl="cf login -a api.bosh-lite.com --skip-ssl-validation -u admin -p admi
 alias s="git status"
 alias gst="git status"
 alias gap='git add -p'
+alias gd='git diff'
+alias gdc='git diff --cached'
 alias ll='ls -al'
 
 if [[ ! -z $(which bosh-cli) ]]; then
   alias bosh=bosh-cli
 fi
-
 
 if [[ ! -z $(which lpass) ]]; then
   alias load-key='lpass show "load-key" --notes | bash'
@@ -40,3 +41,10 @@ alias ..='cd ..'         # Go up one directory
 alias ...='cd ../..'     # Go up two directories
 alias ....='cd ../../..' # Go up three directories
 alias -- -='cd -'        # Go back
+
+alias b='bundle exec'
+alias bake='echo "bundling..." && bundle install --quiet && echo "done bundling" && DB=postgres bundle exec rake'
+alias slowbake='echo "bundling..." && bundle install --quiet && echo "done bundling" && DB=mysql bundle exec rake'
+
+# Misc aliases
+alias cfu="seed_users"
