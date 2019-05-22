@@ -48,3 +48,6 @@ alias slowbake='echo "bundling..." && bundle install --quiet && echo "done bundl
 
 # Misc aliases
 alias cfu="seed_users"
+
+# Remove colors from output
+alias nocolor='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g"'
