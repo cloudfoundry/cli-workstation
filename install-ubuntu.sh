@@ -110,6 +110,7 @@ WORKSPACE_GIT_REPOS=(
   https://github.com/cloudfoundry/cli-i18n
   https://github.com/cloudfoundry/cli-workstation
   https://github.com/cloudfoundry/capi-workspace
+  https://github.com/cloudfoundry/capi-ci
   https://github.com/cloudfoundry/cloud_controller_ng
   https://github.com/cloudfoundry/homebrew-tap
   https://github.com/concourse/concourse-bosh-deployment
@@ -139,7 +140,6 @@ set +e
 source "$BASH_IT"/bash_it.sh
 bash-it update
 set -e
-
 
 # Configure BashIT
 bash-it disable alias general git
