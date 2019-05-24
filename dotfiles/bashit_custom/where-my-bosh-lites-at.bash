@@ -97,6 +97,7 @@ function select_bosh_lite() {
   printf "\n"
 
   cf api https://api.${BOSH_LITE_DOMAIN} --skip-ssl-validation
+  cf auth admin $CF_INT_PASSWORD
 }
 
 alias bosh_lite_select=select_bosh_lite
