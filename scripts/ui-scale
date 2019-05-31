@@ -1,30 +1,33 @@
 #!/bin/bash
 
 PS3='Please enter UI scaling factor (press any other key to exit): '
-options=("1.0" "1.25" "1.5")
+options=("1.0" "1.25" "1.5" "2")
 select opt in "${options[@]}"
 do
     case $opt in
         "1.0")
-            # set scaling to 1.0
             gsettings set org.gnome.desktop.interface text-scaling-factor 1.0
             gsettings set org.gnome.desktop.interface cursor-size 24
             gsettings set com.ubuntu.user-interface scale-factor "{'VGA-1': 8, 'HDMI-0': 8, 'HDMI-1': 8}"
             echo "Set Scale factor: 1.0"; notify-send "Scale Factor" "1.0"
             ;;
         "1.25")
-            # set scaling to 1.25
             gsettings set org.gnome.desktop.interface text-scaling-factor 1.25
             gsettings set org.gnome.desktop.interface cursor-size 30
             gsettings set com.ubuntu.user-interface scale-factor "{'VGA-1': 8, 'HDMI-0': 8, 'HDMI-1': 10}"
             echo "Set Scale factor: 1.25"; notify-send "Scale Factor" "1.25"
             ;;
         "1.5")
-            # set scaling to 1.5
             gsettings set org.gnome.desktop.interface text-scaling-factor 1.5
             gsettings set org.gnome.desktop.interface cursor-size 36
             gsettings set com.ubuntu.user-interface scale-factor "{'VGA-1': 8, 'HDMI-0': 8, 'HDMI-1': 12}"
             echo "Set Scale factor: 1.5"; notify-send "Scale Factor" "1.5"
+            ;;
+        "2")
+            gsettings set org.gnome.desktop.interface text-scaling-factor 2
+            gsettings set org.gnome.desktop.interface cursor-size 48
+            gsettings set com.ubuntu.user-interface scale-factor "{'VGA-1': 8, 'HDMI-0': 8, 'HDMI-1': 16}"
+            echo "Set Scale factor: 2"; notify-send "Scale Factor" "2"
             ;;
         *)
             echo "Exiting.."
