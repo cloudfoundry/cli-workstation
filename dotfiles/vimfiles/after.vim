@@ -55,3 +55,15 @@ augroup gitcommit
   autocmd FileType gitcommit call PasteGitAuthors()
   autocmd FileType gitcommit set spell
 augroup END
+
+function! CFCLIIntegrationTransform(cmd) abort
+  if getcwd() =~# 'cli' && a:cmd =~# 'integration'
+    return 'make build && '.a:cmd
+  endif
+
+  return a:cmd
+endfunction
+
+let g:test#custom_transformations = { 'cfcli': function('CFCLIIntegrationTransform') }
+let g:test#transformation = 'cfcli'
+
