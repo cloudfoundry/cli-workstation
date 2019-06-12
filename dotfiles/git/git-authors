@@ -2,7 +2,6 @@ authors:
   ab: Alexander Berezovsky; aberezovsky
   abp: Alexander Berezovsky
   ac: Andrew Crump; acrump
-  ag: Anand Gaitonde; agaitonde
   amb: Andy Brown; anbrown
   bs: Brendan Smith; brsmith
   ep: Eric Promislow
@@ -14,7 +13,6 @@ authors:
   sh: Spencer Hawley; shawley
   sn: Supraja Narasimhan; snarasimhan
   td: Tim Downey; tdowney
-  wm: Will Murphy; wmurphy
 email:
   domain: pivotal.io
 email_addresses:
