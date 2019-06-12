@@ -58,3 +58,4 @@ Plug 'trayo/vim-ginkgo-snippets'
 
 Plug 'sjl/gundo.vim'
 Plug 'michaeljsmith/vim-indent-object'
+Plug 'dyng/ctrlsf.vim'
