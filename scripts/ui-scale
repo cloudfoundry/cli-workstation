@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PS3='Please enter UI scaling factor (press any other key to exit): '
-options=("1.0" "1.25" "1.5" "2")
+options=("1.0" "1.25" "1.5" "1.75" "2")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -22,6 +22,12 @@ do
             gsettings set org.gnome.desktop.interface cursor-size 36
             gsettings set com.ubuntu.user-interface scale-factor "{'VGA-1': 8, 'HDMI-0': 8, 'HDMI-1': 12}"
             echo "Set Scale factor: 1.5"; notify-send "Scale Factor" "1.5"
+            ;;
+        "1.75")
+            gsettings set org.gnome.desktop.interface text-scaling-factor 1.75
+            gsettings set org.gnome.desktop.interface cursor-size 40
+            gsettings set com.ubuntu.user-interface scale-factor "{'VGA-1': 8, 'HDMI-0': 8, 'HDMI-1': 14}"
+            echo "Set Scale factor: 1.75"; notify-send "Scale Factor" "1.75"
             ;;
         "2")
             gsettings set org.gnome.desktop.interface text-scaling-factor 2
