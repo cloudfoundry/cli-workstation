@@ -39,6 +39,7 @@ augroup END
 
 nnoremap <LocalLeader>t :TagbarOpen fc<CR>
 nnoremap <LocalLeader>u :UndotreeToggle<CR>
+nnoremap <LocalLeader>f :CtrlSF<CR>
 
 function! PasteGitAuthors()
   norm gg
