@@ -233,7 +233,7 @@ if [[ ! -d "${GOPATH}/src/code.cloudfoundry.org/cli" ]]; then
   mkdir -p "${GOPATH}/src/code.cloudfoundry.org"
   cd "${GOPATH}/src/code.cloudfoundry.org"
   git clone "https://github.com/cloudfoundry/cli"
-  ln -sf "${GOPATH}/src/code.cloudfoundry.org/cli ${HOME}/workspace/cli"
+  ln -sf "${GOPATH}/src/code.cloudfoundry.org/cli" "${HOME}/workspace/cli"
 fi
 
 # install bosh
