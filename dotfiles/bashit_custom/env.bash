@@ -39,5 +39,6 @@ contains() {
 
 if [ $(contains "${VAT_HOSTNAMES[@]}" "$(hostname)") == "y" ]; then
   export TARGET_V7=true
+  export GOFLAGS='--tags=V7'
 fi
 
