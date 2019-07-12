@@ -15,7 +15,13 @@ if [[ ! -z $(which bosh-cli) ]]; then
 fi
 
 if [[ ! -z $(which lpass) ]]; then
-  alias load-key='lpass show "load-key" --notes | bash'
+
+  function load-key() {
+
+    [[ -z "$SSH_AUTH_SOCK" ]] && eval $(ssh-agent)
+
+    lpass show "load-key" --notes | bash
+  }
 fi
 
 ### From bash-it general aliases ###
