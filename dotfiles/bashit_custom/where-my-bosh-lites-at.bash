@@ -92,7 +92,7 @@ function select_bosh_lite() {
 
   printf "\n"
 
-  env | grep -i cf_int
+  env | grep -i cf_int | sort
 
   printf "\n"
 
