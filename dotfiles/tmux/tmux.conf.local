@@ -4,3 +4,6 @@ unbind-key Enter
 # TODO: if the current tab runs SSH with nested tmux, second C-Space send conrol key to the nested tmux
 bind-key C-Space run "tmux last-pane || tmux last-window || tmux display 'No last pane or window'"
 bind-key Enter run "tmux last-window || tmux last-pane || tmux display 'No last window or pane'"
+
+set -g base-index 1
+setw -g pane-base-index 1
