@@ -9,6 +9,7 @@ alias gap='git add -p'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias ll='ls -al'
+alias gpg=gpg2
 
 if [[ ! -z $(which bosh-cli) ]]; then
   alias bosh=bosh-cli

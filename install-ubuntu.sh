@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-GO_VERSION="1.12.1" # Don't forget to date dotfiles/bashit_custom_linux/paths.bash
+GO_VERSION="1.12.5" # Don't forget to update dotfiles/bashit_custom_linux/paths.bash
 
 # Add any required repositories
 if [[ -z $(which vim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
@@ -93,11 +93,14 @@ fi
 mkdir -p $HOME/workspace
 
 clone_into_workspace() {
-  DIR="${HOME}/workspace/$(echo $1 | awk -F '/' '{ print $(NF) }')"
+  repo="$1"
+  shift 1
+
+  DIR="${HOME}/workspace/$(echo "$repo" | awk -F '/' '{ print $(NF) }')"
   if [[ ! -d $DIR ]]; then
-    git clone --recurse-submodules $1 $DIR
+    git clone --recurse-submodules "$repo" "$DIR" "$@"
   else
-    cd $DIR
+    cd "$DIR"
     git init
   fi
 }
@@ -114,11 +117,25 @@ WORKSPACE_GIT_REPOS=(
   https://github.com/cloudfoundry/cloud_controller_ng
   https://github.com/cloudfoundry/homebrew-tap
   https://github.com/concourse/concourse-bosh-deployment
+  https://github.com/cloudfoundry/capi-bara-tests
+  https://github.com/pivotal-legacy/pivotal_ide_prefs
 )
 
 for repo in "${WORKSPACE_GIT_REPOS[@]}"; do
-  clone_into_workspace $repo
+  clone_into_workspace "$repo"
 done
+
+# Install fancier fonts with glyphs
+clone_into_workspace https://github.com/ryanoasis/nerd-fonts --depth 1
+pushd "$HOME/workspace/nerd-fonts"
+  ./install.sh
+popd
+
+# Install IDE preferences after installing pivotal-ide-prefs repo
+pushd "$HOME/workspace/pivotal_ide_prefs"
+  cli/bin/ide_prefs install --ide=goland --user-prefs-location="$HOME/.GoLand2019.1/config/"
+  cli/bin/ide_prefs install --ide=rubymine --user-prefs-location="$HOME/.RubyMine2019.1/config/"
+popd
 
 # install cli tab completion
 sudo ln -sf ${GOPATH}/src/code.cloudfoundry.org/cli/ci/installers/completion/cf /usr/share/bash-completion/completions
@@ -333,6 +350,7 @@ postgres_conf="/etc/postgresql/$(ls /etc/postgresql/ | grep -E "[0-9]+(\.[0-9]+)
 if ! sudo grep "local all all trust" "$postgres_conf"; then
   echo "local all all trust" | sudo tee -a "$postgres_conf"
   echo "host all all 127.0.0.1/32 trust" | sudo tee -a "$postgres_conf"
+  echo "host all all ::1/128 trust" | sudo tee -a "$postgres_conf"
 fi
 
 sudo service postgresql restart

@@ -1,0 +1,10 @@
+{
+  guid: string
+  app: {
+    guid: string,
+    process: {
+      type: string
+    }
+  }
+  weight: int
+}

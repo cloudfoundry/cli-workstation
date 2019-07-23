@@ -9,8 +9,6 @@
 " let g:lightline['colorscheme'] = 'wombat'
 " ...
 
-" Word Wrapping
-set wrap
 set linebreak
 set nolist  " list disables linebreak
 
