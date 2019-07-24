@@ -333,7 +333,7 @@ tar xzvf /tmp/credhub.tgz -C $HOME/bin
 chmod 755 $HOME/bin/credhub
 
 # install dep
-curl -L "https://github.com/golang/dep/releases/download/v0.5.0/dep-linux-amd64" > $HOME/bin/dep
+curl -L "https://github.com/golang/dep/releases/download/v0.5.4/dep-linux-amd64" > $HOME/bin/dep
 chmod 755 $HOME/bin/dep
 
 # Bash auto-complete case-insensitive
