@@ -1,0 +1,29 @@
+#!/bin/bash
+monitor_left=DP-2
+monitor_right=DP-0
+
+PS3='Please coose option (press any other key to exit): '
+options=("List active monitors" "Mirror" "Side to side")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "List active monitors")
+            echo "List active monitors:"
+            xrandr --listactivemonitors
+            ;;
+        "Mirror")
+            xrandr --output $monitor_left --same-as $monitor_right
+            msg="Mirror where: $monitor_left same as $monitor_right"
+            echo "$msg" ; notify-send "$msg"
+            ;;
+        "Side to side")
+            xrandr --output $monitor_left --left-of $monitor_right
+            msg="Side by side where: Left monitor $monitor_left located left of Right monitor $monitor_right"
+            echo "$msg" ; notify-send "$msg"
+            ;;
+        *)
+            echo "Exiting.."
+            break
+            ;;
+    esac
+done
