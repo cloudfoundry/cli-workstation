@@ -1,4 +1,9 @@
 #!/bin/bash
+
+workstation_config=$HOME/.workstationrc.local # Place to define workstation configuration
+
+[[ -e $workstation_config ]] && source $workstation_config
+
 monitor_left=${WORKSTATION_MONITOR_LEFT:-DP-2}
 monitor_right=${WORKSTATION_MONITOR_RIGHT:-DP-0}
 
