@@ -1,8 +1,8 @@
 #!/bin/bash
-monitor_left=DP-2
-monitor_right=DP-0
+monitor_left=${WORKSTATION_MONITOR_LEFT:-DP-2}
+monitor_right=${WORKSTATION_MONITOR_RIGHT:-DP-0}
 
-PS3='Please coose option (press any other key to exit): '
+PS3='Please coose option (press CTRL-C to exit): '
 options=("List active monitors" "Mirror" "Side to side")
 select opt in "${options[@]}"
 do
