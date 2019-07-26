@@ -35,4 +35,9 @@ target_bosh() {
   fi
 }
 
+_target_bosh_completions() {
+  COMPREPLY=($(compgen -W "$(ls ~/workspace/cli-pools/bosh-lites/claimed)" "${COMP_WORDS[1]}"))
+}
+
 export -f target_bosh
+complete -F _target_bosh_completions target_bosh

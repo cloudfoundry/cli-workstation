@@ -131,7 +131,11 @@ pushd "$HOME/workspace/nerd-fonts"
   ./install.sh
 popd
 
-# Install IDE preferences after installing pivotal-ide-prefs repo
+# After cloning the pivotal_ide_prefs repository
+# Change the keymap for both RubyMine and GoLand to "Mac OS X 10.5"
+sed -i 's/Pivotal Goland/Mac OS X 10.5+/' ~/workspace/pivotal_ide_prefs/pref_sources/Goland/options/keymap.xml
+sed -i 's/Pivotal RubyMine/Mac OS X 10.5+/' ~/workspace/pivotal_ide_prefs/pref_sources/Goland/options/keymap.xml
+
 pushd "$HOME/workspace/pivotal_ide_prefs"
   cli/bin/ide_prefs install --ide=goland --user-prefs-location="$HOME/.GoLand2019.1/config/"
   cli/bin/ide_prefs install --ide=rubymine --user-prefs-location="$HOME/.RubyMine2019.1/config/"
