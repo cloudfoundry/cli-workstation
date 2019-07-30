@@ -56,6 +56,22 @@ sudo apt install -y \
   tilix \
   tree
 
+function install_fd() {
+
+  FD_VERSION="7.3.0"
+  FD_FILENAME="fd-musl_${FD_VERSION}_amd64.deb"
+  FD_URL="https://github.com/sharkdp/fd/releases/download/v${FD_VERSION}/${FD_FILENAME}"
+
+  echo "Installing fd version $FD_VERSION"
+
+  pushd "$(mktemp -d)"
+    wget "$FD_URL"
+    sudo dpkg -i "$FD_FILENAME"
+  popd
+}
+
+$(fd -h | grep 'fd 7.3.0') || install_fd
+
 # Install system drivers
 sudo ubuntu-drivers autoinstall
 
