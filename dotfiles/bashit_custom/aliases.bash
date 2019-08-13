@@ -21,7 +21,7 @@ if [[ ! -z $(which lpass) ]]; then
 
     [[ -z "$SSH_AUTH_SOCK" ]] && eval $(ssh-agent)
 
-    lpass show "load-key" --notes | bash
+    lpass show "load-key" --notes | bash -s "$@"
   }
 fi
 
