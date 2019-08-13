@@ -13,3 +13,5 @@ if (has("autocmd"))
     " autocmd ColorScheme * call onedark#extend_highlight("Identifier", { "fg": { "gui": "#b042f4" } })
   augroup END
 endif
+
+autocmd BufRead pipeline.yml set includeexpr=substitute(v:fname,'^cli-ci/','','')
