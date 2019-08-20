@@ -320,6 +320,10 @@ else
   pip3 install --upgrade neovim
 fi
 
+pip3 install --upgrade yamllint
+mkdir -p $HOME/.config/yamllint
+ln -sf $HOME/workspace/cli-workstation/dotfiles/yamllint.config $HOME/.config/yamllint/config
+
 # Install Luan's Tmux config
 if [[ ! -d $HOME/.tmux ]]; then
   git clone https://github.com/luan/tmuxfiles.git $HOME/.tmux
