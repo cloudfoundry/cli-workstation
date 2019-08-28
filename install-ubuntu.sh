@@ -384,3 +384,18 @@ sudo service postgresql restart
 # increase key repeat rate
 xset r rate 250 35
 
+install_linux_zoom_client() {
+  zoom_deb_url="https://zoom.us/client/latest/zoom_amd64.deb"
+
+  echo "Installing zoom client"
+
+  pushd "$(mktemp -d)"
+    wget "$zoom_deb_url"
+    sudo dpkg -i zoom_amd64.deb
+  popd
+}
+
+function main() {
+  install_linux_zoom_client
+}
+main
