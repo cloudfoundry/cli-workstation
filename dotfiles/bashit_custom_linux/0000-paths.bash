@@ -6,7 +6,7 @@ export GEM_HOME=$HOME/.gem
 export PATH=$GEM_HOME/bin:$PATH
 
 # Go
-export GOROOT=/usr/local/golang/go1.12.12
+export GOROOT=/usr/local/golang/go1.12.5
 export GOPATH=~/go
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
