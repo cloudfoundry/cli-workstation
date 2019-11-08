@@ -448,14 +448,14 @@ echo 'set completion-ignore-case On' >> ~/.inputrc
 # xset r rate 250 35
 #
 
-report "Installing zoom client"
-zoom_deb_url="https://zoom.us/client/latest/zoom_amd64.deb"
+# report "Installing zoom client"
+# zoom_deb_url="https://zoom.us/client/latest/zoom_amd64.deb"
 
-echo "Installing zoom client"
+# echo "Installing zoom client"
 
-pushd "$(mktemp -d)"
-  wget "$zoom_deb_url"
-  sudo dpkg -i zoom_amd64.deb
-popd
+# pushd "$(mktemp -d)"
+#   wget "$zoom_deb_url"
+#   sudo dpkg -i zoom_amd64.deb
+# popd
 
 figlet -t -k -c -f /usr/share/figlet/script.flf "You have achieved pure workstation happiness!"
