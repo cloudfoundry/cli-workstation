@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-GO_VERSION="1.12.5"   # Don't forget to update dotfiles/bashit_custom_linux/paths.bash
+GO_VERSION="1.12.13"
 BOSH_VERSION="6.1.1"  # SMT - was version 5.4.0
 NODE_VERSION="10"     # Used to select major version of Node
 
@@ -13,9 +13,8 @@ report() {
 
 
 # Add any required repositories
-## SMT - figure out how to install neovim properly
-# if [[ -z $(which vim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
-if [[ -z $(which git) ]]; then sudo add-apt-repository -y ppa:git-core/ppa; fi
+sudo add-apt-repository -y ppa:neovim-ppa/stable
+# if [[ -z $(which git) ]]; then sudo add-apt-repository -y ppa:git-core/ppa; fi
 
 
 # if [[ -z $(which virtualbox) ]]; then
@@ -55,9 +54,9 @@ sudo apt install -y \
 # SMT - I've updated from 8.x to current LTS version 10.x
 report "Setting up binary distribution of NodeJS for apt installation"
 # From https://github.com/nodesource/distributions#installation-instructions
-# curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo bash - # For Ubuntu LTS
+curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo bash - # For Ubuntu LTS
 # From https://node.melroy.org/
-curl -sL https://node.melroy.org/deb/setup_$NODE_VERSION.x | sudo bash - # For Mint 19.2
+# curl -sL https://node.melroy.org/deb/setup_$NODE_VERSION.x | sudo bash - # For Mint 19.2
 
 
 # if [[ -z $(which goland) ]]; then
@@ -105,7 +104,7 @@ curl -sL https://node.melroy.org/deb/setup_$NODE_VERSION.x | sudo bash - # For M
 # Install development dependencies
 report "Installing development dependencies"
 sudo apt install -y awscli direnv exuberant-ctags git \
-  jq nodejs net-tools python3-pip \
+  jq neovim net-tools nodejs python3-pip \
   ruby2.5 ruby-dev silversearcher-ag tig tmux \
   yarn
 
@@ -265,21 +264,10 @@ fi
 #     xargs sed -i "$ a\X-GNOME-Autostart-enabled=false"
 # fi
 
-
 # Install go if it's not installed or the wrong version
 if [[ -z $(which go) || $(go version) != *$GO_VERSION* ]]; then
   report "Installing go version [ $GO_VERSION ]"
-  sudo mkdir -p /usr/local/golang
-  sudo chown -R $USER:$USER /usr/local/golang
-  mkdir -p $HOME/go/src
-  rm -rf $HOME/go/pkg/*
-  curl -Lo /tmp/go.tgz "https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz"
-  tar -C /usr/local/golang -xzf /tmp/go.tgz
-  mv /usr/local/golang/go /usr/local/golang/go$GO_VERSION
-  export GOROOT=/usr/local/golang/go$GO_VERSION
-  export GOPATH=$HOME/go
-  export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-  rm /tmp/go.tgz
+  sudo snap install go --classic --channel=1.12/stable
 else
   report "Skipping installation of existing go version [ $GO_VERSION ]"
 fi
@@ -330,7 +318,7 @@ done
 if [[ ! -d "${GOPATH}/src/code.cloudfoundry.org/cli" ]]; then
   mkdir -p "${GOPATH}/src/code.cloudfoundry.org"
   cd "${GOPATH}/src/code.cloudfoundry.org"
-  git clone "$SSH_REPO_SCHEME:github.com/cloudfoundry/cli"
+  git clone "$SSH_REPO_SCHEME:cloudfoundry/cli"
   ## SMT - The symlinks have caused problems in the past.  Can we drop them?
   # ln -sf "${GOPATH}/src/code.cloudfoundry.org/cli" "${HOME}/workspace/cli"
 fi
