@@ -3,7 +3,7 @@ set -e
 
 GO_VERSION="1.12.13"
 BOSH_VERSION="6.1.1"  # SMT - was version 5.4.0
-NODE_VERSION="10"     # Used to select major version of Node
+NODE_VERSION="10"     # SMT - was version 8
 
 report() {
   echo
@@ -17,15 +17,18 @@ sudo add-apt-repository -y ppa:neovim-ppa/stable
 # if [[ -z $(which git) ]]; then sudo add-apt-repository -y ppa:git-core/ppa; fi
 
 
-# if [[ -z $(which virtualbox) ]]; then
-#   wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-#   wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-#   sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
-# fi
+if [[ -z $(which virtualbox) ]]; then
+  report "Installing VirtualBox"
+  wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+  wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+  sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
+else
+  report "Skipping installation of VirtualBox: already present"
+fi
 
 
 # Update / Upgrade apt packages
-report "Updating and upgrading packages to the latest"
+report "Updating and upgrading apt packages"
 sudo apt update
 sudo apt dist-upgrade -y
 
@@ -51,7 +54,6 @@ sudo apt install -y \
 
 # Configure NodeJS binary distribution for apt installation
 # Node is required by NeoVim plugins
-# SMT - I've updated from 8.x to current LTS version 10.x
 report "Setting up binary distribution of NodeJS for apt installation"
 # From https://github.com/nodesource/distributions#installation-instructions
 curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo bash - # For Ubuntu LTS
@@ -59,22 +61,12 @@ curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo bash - # For Ub
 # curl -sL https://node.melroy.org/deb/setup_$NODE_VERSION.x | sudo bash - # For Mint 19.2
 
 
-# if [[ -z $(which goland) ]]; then
-#   curl -s https://s3.eu-central-1.amazonaws.com/jetbrains-ppa/0xA6E8698A.pub.asc | sudo apt-key add -
-#   echo "deb http://jetbrains-ppa.s3-website.eu-central-1.amazonaws.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/jetbrains-ppa.list
-# fi
-
-
-# if [[ -z $(which google-chrome) ]]; then
-#   curl -s https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-#   echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-# fi
-
-
-# if [[ -z $(which yarn) ]]; then
-#   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-#   echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-# fi
+if [[ -z $(which goland) ]]; then
+  report "Installing GoLand"
+  snap install goland --classic
+else
+  report "Skipping installation of Goland: already present"
+fi
 
 
 ## SMT - why do we want a floppy drive?
@@ -106,7 +98,6 @@ report "Installing development dependencies"
 sudo apt install -y awscli direnv exuberant-ctags git \
   jq neovim net-tools nodejs python3-pip \
   ruby2.5 ruby-dev silversearcher-ag tig tmux \
-  yarn
 
 # Clean up apt cache
 report "Cleaning up apt cache"
@@ -120,11 +111,13 @@ sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix.wrapper
 
 
 # Install fly
-report "Installing fly"
 if [[ ! -x $HOME/bin/fly ]]; then
+  report "Installing fly"
   mkdir -p $HOME/bin
   curl "https://ci.cli.fun/api/v1/cli?arch=amd64&platform=linux" > $HOME/bin/fly
   chmod 755 $HOME/bin/fly
+else
+  report "Skipping installation of fly: already present"
 fi
 
 
@@ -188,16 +181,13 @@ else
 fi
 
 
-## SMT - We don't install IDEs on the Linux workstations
-# # After cloning the pivotal_ide_prefs repository
-# # Change the keymap for both RubyMine and GoLand to "Mac OS X 10.5"
-# sed -i 's/Pivotal Goland/Mac OS X 10.5+/' ~/workspace/pivotal_ide_prefs/pref_sources/Goland/options/keymap.xml
-# sed -i 's/Pivotal RubyMine/Mac OS X 10.5+/' ~/workspace/pivotal_ide_prefs/pref_sources/Goland/options/keymap.xml
-#
-# pushd "$HOME/workspace/pivotal_ide_prefs"
-#   cli/bin/ide_prefs install --ide=goland --user-prefs-location="$HOME/.GoLand2019.1/config/"
-#   cli/bin/ide_prefs install --ide=rubymine --user-prefs-location="$HOME/.RubyMine2019.1/config/"
-# popd
+# After cloning the pivotal_ide_prefs repository
+# Change the keymap for GoLand to "Mac OS X 10.5"
+sed -i 's/Pivotal Goland/Mac OS X 10.5+/' ~/workspace/pivotal_ide_prefs/pref_sources/Goland/options/keymap.xml
+
+pushd "$HOME/workspace/pivotal_ide_prefs"
+ cli/bin/ide_prefs install --ide=goland --user-prefs-location="$HOME/.GoLand2019.1/config/"
+popd
 
 
 # install cli tab completion
@@ -457,16 +447,15 @@ echo 'set completion-ignore-case On' >> ~/.inputrc
 # # increase key repeat rate
 # xset r rate 250 35
 #
-## SMT - Why is this a function?  Should everything be a function?
-# install_linux_zoom_client() {
-#   zoom_deb_url="https://zoom.us/client/latest/zoom_amd64.deb"
-#
-#   echo "Installing zoom client"
-#
-#   pushd "$(mktemp -d)"
-#     wget "$zoom_deb_url"
-#     sudo dpkg -i zoom_amd64.deb
-#   popd
-# }
+
+report "Installing zoom client"
+zoom_deb_url="https://zoom.us/client/latest/zoom_amd64.deb"
+
+echo "Installing zoom client"
+
+pushd "$(mktemp -d)"
+  wget "$zoom_deb_url"
+  sudo dpkg -i zoom_amd64.deb
+popd
 
 figlet -t -k -c -f /usr/share/figlet/script.flf "You have achieved pure workstation happiness!"
