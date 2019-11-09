@@ -11,25 +11,10 @@ report() {
   echo
 }
 
-
-# Add any required repositories
-sudo add-apt-repository -y ppa:neovim-ppa/stable
-# if [[ -z $(which git) ]]; then sudo add-apt-repository -y ppa:git-core/ppa; fi
-
-
-if [[ -z $(which virtualbox) ]]; then
-  report "Installing VirtualBox"
-  wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-  wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-  sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
-else
-  report "Skipping installation of VirtualBox: already present"
-fi
-
-
 # Update / Upgrade apt packages
-report "Updating and upgrading apt packages"
+report "Updating apt packages"
 sudo apt update
+report "Upgrading Linux distribution"
 sudo apt dist-upgrade -y
 
 # Install system dependencies
@@ -46,26 +31,66 @@ sudo apt install -y \
   tilix \
   tree
 
+
+# Add required repositories
+#
+# Humans need NeoVim
+if [[ -z $(which nvim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
+
+# NeoVim needs yarn
+if [[ -z $(which yarn) ]]; then
+  report "Setting up binary distribution of yarn for apt installation"
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+fi
+
+# NeoVim needs node
+if [[ -z $(which node) ]]; then
+  report "Setting up binary distribution of NodeJS for apt installation"
+  # From https://github.com/nodesource/distributions#installation-instructions
+  curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo bash - # For Ubuntu LTS
+  # From https://node.melroy.org/
+  # curl -sL https://node.melroy.org/deb/setup_$NODE_VERSION.x | sudo bash - # For Mint 19.2
+fi
+
+
+# Install development dependencies
+report "Installing development dependencies"
+sudo apt install -y \
+  awscli \
+  direnv \
+  exuberant-ctags \
+  git \
+  jq \
+  neovim \
+  net-tools \
+  nodejs \
+  python3-pip \
+  ruby2.5 \
+  ruby-dev \
+  silversearcher-ag \
+  tig \
+  tmux \
+  yarn                 # Required for neovim
+
 # Install silly messaging utilities
 report "Installing silly messaging utilities"
 sudo apt install -y \
   cowsay \
   figlet
 
-# Configure NodeJS binary distribution for apt installation
-# Node is required by NeoVim plugins
-report "Setting up binary distribution of NodeJS for apt installation"
-# From https://github.com/nodesource/distributions#installation-instructions
-curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo bash - # For Ubuntu LTS
-# From https://node.melroy.org/
-# curl -sL https://node.melroy.org/deb/setup_$NODE_VERSION.x | sudo bash - # For Mint 19.2
+# Clean up apt cache
+report "Cleaning up apt cache"
+sudo apt autoremove -y
+sudo apt autoclean
 
 
 if [[ -z $(which goland) ]]; then
   report "Installing GoLand"
-  snap install goland --classic
+  sudo snap install goland --classic
 else
-  report "Skipping installation of Goland: already present"
+  report "Updating Goland"
+  sudo snap refresh goland
 fi
 
 
@@ -92,19 +117,6 @@ fi
 # sudo ubuntu-drivers autoinstall
 
 
-## SMT - figure out how to get neovim installed properly
-# Install development dependencies
-report "Installing development dependencies"
-sudo apt install -y awscli direnv exuberant-ctags git \
-  jq neovim net-tools nodejs python3-pip \
-  ruby2.5 ruby-dev silversearcher-ag tig tmux \
-
-# Clean up apt cache
-report "Cleaning up apt cache"
-sudo apt autoremove -y
-sudo apt autoclean
-
-
 # Set tilix as the default terminal
 report "Setting 'tilix' as the default terminal"
 sudo update-alternatives --set x-terminal-emulator /usr/bin/tilix.wrapper
@@ -129,6 +141,23 @@ else
   report "Updating diff-so-fancy for better git diffs"
   sudo npm upgrade -g diff-so-fancy
 fi
+
+
+# Install lastpass-cli from source (the Ubuntu package is broken)
+report "Installing lastpass-cli from source"
+if [[ ! -d ~/workspace/lastpass-cli ]]; then
+  pushd ~/workspace
+    git clone https://github.com/lastpass/lastpass-cli.git
+  popd
+fi
+
+pushd ~/workspace/lastpass-cli
+  sudo apt install -y openssl libcurl4-openssl-dev libxml2 libssl-dev libxml2-dev pinentry-curses xclip cmake build-essential pkg-config
+  git pull
+  cmake .
+  make
+  sudo make install
+popd
 
 
 # SMT TODO: handle git ssh somehow
@@ -327,22 +356,13 @@ fi
 
 
 # Install RipGrep
-report "Installing or updating RipGrep"
-pushd /tmp > /dev/null 2>&1
- curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest > git_ripgrep.json
- # RG_VERSION=$(jq '.["tag_name"]' git_ripgrep.json | tr -d \")
- rg_target=$(cat git_ripgrep.json \
-   | grep "browser_download_url.*deb" \
-   | cut -d : -f 2,3 \
-   | tr -d \")
-   # | wget -qi -
- curl -Lo rg.deb $rg_target
- sudo dpkg -i rg.deb
-
- rm git_ripgrep.json
- rm rg.deb
-popd > /dev/null 2>&1
-
+if [[ -z $(which rg) ]]; then
+  report "Installing RipGrep"
+  sudo snap install ripgrep --classic
+else
+  report "Updating RipGrep"
+  sudo snap refresh ripgrep
+fi
 
 # Install NeoVim and Luan's NeoVim config
 if [[ ! -d $HOME/.config/nvim ]]; then
@@ -392,22 +412,6 @@ else
   report "Skipping installation of existing Luan's Tmux config"
 fi
 
-# Install lastpass-cli from source (the Ubuntu package is broken)
-report "Installing lastpass-cli from source"
-if [[ ! -d ~/workspace/lastpass-cli ]]; then
-  pushd ~/workspace
-    git clone https://github.com/lastpass/lastpass-cli.git
-  popd
-fi
-
-pushd ~/workspace/lastpass-cli
-  sudo apt install -y openssl libcurl4-openssl-dev libxml2 libssl-dev libxml2-dev pinentry-curses xclip cmake build-essential pkg-config
-  git pull
-  cmake .
-  make
-  sudo make install
-popd
-
 # Install credhub cli
 report "Installing latest Credhub CLI"
 credhub_url="$(curl https://api.github.com/repos/cloudfoundry-incubator/credhub-cli/releases | jq '.[0].assets | map(select(.name | contains("linux"))) | .[0].browser_download_url' -r)"
@@ -428,34 +432,23 @@ fi
 
 echo 'set completion-ignore-case On' >> ~/.inputrc
 
-## SMT - I don't believe we need CC running locally
-# # Cloud controller does not work with 2.x version of bundler
-# gem i bundler -v 1.17.3
-#
-## SMT - I don't believe we need postgres running locally
-# postgres_conf="/etc/postgresql/$(ls /etc/postgresql/ | grep -E "[0-9]+(\.[0-9]+)?" | sort | tail -n 1)/main/pg_hba.conf"
-#
-# if ! sudo grep "local all all trust" "$postgres_conf"; then
-#   echo "local all all trust" | sudo tee -a "$postgres_conf"
-#   echo "host all all 127.0.0.1/32 trust" | sudo tee -a "$postgres_conf"
-#   echo "host all all ::1/128 trust" | sudo tee -a "$postgres_conf"
-# fi
-#
-# sudo service postgresql restart
-#
 ## SMT - I don't think this is a useful behavior change for this script to make
 # # increase key repeat rate
 # xset r rate 250 35
-#
 
-# report "Installing zoom client"
-# zoom_deb_url="https://zoom.us/client/latest/zoom_amd64.deb"
 
-# echo "Installing zoom client"
+if [[ -z $(which zoom) ]]; then
+  report "Installing zoom client"
+  zoom_deb_url="https://zoom.us/client/latest/zoom_amd64.deb"
 
-# pushd "$(mktemp -d)"
-#   wget "$zoom_deb_url"
-#   sudo dpkg -i zoom_amd64.deb
-# popd
+  echo "Installing zoom client"
+
+  pushd "$(mktemp -d)"
+    curl -Lo zoom_amd64.deb "$zoom_deb_url"
+    sudo dpkg -i zoom_amd64.deb
+  popd
+else
+  report "Skipping installation of zoom: already present"
+fi
 
 figlet -t -k -c -f /usr/share/figlet/script.flf "You have achieved pure workstation happiness!"
