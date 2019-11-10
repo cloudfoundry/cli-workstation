@@ -27,6 +27,7 @@ sudo apt install -y \
   htop \
   openssh-server \
   shellcheck \
+  snapd \
   software-properties-common \
   tilix \
   tree
@@ -66,6 +67,7 @@ sudo apt install -y \
   net-tools \
   nodejs \
   python3-pip \
+  python3-setuptools \
   ruby2.5 \
   ruby-dev \
   silversearcher-ag \
