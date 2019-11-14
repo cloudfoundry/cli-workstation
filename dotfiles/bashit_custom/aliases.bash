@@ -11,6 +11,9 @@ alias gdc='git diff --cached'
 alias ll='ls -al'
 alias l='ls -CF'
 alias gpg=gpg2
+alias k=kubectl
+
+complete -F __start_kubectl k
 
 if [[ ! -z $(which bosh-cli) ]]; then
   alias bosh=bosh-cli
