@@ -244,7 +244,6 @@ GO_UTILS=(
   github.com/alecthomas/gometalinter
   github.com/git-duet/git-duet/...
   github.com/cloudfoundry/bosh-bootloader/bbl
-  github.com/golangci/golangci-lint/cmd/golangci-lint
 )
 
 echo Running $(go version)
@@ -266,11 +265,17 @@ clone_into_go_path() {
 GO_REPOS=(
   github.com/cloudfoundry/cf-acceptance-tests
   github.com/cloudfoundry-incubator/cli-plugin-repo
+  github.com/golangci/golangci-lint
 )
 
 for repo in "${GO_REPOS[@]}"; do
   clone_into_go_path $repo
 done
+
+cd $GOPATH/src/github.com/golangci/golangci-lint
+git checkout v1.16.0
+cd $GOPATH/src
+GOPATH=$HOME/go go get github.com/golangci/golangci-lint/cmd/golangci-lint
 
 # Clone CLI Repo
 if [[ ! -d "${GOPATH}/src/code.cloudfoundry.org/cli" ]]; then
