@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
+if [[ -z "$GITHUB_OAUTH_TOKEN" ]]; then
+  echo "Please export GITHUB_OAUTH_TOKEN before running this script"
+  exit 1
+fi
+
 GO_VERSION="1.12.5" # Don't forget to update dotfiles/bashit_custom_linux/paths.bash
 
 # Add any required repositories
@@ -282,20 +287,14 @@ sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-5.4.0-linux-amd64
 sudo chmod 0755 /usr/local/bin/bosh-cli
 sudo ln -sf /usr/local/bin/bosh-cli /usr/local/bin/bosh
 
-# Install RipGrep
-pushd /tmp
-  curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest > git_ripgrep.json
-  RG_VERSION=$(jq '.["tag_name"]' git_ripgrep.json | tr -d \")
-  cat git_ripgrep.json \
-    | grep "browser_download_url.*deb" \
-    | cut -d : -f 2,3 \
-    | tr -d \" \
-    | wget -qi -
-  sudo dpkg -i ripgrep_${RG_VERSION}_amd64.deb
-
-  rm git_ripgrep.json
-  rm ripgrep_${RG_VERSION}_amd64.deb
-popd
+# Install ripgrep
+if [[ -z "$(which rg)" ]]; then
+  echo "Installing ripgrep"
+  sudo snap install ripgrep --classic
+else
+  echo "Updating ripgrep"
+  sudo snap refresh ripgrep
+fi
 
 
 # Install Luan's NeoVim config
@@ -353,7 +352,7 @@ pushd ~/workspace/lastpass-cli
 popd
 
 # install credhub cli
-credhub_url="$(curl https://api.github.com/repos/cloudfoundry-incubator/credhub-cli/releases | jq '.[0].assets | map(select(.name | contains("linux"))) | .[0].browser_download_url' -r)"
+credhub_url="$(curl -H "Authorization: token $GITHUB_OAUTH_TOKEN" https://api.github.com/repos/cloudfoundry-incubator/credhub-cli/releases | jq '.[0].assets | map(select(.name | contains("linux"))) | .[0].browser_download_url' -r)"
 curl -Lo /tmp/credhub.tgz "$credhub_url"
 tar xzvf /tmp/credhub.tgz -C $HOME/bin
 chmod 755 $HOME/bin/credhub
@@ -382,7 +381,10 @@ fi
 sudo service postgresql restart
 
 # increase key repeat rate
-xset r rate 250 35
+
+if [[ -n "$DISPLAY" ]]; then
+  xset r rate 250 35
+fi
 
 install_linux_zoom_client() {
   zoom_deb_url="https://zoom.us/client/latest/zoom_amd64.deb"
