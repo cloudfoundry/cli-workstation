@@ -280,12 +280,16 @@ if [[ ! -d "${GOPATH}/src/code.cloudfoundry.org/cli" ]]; then
   ln -sf "${GOPATH}/src/code.cloudfoundry.org/cli" "${HOME}/workspace/cli"
 fi
 
-# install bosh
-echo "installing latest bosh"
-sudo rm -f /usr/local/bin/bosh-cli $HOME/go/bin/bosh*
-sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-5.4.0-linux-amd64 -o /usr/local/bin/bosh-cli
-sudo chmod 0755 /usr/local/bin/bosh-cli
-sudo ln -sf /usr/local/bin/bosh-cli /usr/local/bin/bosh
+# install the desired version of bosh
+case "$(bosh --version 2>/dev/null)" in
+  "version 5.4.0-*") ;;
+  *) echo "installing latest bosh"
+    sudo rm -f /usr/local/bin/bosh-cli $HOME/go/bin/bosh*
+    sudo curl https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-5.4.0-linux-amd64 -o /usr/local/bin/bosh-cli
+    sudo chmod 0755 /usr/local/bin/bosh-cli
+    sudo ln -sf /usr/local/bin/bosh-cli /usr/local/bin/bosh
+    ;;
+esac
 
 # Install ripgrep
 if [[ -z "$(which rg)" ]]; then
