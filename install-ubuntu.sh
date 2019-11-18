@@ -6,7 +6,7 @@ if [[ -z "$GITHUB_OAUTH_TOKEN" ]]; then
   exit 1
 fi
 
-GO_VERSION="1.12.5" # Don't forget to update dotfiles/bashit_custom_linux/paths.bash
+GO_VERSION="1.12.12" # Don't forget to update dotfiles/bashit_custom_linux/0000-paths.bash
 
 # Add any required repositories
 if [[ -z $(which vim) ]]; then sudo add-apt-repository -y ppa:neovim-ppa/stable; fi
@@ -222,7 +222,7 @@ if [[ -z $(which go) || $(go version) != *$GO_VERSION* ]]; then
   sudo mkdir -p /usr/local/golang
   sudo chown -R pivotal:pivotal /usr/local/golang
   mkdir -p $HOME/go/src
-  rm -rf $HOME/go/pkg/*
+  sudo rm -rf $HOME/go/pkg/*
   curl -L "https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz" > /tmp/go.tgz
   tar -C /usr/local/golang -xzf /tmp/go.tgz
   mv /usr/local/golang/go /usr/local/golang/go$GO_VERSION
