@@ -1,4 +1,4 @@
-# alias vim=nvim
+alias vim=nvim
 
 alias grp="ginkgo -r -nodes=4"
 alias fl="fly -t ci login -c https://ci.cli.fun -n main -b"
@@ -11,6 +11,9 @@ alias gdc='git diff --cached'
 alias ll='ls -al'
 alias l='ls -CF'
 alias gpg=gpg2
+alias k=kubectl
+
+complete -F __start_kubectl k
 
 if [[ ! -z $(which bosh-cli) ]]; then
   alias bosh=bosh-cli
