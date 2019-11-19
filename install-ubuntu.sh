@@ -2,8 +2,10 @@
 set -e
 
 GO_VERSION="1.12.13"
-BOSH_VERSION="6.1.1"  # SMT - was version 5.4.0
-NODE_VERSION="10"     # SMT - was version 8
+BOSH_VERSION="6.1.1"             # SMT - was version 5.4.0
+NODE_VERSION="10"                # SMT - was version 8
+GOLANGCI_LINT_VERSION="v1.16.0"  # SMT - subsequent versions bring in new linters that we're not ready for
+GODEP_VERSION="v0.5.4"
 
 report() {
   echo
@@ -202,10 +204,12 @@ done
 
 # Install fancier fonts with glyphs
 if [[ ! -d $HOME/.local/share/fonts/NerdFonts ]]; then
-  report "Installing NerdFonts"
+  installDateTime=$(date '+%Y%m%d-%H%M%S')
+  report "Installing NerdFonts -- See /tmp/nerdFontsInstallReport1-$installDateTime for details"
   clone_into_workspace https://github.com/ryanoasis/nerd-fonts --depth 1
   pushd "$HOME/workspace/nerd-fonts"
-    ./install.sh
+    # This is a lengthy process that the rest of the script doesn't rely on, so run in background
+    ./install.sh 2>&1 > /tmp/nerdFontsInstallReport1-$installDateTime.txt &
   popd
 else
   report "Skipping installation of existing NerdFonts"
@@ -304,7 +308,6 @@ GO_UTILS=(
   github.com/XenoPhex/i18n4go/i18n4go
   github.com/git-duet/git-duet/...
   github.com/cloudfoundry/bosh-bootloader/bbl
-  github.com/golangci/golangci-lint/cmd/golangci-lint
 )
 
 report "Getting or updating common Go utilities"
@@ -328,20 +331,23 @@ clone_into_go_path() {
 GO_REPOS=(
   github.com/cloudfoundry/cf-acceptance-tests
   github.com/cloudfoundry-incubator/cli-plugin-repo
+  github.com/golangci/golangci-lint/cmd/golangci-lint
 )
 
 for repo in "${GO_REPOS[@]}"; do
   clone_into_go_path $repo
 done
 
+cd $GOPATH/src/github.com/golangci/golangci-lint
+git checkout $GOLANGCI_LINT_VERSION
+cd $GOPATH/src
+GOPATH=$HOME/go go get github.com/golangci/golangci-lint/cmd/golangci-lint
 
 # Clone CLI Repo
 if [[ ! -d "${GOPATH}/src/code.cloudfoundry.org/cli" ]]; then
   mkdir -p "${GOPATH}/src/code.cloudfoundry.org"
   cd "${GOPATH}/src/code.cloudfoundry.org"
   git clone "$SSH_REPO_SCHEME:cloudfoundry/cli"
-  ## SMT - The symlinks have caused problems in the past.  Can we drop them?
-  # ln -sf "${GOPATH}/src/code.cloudfoundry.org/cli" "${HOME}/workspace/cli"
 fi
 
 
@@ -422,35 +428,28 @@ tar xzvf /tmp/credhub.tgz -C $HOME/bin
 chmod 755 $HOME/bin/credhub
 
 # Install dep
-report "Installing dep version 0.5.4"
-curl -Lo $HOME/bin/dep "https://github.com/golang/dep/releases/download/v0.5.4/dep-linux-amd64"
+report "Installing dep version [ $GODEP_VERSION ]"
+curl -Lo $HOME/bin/dep "https://github.com/golang/dep/releases/download/$GODEP_VERSION/dep-linux-amd64"
 chmod 755 $HOME/bin/dep
 
 # Make bash auto-complete case-insensitive
-report "Making bash auto-complete case-insensitive"
-if [ ! -a ~/.inputrc ]; then
+if [ ! -f ~/.inputrc ]; then
+  report "Making bash auto-complete case-insensitive"
   echo '$include /etc/inputrc' > ~/.inputrc
+  echo 'set completion-ignore-case On' >> ~/.inputrc
 fi
 
-echo 'set completion-ignore-case On' >> ~/.inputrc
-
-## SMT - I don't think this is a useful behavior change for this script to make
-# # increase key repeat rate
-# xset r rate 250 35
+# increase key repeat rate
+if [[ -n "$DISPLAY" ]] ; then
+  report "Increasing key repeat rate"
+  xset r rate 250 35
+fi
 
 
 if [[ -z $(which zoom) ]]; then
-  report "Installing zoom client"
-  zoom_deb_url="https://zoom.us/client/latest/zoom_amd64.deb"
-
-  echo "Installing zoom client"
-
-  pushd "$(mktemp -d)"
-    curl -Lo zoom_amd64.deb "$zoom_deb_url"
-    sudo dpkg -i zoom_amd64.deb
-  popd
-else
-  report "Skipping installation of zoom: already present"
+  report "NOT installing zoom because it has to be done manually once this script ends"
+  report "go to zoom.com and download and install the hotness yerself"
+  report "https://support.zoom.us/hc/en-us/articles/204206269-Installing-Zoom-on-Linux"
 fi
 
 figlet -t -k -c -f /usr/share/figlet/script.flf "You have achieved pure workstation happiness!"
