@@ -330,7 +330,6 @@ clone_into_go_path() {
 
 GO_REPOS=(
   github.com/cloudfoundry/cf-acceptance-tests
-  github.com/cloudfoundry-incubator/cli-plugin-repo
   github.com/golangci/golangci-lint
 )
 
@@ -350,6 +349,11 @@ if [[ ! -d "${GOPATH}/src/code.cloudfoundry.org/cli" ]]; then
   git clone "$SSH_REPO_SCHEME:cloudfoundry/cli"
 fi
 
+# Clone cli-plugin-repo
+if [[ ! -d "${GOPATH}/src/code.cloudfoundry.org/cli-plugin-repo" ]]; then
+  cd "${GOPATH}/src/code.cloudfoundry.org"
+  git clone "$SSH_REPO_SCHEME:cloudfoundry/cli-plugin-repo"
+fi
 
 # Install bosh
 if [[ -z $(which bosh) || $(bosh --version | cut -d'-' -f 1 | cut -d' ' -f 2) != $BOSH_VERSION ]]; then
