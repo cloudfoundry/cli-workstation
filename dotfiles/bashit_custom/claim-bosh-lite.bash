@@ -1,4 +1,12 @@
 function claim_bosh_lite() {
+
+  read -r -p "Did you remember to set 'git duet' ?
+
+$(git duet | grep NAME)
+
+CTRL-C to abort or ENTER to proceed.
+  "
+
   if [ -n "$1" ] ; then
     STORY="$1"
     shift
