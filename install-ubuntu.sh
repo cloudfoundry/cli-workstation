@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-GO_VERSION="1.12.13"
+GO_VERSION="1.13"
 BOSH_VERSION="6.1.1"             # SMT - was version 5.4.0
 NODE_VERSION="10"                # SMT - was version 8
-GOLANGCI_LINT_VERSION="v1.16.0"  # SMT - subsequent versions bring in new linters that we're not ready for
+GOLANGCI_LINT_VERSION="v1.21.0"  # SMT - subsequent versions bring in new linters that we're not ready for
 GODEP_VERSION="v0.5.4"
 
 report() {
@@ -290,11 +290,12 @@ fi
 # fi
 
 # Install go if it's not installed or the wrong version
-if [[ -z $(which go) || $(go version) != *$GO_VERSION* ]]; then
+if [[ -z $(which go) ]]; then
   report "Installing go version [ $GO_VERSION ]"
-  sudo snap install go --classic --channel=1.12/stable
+  sudo snap install go --classic --channel=$GO_VERSION/stable
 else
-  report "Skipping installation of existing go version [ $GO_VERSION ]"
+  report "Updating go"
+  sudo snap refresh go --classic --channel=$GO_VERSION/stable
 fi
 
 
