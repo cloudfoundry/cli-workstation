@@ -22,23 +22,14 @@ export LPASS_DISABLE_PINENTRY=1
 
 export DB=postgres
 
-export VAT_HOSTNAMES=(ocean)
-
-contains() {
-    local n=$#
-    local value=${!n}
-    for ((i=1;i < $#;i++)) {
-        if [ "${!i}" == "${value}" ]; then
-            echo "y"
-            return 0
-        fi
-    }
-    echo "n"
-    return 1
-}
-
-if [ $(contains "${VAT_HOSTNAMES[@]}" "$(hostname)") == "y" ]; then
+function set_v7() {
   export TARGET_V7=true
   export GOFLAGS='--tags=V7'
-fi
+}
 
+function unset_v7() {
+  unset TARGET_V7
+  unset GOFLAGS
+}
+
+set_v7
