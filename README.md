@@ -3,6 +3,7 @@ This repo is used to help setup and maintain a unified cli workstation.
 
 ## How to use on Ubuntu (18.04)
 For fresh installs on Ubuntu run the following command:
+(Note the bottom section for workarounds on a fresh workstation)
 
 ```
 $ sudo apt install curl
@@ -25,9 +26,9 @@ $ ./install-ubuntu.sh
 - Tilix > Preferences > Profiles > Default > General > Custom font : DejaVuSansMono Nerd Font Mono 12
 
 ### Things missing from our workstation setup:
-- ssh-agent not starting
-- mouse highlighting for tmux: according to Luan this is due to a change in tmux
-  itself
-- remmina confirguration?
 - run git-init in repos to update git-duet hook
-- zoom
+
+### Notes from 1/16/19 Fresh Ocean Installation
+- Ran once, failed => Needed to load an ssh key to load github repos
+- Ran a second time, failed => needed to closed terminal and reopen to get `$GOPATH` variable
+- Ran a third time, success
