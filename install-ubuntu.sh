@@ -38,12 +38,10 @@ sudo apt install -y \
 # Add required repositories
 #
 # Humans need NeoVim
-if [[ -z $(which nvim) ]]; then
-  sudo add-apt-repository -y ppa:neovim-ppa/unstable
-  sudo apt install neovim
-	ln -s /usr/bin/nvim /home/pivotal/bin/vim
-	ln -s /usr/bin/nvim /home/pivotal/bin/vi
-fi
+sudo add-apt-repository -y ppa:neovim-ppa/unstable
+sudo apt install neovim
+ln -sf /usr/bin/nvim /home/pivotal/bin/vim
+ln -sf /usr/bin/nvim /home/pivotal/bin/vi
 
 # NeoVim needs yarn
 if [[ -z $(which yarn) ]]; then
