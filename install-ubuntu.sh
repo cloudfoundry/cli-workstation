@@ -59,6 +59,14 @@ if [[ -z $(which node) ]]; then
   # curl -sL https://node.melroy.org/deb/setup_$NODE_VERSION.x | sudo bash - # For Mint 19.2
 fi
 
+if [[ -z $(which fd) ]]; then
+	report "Installing fd-find to satisfy neovim dependency"
+
+	curl -L https://github.com/sharkdp/fd/releases/download/v7.4.0/fd-musl_7.4.0_amd64.deb -o /tmp/fd_7.4.0_amd64.deb
+	sudo dpkg -i /tmp/fd_7.4.0_amd64.deb
+
+	rm /tmp/fd_7.4.0_amd64.deb
+fi
 
 # Install development dependencies
 report "Installing development dependencies"
