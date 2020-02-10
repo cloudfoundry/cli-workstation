@@ -96,7 +96,7 @@ function select_bosh_lite() {
 
   printf "\n"
 
-  cf api https://api.${BOSH_LITE_DOMAIN} --skip-ssl-validation
+  cf api https://api.${BOSH_LITE_DOMAIN}
   cf auth admin $CF_INT_PASSWORD
 }
 
