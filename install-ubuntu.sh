@@ -32,6 +32,7 @@ sudo apt install -y \
   snapd \
   software-properties-common \
   tilix \
+  tldr \
   tree
 
 
@@ -386,15 +387,6 @@ if [[ -z $(which rg) ]]; then
 else
   report "Updating RipGrep"
   sudo snap refresh ripgrep
-fi
-
-# Install TLDR
-if [[ -z $(which tldr) ]]; then
-  report "Installing TLDR"
-  sudo snap install tldr
-else
-  report "Updating TLDR"
-  sudo snap refresh tldr
 fi
 
 # Install NeoVim and Luan's NeoVim config
