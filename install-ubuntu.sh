@@ -24,7 +24,6 @@ report "Installing system dependencies"
 sudo apt install -y \
   bash-completion \
   curl \
-  fasd \
   gnome-tweak-tool \
   htop \
   openssh-server \
@@ -262,11 +261,23 @@ source "$BASH_IT"/bash_it.sh
 bash-it update
 set -e
 
+# Install Jump
+if which jump; then
+  echo "Jump is already installed"
+else
+  TEMP_DEB="$(mktemp)"
+  wget -O "$TEMP_DEB" 'https://github.com/gsamokovarov/jump/releases/download/v0.30.1/jump_0.30.1_amd64.deb'
+  sudo dpkg -i "$TEMP_DEB"
+  rm -f "$TEMP_DEB"
+fi
+
 # Configure BashIT
 report "Configuring BashIT"
 bash-it disable alias general git
 bash-it enable completion defaults awscli bash-it brew git ssh tmux virtualbox
-bash-it enable plugin fasd fzf git git-subrepo ssh history
+
+bash-it disable plugin fasd
+bash-it enable plugin fzf git git-subrepo ssh history
 
 
 # Link Dotfiles
