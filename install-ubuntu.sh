@@ -255,6 +255,7 @@ fi
 # Also, it is currently unknown why sourcing bash_it.sh requires set +e.
 export BASH_IT="$HOME/.bash_it"
 export BASH_IT_THEME="$HOME/workspace/cli-workstation/dotfiles/bashit_custom_themes/cli.theme.bash"
+sed -i "s#\(export BASH_IT_THEME='\).*'#\1$BASH_IT_THEME'#" $HOME/.bashrc
 
 set +e
 source "$BASH_IT"/bash_it.sh
