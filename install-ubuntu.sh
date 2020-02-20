@@ -266,7 +266,9 @@ set -e
 report "Configuring BashIT"
 bash-it disable alias general git
 bash-it enable completion defaults awscli bash-it brew git ssh tmux virtualbox
-bash-it enable plugin fasd fzf git git-subrepo ssh history
+
+bash-it disable plugin fasd
+bash-it enable plugin fzf git git-subrepo ssh history
 
 
 # Link Dotfiles
