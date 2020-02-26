@@ -444,11 +444,19 @@ fi
 
 
 # Install credhub cli
-report "Installing latest Credhub CLI"
-credhub_url="$(curl https://api.github.com/repos/cloudfoundry-incubator/credhub-cli/releases | jq '.[0].assets | map(select(.name | contains("linux"))) | .[0].browser_download_url' -r)"
-curl -Lo /tmp/credhub.tgz "$credhub_url"
-tar xzvf /tmp/credhub.tgz -C $HOME/bin
-chmod 755 $HOME/bin/credhub
+REMAINING=$(curl https://api.github.com/rate_limit 2>/dev/null | jq '.rate.remaining')
+if [[ $REMAINING -eq 0 ]]; then
+  report "**NOT** Installing latest Credhub CLI"
+  echo "We  hit the rate limit for the `api.github.com` and cannot download the latest Credhub CLI Release."
+  echo "Reference: https://developer.github.com/v3/#rate-limiting"
+  echo
+else
+  report "Installing latest Credhub CLI"
+  credhub_url="$(curl https://api.github.com/repos/cloudfoundry-incubator/credhub-cli/releases | jq '.[0].assets | map(select(.name | contains("linux"))) | .[0].browser_download_url' -r)"
+  curl -Lo /tmp/credhub.tgz "$credhub_url"
+  tar xzvf /tmp/credhub.tgz -C $HOME/bin
+  chmod 755 $HOME/bin/credhub
+fi
 
 
 # Install dep
