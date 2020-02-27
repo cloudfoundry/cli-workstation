@@ -27,6 +27,7 @@ sudo apt install -y \
   fasd \
   gnome-tweak-tool \
   htop \
+  moreutils \
   openssh-server \
   shellcheck \
   snapd \
