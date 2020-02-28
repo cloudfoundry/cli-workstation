@@ -42,15 +42,8 @@ sudo apt install -y \
 # Humans need NeoVim
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
 sudo apt install neovim
-ln -sf /usr/bin/nvim /home/pivotal/bin/vim
-ln -sf /usr/bin/nvim /home/pivotal/bin/vi
-
-# NeoVim needs yarn
-if [[ -z $(which yarn) ]]; then
-  report "Setting up binary distribution of yarn for apt installation"
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-fi
+ln -sf /usr/bin/nvim $HOME/bin/vim
+ln -sf /usr/bin/nvim $HOME/bin/vi
 
 # NeoVim needs node
 if [[ -z $(which node) ]]; then
