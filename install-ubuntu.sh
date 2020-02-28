@@ -42,8 +42,6 @@ sudo apt install -y \
 # Humans need NeoVim
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
 sudo apt install neovim
-ln -sf /usr/bin/nvim $HOME/bin/vim
-ln -sf /usr/bin/nvim $HOME/bin/vi
 
 # NeoVim needs node
 if [[ -z $(which node) ]]; then
@@ -142,6 +140,10 @@ else
   report "Skipping installation of fly: already present"
 fi
 
+# symlink neovim as `vim` and `vi` so that it's used everywhere
+report "Making nvim the one true nvim/vim/vi"
+ln -sf /usr/bin/nvim $HOME/bin/vim
+ln -sf /usr/bin/nvim $HOME/bin/vi
 
 # Install diff-so-fancy for better diffing in git
 if [[ -z $(which diff-so-fancy) ]]; then
