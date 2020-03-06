@@ -1,0 +1,6 @@
+cli ~/go/src/code.cloudfoundry.org/cli
+cli-private ~/workspace/cli-private
+cli-workstation ~/workspace/cli-workstation
+cli-pools ~/workspace/cli-pools
+workspace ~/workspace
+

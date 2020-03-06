@@ -407,6 +407,7 @@ if [[ ! -d $HOME/.config/nvim ]]; then
   ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/after.vim $HOME/.config/nvim/user/after.vim
   ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/before.vim $HOME/.config/nvim/user/before.vim
   ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/plug.vim $HOME/.config/nvim/user/plug.vim
+  ln -sf $HOME/workspace/cli-workstation/dotfiles/vimfiles/.NERDTreeBookmarks $HOME/.NERDTreeBookmarks
 
   git clone --depth 1 https://github.com/ryanoasis/nerd-fonts $HOME/.config/nerd-fonts
   pushd $HOME/.config/nerd-fonts
