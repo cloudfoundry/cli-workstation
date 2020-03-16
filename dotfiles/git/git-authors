@@ -3,9 +3,7 @@ authors:
   abp: Alexander Berezovsky
   ac: Andrew Crump; acrump
   bc: Brian Cunnie; bcunnie
-  ch: Chris Hendrix; chendrix
   cs: Chris Selzo; cselzo
-  ep: Eric Promislow
   jg: Jenna Goldstrich; jgoldstrich
   pb: Piyali Banerjee; pbanerjee
   rm: Reid Mitchell; rmitchell
@@ -14,8 +12,8 @@ authors:
   sn: Supraja Narasimhan; snarasimhan
   st: Steve Taylor; staylor
   td: Tim Downey; tdowney
+  nw: Nick Webb; nwebb
 email:
   domain: pivotal.io
 email_addresses:
-  ep: eric.promislow@suse.com
   abp: a@berez.co
