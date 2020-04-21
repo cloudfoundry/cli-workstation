@@ -240,13 +240,17 @@ report "Installing cli tab completion"
 sudo ln -sf ${GOPATH}/src/code.cloudfoundry.org/cli/ci/installers/completion/cf /usr/share/bash-completion/completions
 
 
-# Install/Upgrade BashIT
-report "Installing or upgrading BashIT"
+report "Installing BashIT"
 if [[ ! -d $HOME/.bash_it ]]; then
   git clone https://github.com/Bash-it/bash-it.git $HOME/.bash_it
   $HOME/.bash_it/install.sh --silent
 fi
 
+report "Installing FZF"
+if [[ ! -d $HOME/.fzf ]]; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  $HOME/.fzf/install --all
+fi
 # These are pulled directly from our current (2019/02/28) ~/.bashrc
 # This is because ~/.bashrc's are difficult to source from a script
 # https://askubuntu.com/a/77053
