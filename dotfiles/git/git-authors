@@ -3,16 +3,24 @@ authors:
   abp: Alexander Berezovsky
   ac: Andrew Crump; acrump
   bc: Brian Cunnie; bcunnie
+  bl: Belinda Liu; bliu
   cs: Chris Selzo; cselzo
+  gc: Greg Cobb; gcobb
   jg: Jenna Goldstrich; jgoldstrich
+  mdl: Merric de Launey; mdelauney
+  mm: Mona Mohebbi; mmohebbi
+  mm: Mona Mohebbi; mmohebbi
+  nw: Nick Webb; nwebb
   pb: Piyali Banerjee; pbanerjee
   rm: Reid Mitchell; rmitchell
   sb: Seth Boyles; sboyles
   sj: Sannidhi Jalukar; sjalukar
   sn: Supraja Narasimhan; snarasimhan
   st: Steve Taylor; staylor
+  sw: Sarah Weinstein; sweinstein
   td: Tim Downey; tdowney
-  nw: Nick Webb; nwebb
+  ts: Teal Stannard; tstannard
+  wf: Weyman Fung; wfung
 email:
   domain: pivotal.io
 email_addresses:
