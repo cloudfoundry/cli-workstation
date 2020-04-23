@@ -7,3 +7,4 @@ bind-key Enter run "tmux last-window || tmux last-pane || tmux display 'No last 
 
 set -g base-index 1
 setw -g pane-base-index 1
+set -sg escape-time 10
