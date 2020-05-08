@@ -28,12 +28,7 @@ get_cf_api() {
 }
 
 cli_flags() {
-  flags_out=""
-  if [ "${TARGET_V7,,}" = "true" ]; then
-    flags_out="V7 $flags_out"
-	else
-    flags_out="V6 $flags_out"
-  fi
+  flags_out="cli=$TARGET_CLI "
 
   if [ "${CF_EXPERIMENTAL_LOGIN,,}" = "true" ]; then
     flags_out="EXP $flags_out"
