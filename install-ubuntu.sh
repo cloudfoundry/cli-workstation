@@ -37,8 +37,6 @@ sudo apt install -y \
   tree
 
 
-# Add required repositories
-#
 # Humans need NeoVim
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
 sudo apt install neovim
