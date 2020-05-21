@@ -203,6 +203,7 @@ WORKSPACE_GIT_REPOS=(
   $SSH_REPO_SCHEME:cloudfoundry/homebrew-tap
   $SSH_REPO_SCHEME:concourse/concourse-bosh-deployment
   $SSH_REPO_SCHEME:pivotal-legacy/pivotal_ide_prefs
+  $SSH_REPO_SCHEME:cloudfoundry/cli-ci
 )
 
 for repo in "${WORKSPACE_GIT_REPOS[@]}"; do
