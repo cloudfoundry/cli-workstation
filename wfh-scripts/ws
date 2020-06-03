@@ -1,0 +1,55 @@
+#!/bin/sh -eu
+
+gcp_ssh_id=${GCP_SSH_ID:-google_compute_engine}
+usage="Usage $0 { list | { { start | stop | conn } < workstation_id_number > } }"
+
+
+case $# in
+  0)
+    echo "$usage"
+    exit 1
+    ;;
+  1)
+    case $1 in
+      list)
+        gcloud beta compute instances list
+      ;;
+    esac
+    ;;
+  2)
+    ws_id=$2
+    case $1 in
+      start)
+        echo "Starting gcloud vm cli-ws-$ws_id..."
+        gcloud beta compute instances start --zone "us-central1-a" --project "cf-cli" "cli-ws-$ws_id"
+        ;;
+
+      stop)
+        echo "Stopping gcloud vm cli-ws-$ws_id..."
+        gcloud beta compute instances stop --zone "us-central1-a" --project "cf-cli" "cli-ws-$ws_id"
+        ;;
+
+      conn)
+        echo "Using key: $gcp_ssh_id"
+
+        if ssh-add -l | grep -vq "$gcp_ssh_id"; then
+          ssh-add "$HOME/.ssh/$gcp_ssh_id"
+        fi
+
+        echo "Connecting to gcloud vm cli-ws-$ws_id..."
+        gcloud beta compute ssh --zone="us-central1-a" --project="cf-cli" --ssh-flag="-A -t" --command="tmux new-session -s cli -A" "aberezovsky@cli-ws-$ws_id"
+        ;;
+      *)
+        echo "'$1' is not a valid command."
+        echo "$usage"
+        exit 2
+        ;;
+    esac
+    ;;
+  *)
+    echo "Invalid number of args provided ($#)."
+    echo "$usage"
+    exit 3
+    ;;
+esac
+
