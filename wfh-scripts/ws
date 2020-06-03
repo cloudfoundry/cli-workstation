@@ -15,6 +15,11 @@ case $# in
       list)
         gcloud beta compute instances list | grep "cli-ws"
       ;;
+      *)
+        echo "'$1' is not a valid command."
+        echo "$usage"
+        exit 2
+      ;;
     esac
     ;;
   2)
