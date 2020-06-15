@@ -195,7 +195,7 @@ WORKSPACE_GIT_REPOS=(
   $SSH_REPO_SCHEME:cloudfoundry/capi-workspace
   $SSH_REPO_SCHEME:cloudfoundry/cf-deployment
   $SSH_REPO_SCHEME:cloudfoundry/claw
-  # $SSH_REPO_SCHEME:cloudfoundry/cli-docs-scripts
+  $SSH_REPO_SCHEME:cloudfoundry/cli-docs-scripts
   $SSH_REPO_SCHEME:cloudfoundry/cli-i18n
   $SSH_REPO_SCHEME:cloudfoundry/cli-pools
   $SSH_REPO_SCHEME:cloudfoundry/cli-private
