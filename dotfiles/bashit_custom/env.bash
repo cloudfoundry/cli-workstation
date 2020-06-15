@@ -21,15 +21,3 @@ fi
 export LPASS_DISABLE_PINENTRY=1
 
 export DB=postgres
-
-function set_v7() {
-  export TARGET_V7=true
-  export GOFLAGS='--tags=V7'
-}
-
-function unset_v7() {
-  unset TARGET_V7
-  unset GOFLAGS
-}
-
-set_v7
