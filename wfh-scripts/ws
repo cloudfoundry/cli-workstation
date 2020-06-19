@@ -38,7 +38,7 @@ case $# in
       conn)
         echo "Using key: $gcp_ssh_id"
 
-        if ssh-add -l | grep -vq "$gcp_ssh_id"; then
+        if [ "$(ssh-add -l | grep -c "$gcp_ssh_id")" -lt 1 ] ; then
           ssh-add "$HOME/.ssh/$gcp_ssh_id"
         fi
 
