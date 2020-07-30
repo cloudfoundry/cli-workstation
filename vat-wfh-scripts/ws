@@ -12,7 +12,7 @@ case $# in
   1)
     case $1 in
       list)
-        gcloud beta compute instances list | grep "vat-ws"
+        gcloud beta compute instances list --project="cf-cli" --filter="$ws_prefix"
       ;;
       *)
         echo "'$1' is not a valid command."
