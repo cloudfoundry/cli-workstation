@@ -26,7 +26,7 @@ case $# in
     zone="us-central1-a"
 
     if [ $ws_id = "3" ]; then
-      zone="us-west-1-b"
+      zone="us-west1-b"
     fi
 
     case $1 in
