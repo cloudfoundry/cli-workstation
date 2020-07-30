@@ -1,0 +1,67 @@
+#!/bin/sh -eu
+
+ws_prefix="vat-ws-"
+gcp_ssh_id=${GCP_SSH_ID:-google_compute_engine}
+usage="Usage $0 { list | { { start | stop | conn } < workstation_id_number > } }"
+
+case $# in
+  0)
+    echo "$usage"
+    exit 1
+    ;;
+  1)
+    case $1 in
+      list)
+        gcloud beta compute instances list | grep "vat-ws"
+      ;;
+      *)
+        echo "'$1' is not a valid command."
+        echo "$usage"
+        exit 2
+      ;;
+    esac
+    ;;
+  2)
+    ws_id=$2
+    zone="us-central1-a"
+
+    if [ $ws_id = "3" ]; then
+      zone="us-west-1-b"
+    fi
+
+    case $1 in
+      start)
+        echo "Starting gcloud vm $ws_prefix$ws_id..."
+        gcloud beta compute instances start --zone $zone --project "cf-cli" "$ws_prefix$ws_id"
+        ;;
+
+      stop)
+        echo "Stopping gcloud vm $ws_prefix$ws_id..."
+        gcloud beta compute instances stop --zone $zone --project "cf-cli" "$ws_prefix$ws_id"
+        ;;
+
+      conn)
+        echo "Using key: $gcp_ssh_id"
+
+        if [ "$(ssh-add -l | grep -c "$gcp_ssh_id")" -lt 1 ] ; then
+          ssh-add "$HOME/.ssh/$gcp_ssh_id"
+        fi
+
+        echo "Connecting to gcloud vm $ws_prefix$ws_id..."
+        gcloud beta compute ssh --zone=$zone --project="cf-cli" --ssh-flag="-A -t" --command="tmux new-session -s cli -A" "pivotal@$ws_prefix$ws_id"
+        ;;
+      *)
+        echo "'$1' is not a valid command."
+        echo "$usage"
+        exit 2
+        ;;
+    esac
+    ;;
+  *)
+    echo "Invalid number of args provided ($#)."
+    echo "$usage"
+    exit 3
+    ;;
+esac
+
+
