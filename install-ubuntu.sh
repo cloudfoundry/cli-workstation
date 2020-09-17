@@ -433,11 +433,10 @@ if [[ ! -d $HOME/.tmux ]]; then
   git clone https://github.com/luan/tmuxfiles.git $HOME/.tmux
   $HOME/.tmux/install
 
-  ln -sf $HOME/workspace/cli-workstation/dotfiles/tmux/tmux.conf.local $HOME/.tmux.conf.local
   cat  <<EOT >> $HOME/.tmux.conf
 
 # load user config
-source-file $HOME/.tmux.conf.local
+source-file $HOME/workspace/cli-workstation/dotfiles/tmux/tmux.conf.local
 EOT
 else
   report "Skipping installation of existing Luan's Tmux config"
