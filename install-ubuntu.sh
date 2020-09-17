@@ -99,6 +99,13 @@ else
   sudo snap refresh goland
 fi
 
+if [[ -z $(which code) ]]; then
+  report "Installing VS Code"
+  sudo snap install code --classic
+else
+  report "Updating VS Code"
+  sudo snap refresh code
+fi
 
 ## SMT - why do we want a floppy drive?
 # function install_fd() {
