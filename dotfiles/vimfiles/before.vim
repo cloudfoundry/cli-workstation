@@ -15,3 +15,6 @@ if (has("autocmd"))
 endif
 
 autocmd BufRead pipeline.yml set includeexpr=substitute(v:fname,'^cli-ci/','','')
+
+" Enable autosave
+let g:autosave = 1
