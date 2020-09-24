@@ -5,7 +5,7 @@ target_bosh() {
   # tput setaf 2 = green
   # tput setaf 9 = reset color
 
-  pool_dir=~/workspace/cli-pools/bosh-lites/claimed
+  pool_dir=~/workspace/capi-env-pool/bosh-lites/claimed
 
   pushd ${pool_dir} >/dev/null
     git pull
@@ -20,7 +20,7 @@ target_bosh() {
     if [ -f "$env_file" ]; then
       source "$env_file"
       echo "$(tput setaf 2)Success!$(tput setaf 9)"
-      env_ssh_key_path="$HOME/workspace/cli-pools/${1}/bosh.pem"
+      env_ssh_key_path="$HOME/workspace/capi-env-pool/${1}/bosh.pem"
 
       if [ ! -f "$env_ssh_key_path" ]; then
         echo "$BOSH_GW_PRIVATE_KEY_CONTENTS" > "$env_ssh_key_path"
@@ -36,7 +36,7 @@ target_bosh() {
 }
 
 _target_bosh_completions() {
-  COMPREPLY=($(compgen -W "$(ls ~/workspace/cli-pools/bosh-lites/claimed)" "${COMP_WORDS[1]}"))
+  COMPREPLY=($(compgen -W "$(ls ~/workspace/capi-env-pool/bosh-lites/claimed)" "${COMP_WORDS[1]}"))
 }
 
 export -f target_bosh

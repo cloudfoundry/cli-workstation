@@ -1,12 +1,12 @@
 function unclaim_bosh_lite() {
 
   # ensures we don't remove the current working directory
-  if [[ "$PWD" == *cli-pools* ]]; then
-    cd "$HOME/workspace/cli-pools"
+  if [[ "$PWD" == *capi-env-pool* ]]; then
+    cd "$HOME/workspace/capi-env-pool"
   fi
   (
     set -e
-    cd ~/workspace/cli-pools
+    cd ~/workspace/capi-env-pool
 
     working_pool="bosh-lites"
     broken_pool="bosh-lites-to-be-deleted"
@@ -59,7 +59,7 @@ function unclaim_bosh_lite() {
 
 
 _unclaim_bosh_lite_completions() {
-  COMPREPLY=($(compgen -W "$(ls ~/workspace/cli-pools/bosh-lites/claimed)" "${COMP_WORDS[1]}"))
+  COMPREPLY=($(compgen -W "$(ls ~/workspace/capi-env-pool/bosh-lites/claimed)" "${COMP_WORDS[1]}"))
 }
 
 export -f unclaim_bosh_lite
