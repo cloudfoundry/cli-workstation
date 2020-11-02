@@ -427,6 +427,9 @@ if [[ ! -d $HOME/.config/nvim ]]; then
 else
   report "Upgrading NeoVim"
   pip3 install --upgrade neovim
+
+  ## TODO: investigate why this doesn't succeed sometimes
+  nvim --headless +":ConfigUpdate!" +":qall"
 fi
 
 report "Installing / upgrading and configuring yamllint for NeoVim"
