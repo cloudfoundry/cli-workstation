@@ -21,3 +21,4 @@ fi
 export LPASS_DISABLE_PINENTRY=1
 
 export DB=postgres
+export CDPATH=".:$HOME/workspace"
