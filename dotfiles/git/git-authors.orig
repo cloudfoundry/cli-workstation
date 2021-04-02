@@ -1,0 +1,70 @@
+authors:
+<<<<<<< HEAD
+  ab: Alexander Berezovsky; aberezovsky
+  rr: Ryker Reed; rykerr
+||||||| merged common ancestors
+  ab: Alexander Berezovsky
+  abp: Alexander Berezovsky
+  bc: Brian Cunnie; bcunnie
+  bl: Belinda Liu; bliu
+  cs: Chris Selzo; cselzo
+  gc: Greg Cobb; gcobb
+  jg: Jenna Goldstrich; jgoldstrich
+  jp: James Palmer; jpalmer
+  lb: Lisa Burns
+  mdl: Merric de Launey; mdelauney
+  mm: Mona Mohebbi; mmohebbi
+  nw: Nick Webb; nwebb
+  pb: Piyali Banerjee; pbanerjee
+  rm: Reid Mitchell; rmitchell
+  sb: Seth Boyles; sboyles
+  sj: Sannidhi Jalukar; sjalukar
+  sn: Supraja Narasimhan; snarasimhan
+  st: Steve Taylor; staylor
+  sv: Sebastian Vidrio
+  sw: Sarah Weinstein; sweinstein
+  td: Tim Downey; tdowney
+=======
+  ab: Alexander Berezovsky
+  abp: Alexander Berezovsky
+  bc: Brian Cunnie; bcunnie
+  bl: Belinda Liu; bliu
+  cs: Chris Selzo; cselzo
+  gc: Greg Cobb; gcobb
+  jg: Jenna Goldstrich; jgoldstrich
+  jp: James Palmer; jpalmer
+  lb: Lisa Burns
+  mdl: Merric de Launey; mdelauney
+  mm: Mona Mohebbi; mmohebbi
+  nw: Nick Webb; nwebb
+  pb: Piyali Banerjee; pbanerjee
+  rm: Reid Mitchell; rmitchell
+  rr: Ryker Reed; rykerr
+  sb: Seth Boyles; sboyles
+  sj: Sannidhi Jalukar; sjalukar
+  sn: Supraja Narasimhan; snarasimhan
+  st: Steve Taylor; staylor
+  sv: Sebastian Vidrio
+  sw: Sarah Weinstein; sweinstein
+  td: Tim Downey; tdowney
+>>>>>>> Onboard Ryker
+  th: Tim Hausler; thausler
+email:
+<<<<<<< HEAD
+  domain: vmware.com
+||||||| merged common ancestors
+  domain: pivotal.io
+email_addresses:
+  abp: a@berez.co
+  ab: aberezovsky@vmware.com
+  lb: lisaburns@vmware.com
+  sv: svidrio@vmware.com
+=======
+  domain: pivotal.io
+email_addresses:
+  abp: a@berez.co
+  ab: aberezovsky@vmware.com
+  rr: rykerr@vmware.com
+  lb: lisaburns@vmware.com
+  sv: svidrio@vmware.com
+>>>>>>> Onboard Ryker
