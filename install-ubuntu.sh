@@ -53,10 +53,10 @@ fi
 if [[ -z $(which fd) ]]; then
 	report "Installing fd-find to satisfy neovim dependency"
 
-	curl -L https://github.com/sharkdp/fd/releases/download/v7.4.0/fd-musl_7.4.0_amd64.deb -o /tmp/fd_7.4.0_amd64.deb
-	sudo dpkg -i /tmp/fd_7.4.0_amd64.deb
+	curl -L https://github.com/sharkdp/fd/releases/download/v8.1.1/fd-musl_8.1.1_amd64.deb -o /tmp/fd_amd64.deb
+	sudo dpkg -i /tmp/fd_amd64.deb
 
-	rm /tmp/fd_7.4.0_amd64.deb
+	rm /tmp/fd_amd64.deb
 fi
 
 # Install development dependencies
@@ -91,13 +91,13 @@ sudo apt autoremove -y
 sudo apt autoclean
 
 
-if [[ -z $(which goland) ]]; then
-  report "Installing GoLand"
-  sudo snap install goland --classic
-else
-  report "Updating Goland"
-  sudo snap refresh goland
-fi
+# if [[ -z $(which goland) ]]; then
+#   report "Installing GoLand"
+#   sudo snap install goland --classic
+# else
+#   report "Updating Goland"
+#   sudo snap refresh goland
+# fi
 
 if [[ -z $(which code) ]]; then
   report "Installing VS Code"
@@ -272,12 +272,12 @@ bash-it update
 set -e
 
 # Configure BashIT
-report "Configuring BashIT"
-bash-it disable alias general git
-bash-it enable completion defaults awscli bash-it brew git ssh tmux virtualbox
+# report "Configuring BashIT"
+# bash-it disable alias general git
+# bash-it enable completion defaults awscli bash-it brew git ssh tmux virtualbox
 
-bash-it disable plugin fasd
-bash-it enable plugin fzf git git-subrepo ssh history
+# bash-it disable plugin fasd
+# bash-it enable plugin fzf git git-subrepo ssh history
 
 
 # Link Dotfiles
@@ -437,20 +437,24 @@ pip3 install --upgrade yamllint
 mkdir -p $HOME/.config/yamllint
 ln -sf $HOME/workspace/cli-workstation/dotfiles/yamllint.config $HOME/.config/yamllint/config
 
-# Install Luan's Tmux config
+ # Install Luan's Tmux config
 if [[ ! -d $HOME/.tmux ]]; then
   report "Installing Luan's Tmux config"
   git clone https://github.com/luan/tmuxfiles.git $HOME/.tmux
   $HOME/.tmux/install
 
-  cat  <<EOT >> $HOME/.tmux.conf
+else
+  report "Upgrading installation of existing Luan's Tmux config"
+  pushd $HOME/.tmux
+    git clean -fd
+    git pull
+  popd
+fi
 
+  cat  <<EOT >> $HOME/.tmux.conf
 # load user config
 source-file $HOME/workspace/cli-workstation/dotfiles/tmux/tmux.conf.local
 EOT
-else
-  report "Skipping installation of existing Luan's Tmux config"
-fi
 
 
 # Install credhub cli
