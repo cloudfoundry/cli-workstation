@@ -13,4 +13,4 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 # most recently build cf should be in path
 export PATH=$GOPATH/src/code.cloudfoundry.org/cli/out:$PATH
 
-export PATH=$PATH:$HOME/workspace/capi-workspace/scripts
+export PATH=$PATH:$HOME/workspace/capi-workspace/bin
