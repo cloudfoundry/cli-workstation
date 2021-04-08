@@ -67,3 +67,5 @@ let g:test#custom_transformations = { 'cfcli': function('CFCLIIntegrationTransfo
 let g:test#transformation = 'cfcli'
 
 let g:go_build_tags = 'V7'
+
+set path+=~/workspace/
