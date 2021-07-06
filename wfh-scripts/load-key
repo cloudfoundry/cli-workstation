@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+
+HOURS=$1
+KEY="/tmp/id_rsa"
+trap "rm -f $KEY" EXIT
+lpass show "github-private-key" --field="Private Key" > $KEY
+chmod 600 $KEY
+if [ -z $HOURS ]; then
+  HOURS=12
+fi
+ssh-add -D
+ssh-add -t ${HOURS}H $KEY
+echo "You are logged in now!"
