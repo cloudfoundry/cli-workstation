@@ -1,9 +1,9 @@
 #!/bin/sh -eu
 
-ws_prefix="cli-ws-"
 gcp_ssh_id=${GCP_SSH_ID:-google_compute_engine}
+session_name=${SESSION_NAME:-cli}
 usage="Usage $0 { list | { { start | stop | conn } < workstation_id_number > } }"
-
+ws_prefix="cli-ws-"
 
 case $# in
   0)
@@ -27,12 +27,16 @@ case $# in
     case $1 in
       start)
         echo "Starting gcloud vm $ws_prefix$ws_id..."
-        gcloud beta compute instances start --zone "us-central1-a" --project "cf-cli" "$ws_prefix$ws_id"
+        gcloud beta compute instances start \
+          --zone "us-central1-a" \
+          --project "cf-cli" "$ws_prefix$ws_id"
         ;;
 
       stop)
         echo "Stopping gcloud vm $ws_prefix$ws_id..."
-        gcloud beta compute instances stop --zone "us-central1-a" --project "cf-cli" "$ws_prefix$ws_id"
+        gcloud beta compute instances stop \
+          --zone "us-central1-a" \
+          --project "cf-cli" "$ws_prefix$ws_id"
         ;;
 
       conn)
@@ -43,7 +47,13 @@ case $# in
         fi
 
         echo "Connecting to gcloud vm $ws_prefix$ws_id..."
-        gcloud beta compute ssh --zone="us-central1-a" --project="cf-cli" --ssh-flag="-A -t" --command="tmux new-session -s cli -A" "aberezovsky@$ws_prefix$ws_id"
+        set -xv
+        gcloud beta compute ssh \
+          --zone="us-central1-a" \
+          --project="cf-cli" \
+          --ssh-flag="-A -t" \
+          --command="tmux new-session -s $session_name -A" "aberezovsky@$ws_prefix$ws_id"
+        set +xv
         ;;
       *)
         echo "'$1' is not a valid command."
