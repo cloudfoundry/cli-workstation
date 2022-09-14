@@ -1,0 +1,40 @@
+tasks:
+  - name: Setup Workspace
+    before: >
+      echo before done
+
+    init: >
+      echo init done
+
+      sudo apt install --yes 
+      icdiff
+      tldr
+      fzf
+      lastpass-cli
+      tmux
+
+      brew install
+      asdf
+
+      echo ". $HOME/.asdf/asdf.sh" >> $HOME/.bashrc
+
+      echo ". $HOME/.asdf/completions/asdf.bash" >> $HOME/.bashrc
+
+      echo "export GIT_EDITOR=vim" >> $HOME/.bashrc
+
+      . $HOME/.bashrc
+
+      asdf plugin add fly
+
+      asdf install fly latest
+
+    command: >
+      echo command done
+
+      tldr --update 
+
+vscode:
+  extensions:
+    - Pivotal.vscode-concourse
+    - eamodio.gitlens
+    - vscodevim.vim
