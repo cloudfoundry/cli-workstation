@@ -7,7 +7,7 @@ For fresh installs on Ubuntu run the following command:
 
 ```
 $ sudo apt install curl
-$ curl -fsSL https://raw.githubusercontent.com/cloudfoundry/cli-workstation/master/install-ubuntu.sh | bash -
+$ curl -fsSL https://raw.githubusercontent.com/cloudfoundry/cli-workstation/main/install-ubuntu.sh | bash -
 # Reboot to pick up new device drivers
 $ sudo shutdown -r now
 ```
